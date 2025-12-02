@@ -74,3 +74,9 @@ CREATE TABLE are_in
     FOREIGN KEY (FK_PK_Subject_ID) REFERENCES Subject (PK_Subject_ID),
     FOREIGN KEY (FK_PK_Department_ID) REFERENCES Department (PK_Department_ID)
 );
+
+CREATE TABLE Admin(
+    PK_Admin_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Username VARCHAR(255),
+    Password VARCHAR(255)
+);
