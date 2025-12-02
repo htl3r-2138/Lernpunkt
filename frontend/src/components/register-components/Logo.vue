@@ -1,11 +1,12 @@
 <template>
     <div class="flex">
-        <img class="logo" src="../assets/logo.svg" alt="Logo"/>
+        <img class="logo" :src="logo" alt="Logo"/>
         <p class="text" v-if="visible">Lernpunkt</p>
     </div>
 </template>
 
 <script setup>
+  import logo from "@/assets/register-assets/logo.svg";
   import { defineProps } from 'vue';
   const props = defineProps({
     visible: {

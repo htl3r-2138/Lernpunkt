@@ -1,6 +1,17 @@
+<template>
+  <button
+      class="login-btn"
+      @click="handleLogin"
+      @mouseenter="hoverEnter"
+      @mouseleave="hoverLeave"
+  >
+    {{ text }}
+  </button>
+</template>
+
 <script setup>
-import { defineProps } from 'vue'
-import { gsap } from "gsap"
+// import { defineProps } from 'vue'
+// import { gsap } from "gsap"
 const props = defineProps({
   text: {
     type: String,
@@ -30,16 +41,6 @@ function hoverLeave(event) {
 }
 </script>
 
-<template>
-  <button
-      class="login-btn"
-      @click="handleLogin"
-      @mouseenter="hoverEnter"
-      @mouseleave="hoverLeave"
-  >
-    {{ text }}
-  </button>
-</template>
 
 <style scoped>
 .login-btn {
