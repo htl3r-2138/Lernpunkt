@@ -10,8 +10,8 @@
 </template>
 
 <script setup>
-// import { defineProps } from 'vue'
-// import { gsap } from "gsap"
+import { defineProps } from 'vue'
+import { gsap } from "gsap"
 const props = defineProps({
   text: {
     type: String,
