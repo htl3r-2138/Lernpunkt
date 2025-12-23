@@ -1,7 +1,7 @@
 <template>
-  <RegisterPage></RegisterPage>
+  <RouterView></RouterView>
 </template>
 
 <script setup>
-  import RegisterPage from '@/RegisterPage.vue';
+  import RegisterPage from '@/views/RegisterPage.vue';
 </script>

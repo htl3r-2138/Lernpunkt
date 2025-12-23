@@ -1,8 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import RegisterPage from '@/views/RegisterPage.vue'
+
+const routes = [
+  { path: '/', component: RegisterPage }
+]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [],
+  routes
 })
 
 export default router
