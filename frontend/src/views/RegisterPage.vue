@@ -2,11 +2,7 @@
   <div class="register-page">
     <section class="left">
       <Logo :visible="true" />
-      <img
-        :src="registerIMG"
-        alt="illustration of happy business people"
-        class="illustration"
-      />
+      <img :src="registerIMG" alt="illustration of happy business people" class="illustration" />
     </section>
 
     <section class="right">
@@ -15,41 +11,24 @@
         <p>Where knowledge meets connection</p>
 
         <form @submit.prevent="submitForm">
-          <TextField
-            name="name"
-            label="First & Last Name"
-            placeholder="i.e. Max Mustermann"
-            v-model="form.name"
-            required
-          />
-          <TextField
-            name="email"
-            label="Email Address"
-            placeholder="i.e. max.mustermann@example.com"
-            type="email"
-            v-model="form.email"
-            required
-          />
+          <TextField name="firstname" label="First Name" placeholder="i.e. Max" v-model="form.firstname" required />
+          <TextField name="lastname" label="Last Name" placeholder="i.e. Mustermann" v-model="form.lastname" required />
 
-          <PasswordField
-            name="password"
-            label="Password"
-            :isVisible="false"
-            v-model="form.password"
-            required
-          />
+          <TextField name="email" label="Email Address" placeholder="i.e. max.mustermann@example.com" type="email"
+            v-model="form.email" required />
+
+          <PasswordField name="password" label="Password" :isVisible="false" v-model="form.password" required />
           <div class="tutor-signup">
-            <input
-              type="checkbox"
-              name="isTutor"
-              id="tutor"
-              v-model="form.isTutor"
-            />
+            <input type="checkbox" name="isTutor" id="tutor" v-model="form.isTutor" />
             <label for="tutor">also sign up as a tutor?</label>
           </div>
 
           <Login text="Register" :login="false" />
         </form>
+        <p>
+          Already have an account?
+          <a class="lg" href="/login">Login</a>
+        </p>
       </div>
     </section>
   </div>
@@ -63,7 +42,8 @@ import Login from "@/components/register-components/Login.vue";
 import registerIMG from "@/assets/register-assets/register.jpg";
 import { ref } from "vue";
 const form = ref({
-  name: "",
+  firstname: "",
+  lastname: "",
   email: "",
   password: "",
   isTutor: false,
@@ -98,7 +78,7 @@ const form = ref({
 
 .tile {
   background-color: #fff;
-  padding: 2rem;
+  padding: 0rem 2rem;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -123,6 +103,7 @@ h1 {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 2rem;
 }
 
 .tutor-signup input[type="checkbox"] {
@@ -148,5 +129,10 @@ h1 {
   position: relative;
   left: 2px;
   top: -3px;
+}
+
+.lg {
+  color: #6b4eff;
+  text-decoration: none;
 }
 </style>

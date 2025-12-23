@@ -50,7 +50,7 @@ function hoverLeave(event) {
   border-radius: 10px;
   color: white;
   font-size: 16px;
-  cursor: pointer;
+  cursor: pointer;  
   transition: box-shadow 0.2s;
 }
 </style>

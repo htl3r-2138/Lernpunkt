@@ -7,7 +7,6 @@
       name="{{ name }}"
       placeholder="*******"
     />
-
     <span class="toggle" @click="changeVisibility">
       <img v-if="visible" :src="Eye" />
       <img v-else :src="EyeOff" />

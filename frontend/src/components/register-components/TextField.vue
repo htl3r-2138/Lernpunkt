@@ -1,11 +1,13 @@
 <template>
-  <label for="{{ name }}">{{ label }}</label>
-  <input
-    :type="type"
-    name="{{ name }}"
-    v-model="inputText"
-    :placeholder="placeholder"
-  />
+  <div class="wrapper">
+    <label for="{{ name }}">{{ label }}</label>
+    <input
+      :type="type"
+      name="{{ name }}"
+      v-model="inputText"
+      :placeholder="placeholder"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -34,6 +36,12 @@ const inputText = ref("");
 </script>
 
 <style scoped>
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 input {
   width: 20rem;
   padding: 1em 1em;
