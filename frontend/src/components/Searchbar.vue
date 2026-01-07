@@ -7,7 +7,7 @@
         placeholder="Search for tutors..."
       />
       <span class="icon">
-        <img style="width: 1.5rem;" :src="Lupe">
+        <img style="width: 1.5rem;" :src="Magnifier">
       </span>
     </div>
   </div>
@@ -15,7 +15,7 @@
 
 <script setup>
 import { ref } from "vue";
-import Lupe from '@/assets/Lupe.svg'
+import Magnifier from '@/assets/Magnifier.svg'
 const inputText = ref("");
 </script>
 

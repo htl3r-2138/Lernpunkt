@@ -15,8 +15,8 @@
 </template>
 
 <script setup>
-import Eye from '@/assets/register-assets/Eye.svg'
-import EyeOff from '@/assets/register-assets/Eye-off.svg'
+import Eye from '@/assets/authentification/Eye.svg'
+import EyeOff from '@/assets/authentification/Eye-off.svg'
 import { ref } from "vue";
 
 const props = defineProps({

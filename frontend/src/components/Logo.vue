@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-  import logo from "@/assets/register-assets/logo.svg";
+  import logo from "@/assets/logo.svg";
   import { defineProps } from 'vue';
   const props = defineProps({
     visible: {

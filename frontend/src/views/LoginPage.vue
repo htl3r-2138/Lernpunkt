@@ -28,11 +28,11 @@
 </template>
 
 <script setup>
-import Logo from "@/components/register-components/Logo.vue";
-import TextField from "@/components/register-components/TextField.vue";
-import PasswordField from "@/components/register-components/PasswordField.vue";
-import Login from "@/components/register-components/Login.vue";
-import loginIMG from "@/assets/login-assets/login.jpg";
+import Logo from "@/components/Logo.vue";
+import TextField from "@/components/authentification/TextField.vue";
+import PasswordField from "@/components/authentification/PasswordField.vue";
+import Login from "@/components/authentification/Login.vue";
+import loginIMG from "@/assets/authentification/login.jpg";
 import { ref } from "vue";
 const form = ref({
     email: "",

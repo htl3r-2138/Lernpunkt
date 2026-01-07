@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import Logo from "@/components/register-components/Logo.vue";
+import Logo from "@/components/Logo.vue";
 import Searchbar from "@/components/Searchbar.vue";
 import SettingsButton from "@/components/SettingsButton.vue";
 </script>
