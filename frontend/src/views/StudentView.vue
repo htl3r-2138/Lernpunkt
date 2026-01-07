@@ -13,6 +13,7 @@
     </nav>
     <main>
       <h1>Booked Tutors</h1>
+      <h1>Requested Bookings</h1>
     </main>
   </div>
 </template>
@@ -34,5 +35,8 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 2rem 4rem
+}
+main{
+  padding-left: 60px;
 }
 </style>
