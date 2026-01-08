@@ -3,34 +3,29 @@ CREATE DATABASE if NOT EXISTS LP_db CHARACTER SET utf8mb4;
 
 USE LP_db;
 
-CREATE TABLE Department
+CREATE TABLE Tutor
 (
-    PK_Department_ID INT AUTO_INCREMENT PRIMARY KEY,
-    Description      VARCHAR(255) NOT NULL
+    PK_Tutor_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Name        VARCHAR(100)        NOT NULL,
+    Surname     VARCHAR(100)        NOT NULL,
+    Password    VARCHAR(255)        NOT NULL,
+    Email       VARCHAR(255) UNIQUE NOT NULL
 );
 
-CREATE TABLE User
+CREATE TABLE Student
 (
-    PK_User_ID       INT AUTO_INCREMENT PRIMARY KEY,
-    Name             VARCHAR(100)        NOT NULL,
-    Surname          VARCHAR(100)        NOT NULL,
-    Password         VARCHAR(255)        NOT NULL,
-    Email            VARCHAR(255) UNIQUE NOT NULL,
-    isTutor          BOOLEAN DEFAULT 0,
-    FK_Department_ID INT,
-    FOREIGN KEY (FK_Department_ID) REFERENCES Department (PK_Department_ID)
+    PK_Student_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Name          VARCHAR(100)        NOT NULL,
+    Surname       VARCHAR(100)        NOT NULL,
+    Password      VARCHAR(255)        NOT NULL,
+    Email         VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE Subject
 (
-    PK_Subject_ID    INT AUTO_INCREMENT PRIMARY KEY,
-    Description      VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE Grade
-(
-    PK_Grade_ID      INT AUTO_INCREMENT PRIMARY KEY,
-    Description      VARCHAR(255) NOT NULL
+    PK_Subject_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Description   VARCHAR(255) NOT NULL,
+    Grade         INT          NOT NULL
 );
 
 CREATE TABLE Booking
@@ -41,42 +36,35 @@ CREATE TABLE Booking
     Description      VARCHAR(255) NOT NULL,
     Notes            VARCHAR(255),
     Hours            INT          NOT NULL,
-    FK_User_ID       INT          NOT NULL,
-    FK_Subject_ID    INT          NOT NULL,
-    FOREIGN KEY (FK_User_ID) REFERENCES User (PK_User_ID),
-    FOREIGN KEY (FK_Subject_ID) REFERENCES Subject (PK_Subject_ID)
-);
-
-CREATE TABLE offers
-(
-    FK_PK_User_ID    INT NOT NULL,
-    FK_PK_Subject_ID INT NOT NULL,
-    Price         DECIMAL(5, 2) NOT NULL,
-    PRIMARY KEY (FK_PK_User_ID, FK_PK_Subject_ID),
-    FOREIGN KEY (FK_PK_User_ID) REFERENCES User (PK_User_ID),
-    FOREIGN KEY (FK_PK_Subject_ID) REFERENCES Subject (PK_Subject_ID)
+    FK_PK_Student_ID INT,
+    FOREIGN KEY (FK_PK_Student_ID) REFERENCES Student (PK_Student_ID
+                                                      )
 );
 
 CREATE TABLE contain
 (
+    FK_PK_Booking_ID INT NOT NULL,
     FK_PK_Subject_ID INT NOT NULL,
-    FK_PK_Grade_ID   INT NOT NULL,
-    PRIMARY KEY (FK_PK_Subject_ID, FK_PK_Grade_ID),
-    FOREIGN KEY (FK_PK_Subject_ID) REFERENCES Subject (PK_Subject_ID),
-    FOREIGN KEY (FK_PK_Grade_ID) REFERENCES Grade (PK_Grade_ID)
+    Price            DECIMAL(5, 2),
+    PRIMARY KEY (FK_PK_Booking_ID, FK_PK_Subject_ID),
+    FOREIGN KEY (FK_PK_Booking_ID) REFERENCES Booking (PK_Booking_ID),
+    FOREIGN KEY (FK_PK_Subject_ID) REFERENCES Subject (PK_Subject_ID)
 );
 
-CREATE TABLE are_in
+
+CREATE TABLE offer
 (
+    FK_PK_Tutor_ID   INT NOT NULL,
     FK_PK_Subject_ID INT NOT NULL,
-    FK_PK_Department_ID   INT NOT NULL,
-    PRIMARY KEY (FK_PK_Subject_ID, FK_PK_Department_ID),
-    FOREIGN KEY (FK_PK_Subject_ID) REFERENCES Subject (PK_Subject_ID),
-    FOREIGN KEY (FK_PK_Department_ID) REFERENCES Department (PK_Department_ID)
+    PRIMARY KEY (FK_PK_Tutor_ID, FK_PK_Subject_ID),
+    FOREIGN KEY (FK_PK_Tutor_ID) REFERENCES Tutor (PK_Tutor_ID),
+    FOREIGN KEY (FK_PK_Subject_ID) REFERENCES Subject (PK_Subject_ID)
 );
 
-CREATE TABLE Admin(
+
+CREATE TABLE Admin
+(
     PK_Admin_ID INT AUTO_INCREMENT PRIMARY KEY,
-    Username VARCHAR(255) NOT NULL,
-    Password VARCHAR(255) NOT NULL
+    Username    VARCHAR(255) NOT NULL,
+    Password    VARCHAR(255) NOT NULL
 );
