@@ -5,7 +5,7 @@ exports.registerStudent = async (req, res) => {
   const { name, surname, email, password, grade } = req.body;
 
   if (!name || !surname || !email || !password || !grade) {
-    return res.status(400).json({ message: "Fehlende Felder" });
+    return res.status(400).json({ message: "Missing fields" });
   }
 
   try {
@@ -17,9 +17,9 @@ exports.registerStudent = async (req, res) => {
       [name, surname, email, hashedPassword, grade]
     );
 
-    res.status(201).json({ message: "Student registriert" });
+    res.status(201).json({ message: "Student registered" });
   } catch (err) {
-    res.status(500).json({ message: "E-Mail existiert bereits?" });
+    res.status(500).json({ message: "Email already registered" });
   }
 };
 
@@ -27,7 +27,7 @@ exports.registerTutor = async (req, res) => {
   const { name, surname, email, password, grade, pricePerHour } = req.body;
 
   if (!name || !surname || !email || !password || !grade) {
-    return res.status(400).json({ message: "Fehlende Felder" });
+    return res.status(400).json({ message: "Missing fields" });
   }
 
   try {
@@ -39,9 +39,9 @@ exports.registerTutor = async (req, res) => {
       [name, surname, email, hashedPassword, grade, pricePerHour || null]
     );
 
-    res.status(201).json({ message: "Tutor registriert" });
+    res.status(201).json({ message: "Tutor registered" });
   } catch (err) {
-    res.status(500).json({ message: "E-Mail existiert bereits?" });
+    res.status(500).json({ message: "Email already registered" });
   }
 };
 
@@ -62,12 +62,12 @@ exports.login = async (req, res) => {
   const role = students[0] ? "student" : tutors[0] ? "tutor" : null;
 
   if (!user) {
-    return res.status(401).json({ message: "Ungültige Login-Daten" });
+    return res.status(401).json({ message: "Invalid Login Data" });
   }
 
   const valid = await bcrypt.compare(password, user.Password);
   if (!valid) {
-    return res.status(401).json({ message: "Ungültige Login-Daten" });
+    return res.status(401).json({ message: "Invalid password" });
   }
 
   req.session.user = {
@@ -75,18 +75,18 @@ exports.login = async (req, res) => {
     role,
   };
 
-  res.json({ message: "Login erfolgreich", role });
+  res.json({ message: "Login successfull", role });
 };
 
 exports.logout = (req, res) => {
   req.session.destroy(() => {
-    res.json({ message: "Logout erfolgreich" });
+    res.json({ message: "Logout successfull" });
   });
 };
 
 exports.me = (req, res) => {
   if (!req.session.user) {
-    return res.status(401).json({ message: "Nicht eingeloggt" });
+    return res.status(401).json({ message: "Not authenticated" });
   }
   res.json(req.session.user);
 };
