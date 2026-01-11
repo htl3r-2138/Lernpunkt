@@ -1,47 +1,25 @@
 <template>
-  <label for="{{ name }}">{{ label }}</label>
-  <div class="password-wrapper">
+  <div class="wrapper">
+    <label>{{ label }}</label>
     <input
-      :type="visible ? 'text' : 'password'"
-      v-model="inputText"
-      name="{{ name }}"
-      placeholder="*******"
+      :type="isVisible ? 'text' : 'password'"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
-    <span class="toggle" @click="changeVisibility">
-      <img v-if="visible" :src="Eye" />
-      <img v-else :src="EyeOff" />
-    </span>
   </div>
 </template>
 
 <script setup>
-import Eye from '@/assets/authentification/Eye.svg'
-import EyeOff from '@/assets/authentification/Eye-off.svg'
-import { ref } from "vue";
-
-const props = defineProps({
-  name: {
+defineProps({
+  modelValue: {
     type: String,
-    required: true,
+    default: ""
   },
-  label: {
-    type: String,
-    required: false,
-  },
-  isVisible: {
-    type: Boolean,
-    default: false,
-  },
+  label: String,
+  isVisible: Boolean
 });
 
-const visible = ref(props.isVisible);
-const inputText = ref("");
-
-function changeVisibility() {
-  if (inputText.value.length > 0) {
-    visible.value = !visible.value;
-  }
-}
+defineEmits(["update:modelValue"]);
 </script>
 
 <style scoped>

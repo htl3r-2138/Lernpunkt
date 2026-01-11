@@ -1,39 +1,32 @@
 <template>
   <div class="wrapper">
-    <label for="{{ name }}">{{ label }}</label>
+    <label v-if="label">{{ label }}</label>
     <input
       :type="type"
-      name="{{ name }}"
-      v-model="inputText"
       :placeholder="placeholder"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
-
 defineProps({
+  modelValue: {
+    type: String,
+    default: ""
+  },
   type: {
     type: String,
-    default: "text",
+    default: "text"
   },
-  name: {
-    type: String,
-    required: true,
-  },
-  placeholder: {
-    type: String,
-    required: true,
-  },
-  label: {
-    type: String,
-    required: false,
-  },
+  placeholder: String,
+  label: String
 });
 
-const inputText = ref("");
+defineEmits(["update:modelValue"]);
 </script>
+
 
 <style scoped>
 

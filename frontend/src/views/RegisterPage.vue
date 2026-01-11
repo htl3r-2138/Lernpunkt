@@ -18,9 +18,20 @@
             v-model="form.email" required />
 
           <PasswordField name="password" label="Password" :isVisible="false" v-model="form.password" required />
+
           <div class="tutor-signup">
             <input type="checkbox" name="isTutor" id="tutor" v-model="form.isTutor" />
-            <label for="tutor">also sign up as a tutor?</label>
+            <label for="tutor">Sign up as a tutor?</label>
+          </div>
+          
+          <div class="wrapper">
+            <label for="grade">Grade</label>
+            <select id="grade" v-model="form.grade" required>
+              <option disabled value="">Select your grade</option>
+              <option v-for="g in [1,2,3,4,5]" :key="g" :value="g">
+                {{ g }}
+              </option>
+            </select>
           </div>
 
           <Login text="Register" :login="false" />
@@ -40,14 +51,52 @@ import TextField from "@/components/authentification/TextField.vue";
 import PasswordField from "@/components/authentification/PasswordField.vue";
 import Login from "@/components/authentification/Login.vue";
 import registerIMG from "@/assets/authentification/register.jpg";
+
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { registerStudent, registerTutor, login } from "@/services/auth";
+
+const router = useRouter();
+
 const form = ref({
   firstname: "",
   lastname: "",
   email: "",
   password: "",
+  grade: "",
   isTutor: false,
 });
+
+const submitForm = async () => 
+{
+  console.log(form.value);
+  try {
+    const payload = {
+      name: form.value.firstname,
+      surname: form.value.lastname,
+      email: form.value.email,
+      grade: Number(form.value.grade),
+      password: form.value.password,
+    };
+
+    if (form.value.isTutor) {
+      await registerTutor(payload);
+    } else {
+      await registerStudent(payload);
+    }
+
+    const result = await login(form.value.email, form.value.password);
+
+    // 🚦 Redirect based on role
+    if (result.role === "student") {
+      router.push("/student");
+    } else {
+      router.push("/tutor");
+    }
+  } catch (err) {
+    alert(err.message);
+  }
+};
 </script>
 
 <style scoped>
@@ -135,4 +184,35 @@ h1 {
   color: #6b4eff;
   text-decoration: none;
 }
+
+/* FIXME: */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper label {
+  display: block;
+  color: #000;
+  font-size: small;
+  margin-bottom: 0.5em;
+  text-align: left;
+}
+
+.wrapper select {
+  width: 22rem;
+  padding: 1em 1em;
+  border: 1px solid #000;
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+
+.wrapper select option[disabled] {
+  color: #888;
+  font-size: small;
+}
+
 </style>
