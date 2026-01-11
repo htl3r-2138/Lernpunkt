@@ -33,11 +33,31 @@ import TextField from "@/components/authentification/TextField.vue";
 import PasswordField from "@/components/authentification/PasswordField.vue";
 import Login from "@/components/authentification/Login.vue";
 import loginIMG from "@/assets/authentification/login.jpg";
+
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { login } from "@/services/auth";
+
+const router = useRouter();
+
 const form = ref({
-    email: "",
-    password: ""
+  email: "",
+  password: "",
 });
+
+const submitForm = async () => {
+  try {
+    const result = await login(form.value.email, form.value.password);
+
+    if (result.role === "student") {
+      router.push("/student");
+    } else if (result.role === "tutor") {
+      router.push("/tutor");
+    }
+  } catch (err) {
+    alert(err.message);
+  }
+};
 </script>
 
 <style scoped>
