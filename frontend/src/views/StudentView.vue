@@ -13,12 +13,15 @@
     </nav>
     <main>
       <h1>Booked Tutors</h1>
+        <Tile name="Maximilian Popek" :rating="4" :reviews="12" grade="1st Grade" :price="25" location="Aula"
+          nextSess="02.11.2025" subject="AM" />
       <h1>Requested Tutors for you</h1>
     </main>
   </div>
 </template>
 
 <script setup>
+import Tile from "@/components/Tile.vue";
 import Logo from "@/components/Logo.vue";
 import Searchbar from "@/components/Searchbar.vue";
 import SettingsButton from "@/components/SettingsButton.vue";
@@ -30,13 +33,15 @@ import SettingsButton from "@/components/SettingsButton.vue";
   width: 100%;
   color: black;
 }
+
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 2rem 4rem
 }
-main{
+
+main {
   padding-left: 60px;
 }
 </style>
