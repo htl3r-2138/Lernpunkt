@@ -83,18 +83,68 @@ exports.getMyBookings = async (req, res) => {
       b.Start,
       b.End,
       b.MeetUp,
-      b.Description,
+      b.Description AS topic,
       b.isAccepted,
 
       t.PK_Tutor_ID AS tutorId,
       t.Name,
       t.Surname,
-      t.PricePerHour
+      t.PricePerHour,
+      t.Grade AS tutorGrade,
+
+      sub.Description AS subject
     FROM Booking b
     JOIN is_in ii ON ii.FK_PK_Booking_ID = b.PK_Booking_ID
     JOIN Tutor t ON t.PK_Tutor_ID = ii.FK_PK_Tutor_ID
+    JOIN contain c ON c.FK_PK_Booking_ID = b.PK_Booking_ID
+    JOIN Subject sub ON sub.PK_Subject_ID = c.FK_PK_Subject_ID
     WHERE b.FK_PK_Student_ID = ?
   `, [studentId]);
 
   res.json(rows);
+};
+
+exports.getTutorBookings = async (req, res) => {
+  const user = req.session.user;
+
+  if (!user || user.role !== "tutor") {
+    return res.status(403).json({ message: "Only tutors allowed" });
+  }
+
+  const [rows] = await db.query(`
+    SELECT
+      b.PK_Booking_ID AS id,
+      b.Date,
+      b.Start,
+      b.End,
+      b.MeetUp,
+      b.Description,
+      b.isAccepted,
+      s.Name AS studentName,
+      s.Email AS studentEmail
+    FROM Booking b
+    JOIN is_in ii ON ii.FK_PK_Booking_ID = b.PK_Booking_ID
+    JOIN Student s ON s.PK_Student_ID = b.FK_PK_Student_ID
+    WHERE ii.FK_PK_Tutor_ID = ?
+    ORDER BY b.Date
+  `, [user.id]);
+
+  res.json(rows);
+};
+
+exports.acceptBooking = async (req, res) => {
+  const user = req.session.user;
+  const bookingId = req.params.id;
+
+  if (!user || user.role !== "tutor") {
+    return res.status(403).json({ message: "Only tutors allowed" });
+  }
+
+  await db.query(`
+    UPDATE Booking
+    SET isAccepted = 1
+    WHERE PK_Booking_ID = ?
+  `, [bookingId]);
+
+  res.json({ message: "Booking accepted" });
 };

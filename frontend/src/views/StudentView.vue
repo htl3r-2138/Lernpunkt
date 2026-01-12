@@ -79,14 +79,17 @@ const bookedTutors = computed(() =>
   bookingsStore.acceptedBookings.map(b => ({
     id: b.id,
     name: `${b.Name} ${b.Surname}`,
+    rating: 0,
+    reviews: 0,
+    grade: `Grade ${b.tutorGrade}`,
     price: Number(b.PricePerHour),
-    grade: "—",                 // kannst du später ergänzen
-    location: b.MeetUp,
-    nextSess: b.Date,
-    startTime: b.Start,
-    endTime: b.End,
-    subject: b.Description ?? "",
-    email: "",                  // optional
+    location: String(b.MeetUp),
+    nextSess: new Date(b.Date).toLocaleDateString("de-AT"),
+    startTime: b.Start?.slice(0, 5),
+    endTime: b.End?.slice(0, 5),
+    subject: b.subject,
+    topic: b.topic,
+    email: "",
   }))
 );
 

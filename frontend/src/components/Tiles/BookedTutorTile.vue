@@ -18,8 +18,7 @@
       </div>
 
       <p class="grade">{{ grade }} · {{ price }}€/h</p>
-      <p class="location">{{ location }}</p>
-      <p class="next">next session on {{ nextSess }}</p>
+
     </div>
 
     <div class="badge">{{ subject }}</div>
@@ -117,7 +116,9 @@ function onMore() {
 }
 
 .location,
-.next {
+.next,
+.topic 
+{
   color: #666;
   font-size: 0.9rem;
   text-align: center;

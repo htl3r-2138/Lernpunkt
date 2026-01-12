@@ -12,15 +12,32 @@
       </div>
     </nav>
     <main>
-      <h1>Booked Stundents</h1>
-      <h1>Requested Bookings</h1>
-    </main>
+    <h1>Booked Students</h1>
+    <div v-for="b in store.acceptedBookings" :key="b.id">
+      {{ b.studentName }} – {{ b.Date }}
+    </div>
+
+    <h1>Requested Bookings</h1>
+    <div v-for="b in store.requestedBookings" :key="b.id">
+      {{ b.studentName }} – {{ b.Date }}
+      <button @click="store.acceptBooking(b.id)">Accept</button>
+    </div>
+  </main>
   </div>
 </template>
 
 <script setup>
 import Logo from "@/components/Logo.vue";
 import SettingsButton from "@/components/SettingsButton.vue";
+
+import { onMounted } from "vue";
+import { useTutorBookingsStore } from "@/stores/tutorBookings";
+
+const store = useTutorBookingsStore();
+
+onMounted(() => {
+  store.load();
+});
 </script>
 
 <style scoped>
