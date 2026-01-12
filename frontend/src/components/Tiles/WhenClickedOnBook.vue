@@ -16,7 +16,7 @@
                 </div>
                 <div class="end-time-wrapper">
                     <label for="end-time">
-                        <img src="@/assets/Tiles/Fast Forward.svg" alt="Fast Forward Symbol" />
+                        <img src="@/assets/Tiles/Fast_forward.svg" alt="Fast Forward Symbol" />
                     </label>
                     <input type="time" v-model="form.endTime" id="end-time" />
                 </div>

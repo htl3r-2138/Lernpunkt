@@ -16,7 +16,7 @@
       <div class="end-time-wrapper">
         <label for="end-time">
           <img
-            src="@/assets/Tiles/Fast Forward.svg"
+            src="@/assets/Tiles/Fast_forward.svg"
             alt="Fast Forward Symbol"
           />
         </label>
