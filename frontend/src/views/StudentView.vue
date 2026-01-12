@@ -56,15 +56,8 @@
           :price="30"
           subject="AM"
         />
-        <RecommendedTutorTile
-          name="Lukas Meyer"
-          :rating="4"
-          :reviews="20"
-          grade="3rd Grade"
-          :price="20"
-          subject="PH"
-        />
         <WhenClickedOnBook />
+        <WhenClickedOnMore />
       </div>
     </main>
   </div>
@@ -74,6 +67,7 @@
 import BookedTutorTile from "@/components/Tiles/BookedTutorTile.vue";
 import RecommendedTutorTile from "@/components/Tiles/RecommendedTutorTile.vue";
 import WhenClickedOnBook from "@/components/Tiles/WhenClickedOnBook.vue";
+import WhenClickedOnMore from "@/components/Tiles/WhenClickedOnMore.vue";
 import Logo from "@/components/Logo.vue";
 import Searchbar from "@/components/Searchbar.vue";
 import SettingsButton from "@/components/SettingsButton.vue";
