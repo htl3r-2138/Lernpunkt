@@ -91,3 +91,18 @@ CREATE TABLE Admin
     Username    VARCHAR(255) NOT NULL,
     Password    VARCHAR(255) NOT NULL
 );
+
+INSERT INTO Subject (PK_Subject_ID, Description) VALUES (1, 'SEW');
+INSERT INTO Subject (PK_Subject_ID, Description) VALUES (2, 'NWT');
+INSERT INTO Subject (PK_Subject_ID, Description) VALUES (3, 'ITP');
+INSERT INTO Subject (PK_Subject_ID, Description) VALUES (4, 'GINF');
+INSERT INTO Subject (PK_Subject_ID, Description) VALUES (5, 'AM');
+INSERT INTO Subject (PK_Subject_ID, Description) VALUES (6, 'DE');
+INSERT INTO Subject (PK_Subject_ID, Description) VALUES (7, 'E');
+INSERT INTO Subject (PK_Subject_ID, Description) VALUES (8, 'WEBT');
+INSERT INTO Subject (PK_Subject_ID, Description) VALUES (9, 'INSI');
+INSERT INTO Subject (PK_Subject_ID, Description) VALUES (10, 'GETE');
+INSERT INTO Subject (PK_Subject_ID, Description) VALUES (11, 'BS');
+INSERT INTO Subject (PK_Subject_ID, Description) VALUES (12, 'PH');
+INSERT INTO Subject (PK_Subject_ID, Description) VALUES (13, 'CH');
+INSERT INTO Subject (PK_Subject_ID, Description) VALUES (14, 'GP');

@@ -10,16 +10,10 @@ router.get("/me", authController.me);
 
 const { isLoggedIn, isStudent, isTutor } = require("../middleware/auth.middleware");
 
-router.get("/protected", isLoggedIn, (req, res) => {
-  res.json({ message: "Du bist eingeloggt", user: req.session.user });
-});
-
-router.get("/student-only", isStudent, (req, res) => {
-  res.json({ message: "Willkommen Student", user: req.session.user });
-});
-
-router.get("/tutor-only", isTutor, (req, res) => {
-  res.json({ message: "Willkommen Tutor", user: req.session.user });
-});
+router.put(
+  "/user/hourly-rate",
+  isTutor,
+  authController.updateHourlyRate
+);
 
 module.exports = router;
