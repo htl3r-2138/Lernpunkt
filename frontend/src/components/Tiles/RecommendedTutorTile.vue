@@ -1,0 +1,132 @@
+<template>
+  <div class="tutor-card">
+    <div class="tutor">
+      <div class="content">
+        <h3 class="name">{{ name }}</h3>
+      </div>
+
+      <div class="rating">
+        <span
+          v-for="i in 5"
+          :key="i"
+          class="star"
+          :class="{ active: i <= rating }"
+        >
+          ★
+        </span>
+        <span class="count">({{ reviews }})</span>
+      </div>
+
+      <p class="grade">{{ grade }} · {{ price }}€/h</p>
+    </div>
+
+    <div class="badge">{{ subject }}</div>
+
+    <div class="actions">
+      <button class="book">Book Tutor</button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+defineProps({
+  name: String,
+  rating: Number,
+  reviews: Number,
+  grade: String,
+  price: Number,
+  subject: String,
+});
+</script>
+
+<style scoped>
+.tutor-card {
+  position: relative;
+  width: 400px;
+  padding: 1.5rem;
+  border-radius: 24px;
+  background: white;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.content {
+  text-align: center;
+}
+
+.name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.star {
+  color: #ccc;
+  font-size: 1.2rem;
+}
+
+.star.active {
+  color: #7cff00;
+}
+
+.count {
+  font-size: 0.9rem;
+  color: #666;
+  margin-left: 6px;
+}
+
+.grade {
+  font-weight: 500;
+  text-align: center;
+}
+
+.location,
+.next {
+  color: #666;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.badge {
+  position: absolute;
+  bottom: 1.2rem;
+  left: 1.2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: #ff5c5c;
+  color: white;
+  font-weight: bold;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actions {
+  position: absolute;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.book {
+  padding: 10px 20px;
+  background: #7e52fc;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+</style>
