@@ -64,15 +64,31 @@ import SettingsButton from "@/components/SettingsButton.vue";
 import Banner from "@/components/Banner.vue";
 
 import { useTutorsStore } from "@/stores/tutors";
+import { useBookingsStore } from "@/stores/bookings";
 
 const tutorsStore = useTutorsStore();
+const bookingsStore = useBookingsStore();
 
-onMounted(() => {
-  tutorsStore.load();
+onMounted(async () => {
+  await tutorsStore.load();
+  await bookingsStore.load();
 });
 
 const bookedTutorId = ref(null);
-const bookedTutors = ref([]);
+const bookedTutors = computed(() =>
+  bookingsStore.acceptedBookings.map(b => ({
+    id: b.id,
+    name: `${b.Name} ${b.Surname}`,
+    price: Number(b.PricePerHour),
+    grade: "—",                 // kannst du später ergänzen
+    location: b.MeetUp,
+    nextSess: b.Date,
+    startTime: b.Start,
+    endTime: b.End,
+    subject: b.Description ?? "",
+    email: "",                  // optional
+  }))
+);
 
 const recommendedTutorId = ref(null);
 const recommendedTutors = computed(() => tutorsStore.tutorsForUI);

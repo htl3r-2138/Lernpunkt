@@ -1,5 +1,9 @@
 const db = require("../db");
 
+/**
+ * POST /api/bookings
+ * Student erstellt ein Booking
+ */
 exports.createBooking = async (req, res) => {
   const user = req.session.user;
 
@@ -26,7 +30,6 @@ exports.createBooking = async (req, res) => {
   try {
     await conn.beginTransaction();
 
-    // 1️⃣ Booking anlegen
     const [result] = await conn.query(
       `
       INSERT INTO Booking
@@ -38,21 +41,15 @@ exports.createBooking = async (req, res) => {
 
     const bookingId = result.insertId;
 
-    // 2️⃣ Subject verknüpfen
     await conn.query(
-      `
-      INSERT INTO contain (FK_PK_Booking_ID, FK_PK_Subject_ID)
-      VALUES (?, ?)
-      `,
+      `INSERT INTO contain (FK_PK_Booking_ID, FK_PK_Subject_ID)
+       VALUES (?, ?)`,
       [bookingId, subjectId]
     );
 
-    // 3️⃣ Tutor verknüpfen
     await conn.query(
-      `
-      INSERT INTO is_in (FK_PK_Tutor_ID, FK_PK_Booking_ID)
-      VALUES (?, ?)
-      `,
+      `INSERT INTO is_in (FK_PK_Tutor_ID, FK_PK_Booking_ID)
+       VALUES (?, ?)`,
       [tutorId, bookingId]
     );
 
@@ -66,4 +63,38 @@ exports.createBooking = async (req, res) => {
   } finally {
     conn.release();
   }
+};
+
+/**
+ * GET /api/bookings/me
+ * Student sieht seine Bookings
+ */
+exports.getMyBookings = async (req, res) => {
+  if (!req.session.user || req.session.user.role !== "student") {
+    return res.status(401).json({ message: "Not authenticated" });
+  }
+
+  const studentId = req.session.user.id;
+
+  const [rows] = await db.query(`
+    SELECT
+      b.PK_Booking_ID AS id,
+      b.Date,
+      b.Start,
+      b.End,
+      b.MeetUp,
+      b.Description,
+      b.isAccepted,
+
+      t.PK_Tutor_ID AS tutorId,
+      t.Name,
+      t.Surname,
+      t.PricePerHour
+    FROM Booking b
+    JOIN is_in ii ON ii.FK_PK_Booking_ID = b.PK_Booking_ID
+    JOIN Tutor t ON t.PK_Tutor_ID = ii.FK_PK_Tutor_ID
+    WHERE b.FK_PK_Student_ID = ?
+  `, [studentId]);
+
+  res.json(rows);
 };
