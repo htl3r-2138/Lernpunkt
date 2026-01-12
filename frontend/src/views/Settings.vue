@@ -18,6 +18,10 @@
           <img src="@/assets/settings/logout.svg" alt="Logout" />
           <span>Logout</span>
         </div>
+        <div class="back" @click="exitSettings">
+          <img src="@/assets/settings/X.svg" alt="exit settings">
+          <span>Exit</span>
+        </div>
         <ConfirmModal
           v-if="showConfirm"
           title="Confirm logout"
@@ -57,6 +61,10 @@ const confirmLogout = async () => {
 const cancelLogout = () => {
   showConfirm.value = false;
 };
+
+const exitSettings = () => {
+  router.back();
+};
 </script>
 
 <style scoped>
@@ -73,7 +81,8 @@ nav {
   gap: 1rem;
 }
 .deleteAcc,
-.logout {
+.logout,
+.back {
   display: flex;
   flex-direction: column;
   align-items: center;
