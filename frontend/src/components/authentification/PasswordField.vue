@@ -4,6 +4,7 @@
     <input
       :type="isVisible ? 'text' : 'password'"
       :value="modelValue"
+      placeholder = "*********"
       @input="$emit('update:modelValue', $event.target.value)"
     />
   </div>

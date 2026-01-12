@@ -152,7 +152,6 @@ h1 {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 2rem;
 }
 
 .tutor-signup input[type="checkbox"] {
@@ -185,12 +184,6 @@ h1 {
   text-decoration: none;
 }
 
-/* FIXME: */
-.wrapper {
-  display: flex;
-  flex-direction: column;
-}
-
 .wrapper label {
   display: block;
   color: #000;
@@ -208,6 +201,7 @@ h1 {
   background-color: white;
   color: black;
   cursor: pointer;
+  margin-bottom: 2rem;
 }
 
 .wrapper select option[disabled] {
