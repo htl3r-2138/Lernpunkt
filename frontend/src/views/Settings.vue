@@ -77,17 +77,47 @@
         </form>
       </div>
     </main>
+    <div class="lower">
+      <div class="subjects">
+        <h2>Subjects</h2>
+
+        <div class="subject-grid">
+          <button
+            v-for="s in subjectsStore.allSubjects"
+            :key="s.PK_Subject_ID"
+            :class="{
+              active: subjectsStore.mySubjectIds.includes(s.PK_Subject_ID),
+            }"
+            @click="subjectsStore.toggleSubject(s)"
+          >
+            {{ s.Description }}
+          </button>
+        </div>
+
+        <button class="login-btn" @click="subjectsStore.save">
+          Save subjects
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { gsap } from "gsap";
+import { onMounted } from "vue";
+import { useSubjectsStore } from "@/stores/subject.js";
 import { useRouter } from "vue-router";
 import { logout } from "@/services/auth";
 import ConfirmModal from "@/components/ConfirmModal.vue";
 import TextField from "@/components/authentification/TextField.vue";
 import PasswordField from "@/components/authentification/PasswordField.vue";
+
+const subjectsStore = useSubjectsStore();
+
+onMounted(() => {
+  subjectsStore.load();
+});
 
 // Hover-Effekte
 function hoverEnter(event) {
@@ -146,7 +176,7 @@ nav {
   align-items: center;
 }
 
-main{
+main {
   display: flex;
   justify-content: center;
   gap: 10%;
@@ -162,5 +192,25 @@ main{
   cursor: pointer;
   transition: box-shadow 0.2s;
   margin-top: 5%;
+}
+
+.subject-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.subject-grid button {
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: rgb(157, 145, 145);
+  cursor: pointer;
+}
+
+.subject-grid button.active {
+  background: #7e52fc;
+  color: white;
+  border-color: #7e52fc;
 }
 </style>
