@@ -10,10 +10,4 @@ router.get("/me", authController.me);
 
 const { isLoggedIn, isStudent, isTutor } = require("../middleware/auth.middleware");
 
-router.put(
-  "/user/hourly-rate",
-  isTutor,
-  authController.updateHourlyRate
-);
-
 module.exports = router;

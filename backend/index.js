@@ -4,7 +4,8 @@ const cors = require("cors");
 const db = require("./db");
 
 const authRoutes = require("./routes/auth.routes");
-const subjectRoutes = require("./routes/subjects.routes")
+const subjectRoutes = require("./routes/subjects.routes");
+const userRoutes = require("./routes/user.routes");
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(
 
 app.use("/api/auth", authRoutes);
 app.use("/api", subjectRoutes);
+app.use("/api", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("Backend läuft!");

@@ -91,36 +91,42 @@ exports.me = async (req, res) => {
 
   const { id, role } = req.session.user;
 
-  let user;
+  let rows;
+
   if (role === "tutor") {
-    const [rows] = await db.query(
-      "SELECT PK_Tutor_ID AS id, Email, PricePerHour FROM Tutor WHERE PK_Tutor_ID = ?",
+    [rows] = await db.query(
+      `SELECT 
+         PK_Tutor_ID AS id,
+         Name,
+         Surname,
+         Email,
+         Grade,
+         PricePerHour
+       FROM Tutor
+       WHERE PK_Tutor_ID = ?`,
       [id]
     );
-    user = { ...rows[0], role };
   } else {
-    const [rows] = await db.query(
-      "SELECT PK_Student_ID AS id, Email FROM Student WHERE PK_Student_ID = ?",
+    [rows] = await db.query(
+      `SELECT 
+         PK_Student_ID AS id,
+         Name,
+         Surname,
+         Email,
+         Grade
+       FROM Student
+       WHERE PK_Student_ID = ?`,
       [id]
     );
-    user = { ...rows[0], role };
   }
 
-  res.json(user);
-};
-
-exports.updateHourlyRate = async (req, res) => {
-  const user = req.session.user;
-  const { pricePerHour } = req.body;
-
-  if (!user || user.role !== "tutor") {
-    return res.status(403).json({ message: "Forbidden" });
+  if (!rows.length) {
+    req.session.destroy(() => {});
+    return res.status(401).json({ message: "User not found" });
   }
 
-  await db.query(
-    "UPDATE Tutor SET PricePerHour = ? WHERE PK_Tutor_ID = ?",
-    [pricePerHour, user.id]
-  );
-
-  res.json({ message: "Hourly rate updated" });
+  res.json({
+    ...rows[0],
+    role,
+  });
 };
