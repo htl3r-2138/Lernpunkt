@@ -1,8 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import RegisterPage from '@/views/RegisterPage.vue'
-import LoginPage from '@/views/LoginPage.vue'
-import StudentView from '@/views/StudentView.vue'
-import TutorView from '@/views/TutorView.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import RegisterPage from "@/views/RegisterPage.vue";
+import LoginPage from "@/views/LoginPage.vue";
+import StudentView from "@/views/StudentView.vue";
+import TutorView from "@/views/TutorView.vue";
+import Settings from "@/views/Settings.vue";
+
 const routes = [
   { path: "/", redirect: "/login" },
   { path: "/login", component: LoginPage },
@@ -17,11 +19,16 @@ const routes = [
     component: TutorView,
     meta: { requiresAuth: true, role: "tutor" },
   },
+  {
+    path: "/settings",
+    component: Settings,
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+  routes,
 });
 
 router.beforeEach(async (to, from, next) => {
@@ -58,4 +65,4 @@ router.beforeEach(async (to, from, next) => {
   next();
 });
 
-export default router
+export default router;

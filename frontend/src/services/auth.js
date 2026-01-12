@@ -43,3 +43,14 @@ export async function login(email, password) {
 
   return res.json();
 }
+
+export async function logout() {
+  const res = await fetch("http://localhost:3000/api/auth/logout", {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error("Logout failed");
+  }
+}
