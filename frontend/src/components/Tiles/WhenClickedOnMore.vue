@@ -39,8 +39,9 @@
       </div>
     </div>
     <div class="bottom-wrapper">
-      <button class="button">Cancel</button>
-      <button class="button">OK</button>
+      <button class="button">Back</button>
+      <!--FIX: add termination of booking functionality-->
+      <button class="button">Cancel Booking</button>
     </div>
   </div>
 </template>
