@@ -213,4 +213,10 @@ main {
   color: white;
   border-color: #7e52fc;
 }
+
+.back,
+.deleteAcc,
+.logout {
+  cursor: pointer;
+} 
 </style>

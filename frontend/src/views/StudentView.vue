@@ -8,7 +8,7 @@
         <Searchbar></Searchbar>
       </div>
       <div>
-        <SettingsButton></SettingsButton>
+        <SettingsButton class="settings"></SettingsButton>
       </div>
     </nav>
     <Banner />
@@ -97,5 +97,9 @@ main {
   display: flex;
   gap: 20px;
   margin-bottom: 40px;
+}
+
+.settings {
+  cursor: pointer;
 }
 </style>
