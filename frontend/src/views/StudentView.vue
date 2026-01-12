@@ -57,7 +57,7 @@
           subject="AM"
         />
         <WhenClickedOnBook />
-        <WhenClickedOnMore />
+        <WhenClickedOnMore date="12.01.2025" startTime="15:00" endTime="16:00" location="AULA" subject="AM" topic="Differentialgleichungen"/>
       </div>
     </main>
   </div>

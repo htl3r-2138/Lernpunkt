@@ -5,13 +5,13 @@
         <label for="date">
           <img src="@/assets/Tiles/Calendar.svg" alt="Calender Symbol" />
         </label>
-        <p id="date">12.01.2025</p>
+        <p id="date">{{ date }}</p>
       </div>
       <div class="start-time-wrapper">
         <label for="start-time">
           <img src="@/assets/Tiles/Clock.svg" alt="Clock Symbol" />
         </label>
-        <p id="start-time">15:00</p>
+        <p id="start-time">{{ startTime }}</p>
       </div>
       <div class="end-time-wrapper">
         <label for="end-time">
@@ -20,22 +20,22 @@
             alt="Fast Forward Symbol"
           />
         </label>
-        <p id="end-time">16:00</p>
+        <p id="end-time">{{ endTime }}</p>
       </div>
       <div class="location-wrapper">
         <label for="location">
           <img src="@/assets/Tiles/Map pin.svg" alt="Map Pin Symbol" />
         </label>
-        <p id="location">Aula</p>
+        <p id="location">{{ location }}</p>
       </div>
     </div>
     <div class="middle-wrapper">
       <!--FIX ME (only subjects a tutor has selected in their settings can be selected here)-->
       <div class="class-wrapper">
-        <p>AM</p>
+        <p>{{ subject }}</p>
       </div>
       <div class="topic-wrapper">
-        <p>Differentialgleichungen</p>
+        <p>{{ topic }}</p>
       </div>
     </div>
     <div class="bottom-wrapper">
@@ -45,7 +45,16 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+defineProps({
+  date: String,
+  startTime: String,
+  endTime: String,
+  location: String,
+  subject: String,
+  topic: String,
+});
+</script>
 
 <style scoped>
 .tutor-card {
