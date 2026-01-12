@@ -1,6 +1,6 @@
 <template>
     <div class="tutor-card">
-        <form @submit.prevent="submitForm">
+        <form @submit.prevent="onSubmit">
             <div class="top-wrapper">
                 <div class="date-wrapper">
                     <label for="date">
@@ -42,8 +42,8 @@
                 </div>
             </div>
             <div class="bottom-wrapper">
-                <button class="button">Cancel</button>
-                <button class="button" type="submit">Book</button>
+                <button class="button" @click="onCancel">Cancel</button>
+                <button class="button" type="submit" @click="onSubmit">Book</button>
             </div>
         </form>
     </div>
@@ -58,6 +58,16 @@ const form = ref({
     location: "",
     topic: "",
 });
+
+const emit = defineEmits(["cancel", "submit"]);
+function onCancel() {
+    console.log("Cancelled")
+    emit("cancel");
+}
+function onSubmit() {
+    console.log("Submitted")
+    emit("submit", form.value);
+}
 </script>
 
 <style scoped>

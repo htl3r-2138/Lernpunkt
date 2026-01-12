@@ -48,22 +48,28 @@
       </div>
       <h1>Recommended Tutors for you</h1>
       <div class="recommended-wrapper">
-        <RecommendedTutorTile
-          name="Anna Schmidt"
-          :rating="5"
-          :reviews="30"
-          grade="2nd Grade"
-          :price="30"
-          subject="AM"
-        />
-        <WhenClickedOnBook />
-        <WhenClickedOnMore date="12.01.2025" startTime="15:00" endTime="16:00" location="AULA" subject="AM" topic="Differentialgleichungen"/>
+        <div v-for="tutor in recommendedTutors" :key="tutor.id">
+          <Transition name="card" mode="out-in">
+            <component
+              :is="
+                bookingTutorId === tutor.id
+                  ? WhenClickedOnBook
+                  : RecommendedTutorTile
+              "
+              v-bind="tutor"
+              @book="bookingTutorId = tutor.id"
+              @cancel="bookingTutorId = null"
+              @confirm="removeTutor(tutor.id)"
+            />
+          </Transition>
+        </div>
       </div>
     </main>
   </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import BookedTutorTile from "@/components/Tiles/BookedTutorTile.vue";
 import RecommendedTutorTile from "@/components/Tiles/RecommendedTutorTile.vue";
 import WhenClickedOnBook from "@/components/Tiles/WhenClickedOnBook.vue";
@@ -72,6 +78,35 @@ import Logo from "@/components/Logo.vue";
 import Searchbar from "@/components/Searchbar.vue";
 import SettingsButton from "@/components/SettingsButton.vue";
 import Banner from "@/components/Banner.vue";
+
+const bookingTutorId = ref(null);
+const recommendedTutors = ref([
+  {
+    id: 1,
+    name: "Anna Schmidt",
+    rating: 5,
+    reviews: 30,
+    grade: "2nd Grade",
+    price: 30,
+    subject: "AM",
+  },
+  {
+    id: 2,
+    name: "Lukas Meyer",
+    rating: 4,
+    reviews: 20,
+    grade: "3rd Grade",
+    price: 28,
+    subject: "DE",
+  },
+]);
+
+function removeTutor(id) {
+  recommendedTutors.value = recommendedTutors.value.filter(
+    (tutor) => tutor.id !== id
+  );
+  bookingTutorId.value = null;
+}
 </script>
 
 <style scoped>
@@ -101,5 +136,20 @@ main {
 
 .settings {
   cursor: pointer;
+}
+
+.card-enter-active,
+.card-leave-active {
+  transition: all 0.25s ease;
+}
+
+.card-enter-from {
+  opacity: 0;
+  transform: scale(0.96) translateY(10px);
+}
+
+.card-leave-to {
+  opacity: 0;
+  transform: scale(0.96) translateY(-10px);
 }
 </style>

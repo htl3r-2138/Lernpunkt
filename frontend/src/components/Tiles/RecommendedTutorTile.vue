@@ -23,13 +23,14 @@
     <div class="badge">{{ subject }}</div>
 
     <div class="actions">
-      <button class="book">Book Tutor</button>
+      <button class="book" @click="onBook">Book Tutor</button>
     </div>
   </div>
 </template>
 
 <script setup>
 defineProps({
+  id: Number,
   name: String,
   rating: Number,
   reviews: Number,
@@ -37,6 +38,13 @@ defineProps({
   price: Number,
   subject: String,
 });
+
+const emit = defineEmits(["book"]);
+
+function onBook() {
+  console.log("BOOK WAS CLICKED")
+  emit("book");
+}
 </script>
 
 <style scoped>
