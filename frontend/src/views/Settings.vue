@@ -20,13 +20,8 @@
           <span>Logout</span>
         </div>
 
-        <ConfirmModal
-          v-if="showConfirm"
-          title="Confirm logout"
-          message="Are you sure you want to log out?"
-          @confirm="confirmLogout"
-          @cancel="cancelLogout"
-        />
+        <ConfirmModal v-if="showConfirm" title="Confirm logout" message="Are you sure you want to log out?"
+          @confirm="confirmLogout" @cancel="cancelLogout" />
       </div>
     </nav>
     <main>
@@ -34,65 +29,33 @@
         <form @submit.prevent="changeEmail">
           <TextField name="currEmail" label="current Email Address" required />
           <TextField name="newEmail" label="new Email Address" required />
-          <button
-            class="login-btn"
-            @click="handleLogin"
-            @mouseenter="hoverEnter"
-            @mouseleave="hoverLeave"
-          >
+          <button class="login-btn" @click="handleLogin" @mouseenter="hoverEnter" @mouseleave="hoverLeave">
             set new Email
           </button>
         </form>
       </div>
       <div class="password">
         <form @submit.prevent>
-          <PasswordField
-            name="currentPassword"
-            label="current Password"
-            type="password"
-            required
-          />
+          <PasswordField name="currentPassword" label="current Password" type="password" required />
 
-          <PasswordField
-            name="newPassword"
-            label="new Password"
-            type="password"
-            required
-          />
+          <PasswordField name="newPassword" label="new Password" type="password" required />
 
-          <PasswordField
-            name="repeatNewPassword"
-            label="repeat new Password"
-            type="password"
-            required
-          />
+          <PasswordField name="repeatNewPassword" label="repeat new Password" type="password" required />
 
-          <button
-            class="login-btn"
-            @mouseenter="hoverEnter"
-            @mouseleave="hoverLeave"
-          >
+          <button class="login-btn" @mouseenter="hoverEnter" @mouseleave="hoverLeave">
             set new password
           </button>
         </form>
       </div>
-    </main>
-    <div class="lower">
       <div class="subjects">
         <h2>Subject you want to teach</h2>
         <div class="subject-grid">
-          <button
-            v-for="s in subjectsStore.allSubjects"
-            :key="s.PK_Subject_ID"
-            :class="{
-              active: subjectsStore.mySubjectIds.includes(s.PK_Subject_ID),
-            }"
-            @click="subjectsStore.toggleSubject(s)"
-          >
+          <button v-for="s in subjectsStore.allSubjects" :key="s.PK_Subject_ID" :class="{
+            active: subjectsStore.mySubjectIds.includes(s.PK_Subject_ID),
+          }" @click="subjectsStore.toggleSubject(s)">
             {{ s.Description }}
           </button>
         </div>
-
         <button class="login-btn" @click="subjectsStore.save">
           Save subjects
         </button>
@@ -100,21 +63,13 @@
       <div class="changeHRate">
         <h2>Change hourly rate</h2>
         <form @submit.prevent="handleHRateChange">
-          <TextField
-            name="HRate"
-            label="Set Hourly Rate"
-            v-model="userStore.pricePerHour"
-          />
-          <button
-            class="login-btn"
-            @mouseenter="hoverEnter"
-            @mouseleave="hoverLeave"
-          >
+          <TextField name="HRate" label="Set Hourly Rate" v-model="userStore.pricePerHour" />
+          <button class="login-btn" @mouseenter="hoverEnter" @mouseleave="hoverLeave">
             Save
           </button>
         </form>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 
@@ -189,15 +144,18 @@ const exitSettings = () => {
 .wrapper {
   color: black;
 }
+
 nav {
   display: flex;
   justify-content: space-between;
   padding: 2rem;
 }
+
 .accountFeatures {
   display: flex;
   gap: 1rem;
 }
+
 .deleteAcc,
 .logout,
 .back {
@@ -207,8 +165,9 @@ nav {
 }
 
 main {
-  display: flex;
+  display: grid;
   justify-content: center;
+  grid-template-columns: repeat(2, auto);
   gap: 10%;
 }
 
@@ -225,13 +184,15 @@ main {
 }
 
 .lower {
+  margin-top: 2%;
   display: flex;
+  justify-content: center;
   gap: 10%;
 }
 
 .subject-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
   gap: 0.5rem;
 }
 
@@ -254,5 +215,5 @@ main {
 .deleteAcc,
 .logout {
   cursor: pointer;
-} 
+}
 </style>
