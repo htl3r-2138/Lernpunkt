@@ -40,7 +40,7 @@
     </div>
     <div class="bottom-wrapper">
       <button class="button">Back</button>
-      <!--FIX: add termination of booking functionality-->
+      <!--FIX: add termination of booking functionality (with confirmation pop-up :)-->
       <button class="button">Cancel Booking</button>
     </div>
   </div>

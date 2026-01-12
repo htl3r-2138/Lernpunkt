@@ -127,13 +127,15 @@ defineProps({
 }
 
 .icon-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
+    width: 40px;
+    height: 40px;
     border: none;
-    background: #7b4dff;
-    color: white;
-    font-size: 1.1rem;
+    border-radius: 12px;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    padding: 0;
 }
 </style>
