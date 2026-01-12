@@ -19,9 +19,7 @@
           <Transition name="card" mode="out-in">
             <component
               :is="
-                bookedTutorId === tutor.id
-                  ? WhenClickedOnMore
-                  : BookedTutorTile
+                bookedTutorId === tutor.id ? WhenClickedOnMore : BookedTutorTile
               "
               v-bind="tutor"
               @more="bookedTutorId = tutor.id"
@@ -31,7 +29,7 @@
           </Transition>
         </div>
       </div>
-      <h1>Recommended Tutors for you</h1>
+      <h1>All Tutors</h1>
       <div class="recommended-wrapper">
         <div v-for="tutor in recommendedTutors" :key="tutor.id">
           <Transition name="card" mode="out-in">
@@ -44,7 +42,7 @@
               v-bind="tutor"
               @book="recommendedTutorId = tutor.id"
               @cancel="recommendedTutorId = null"
-              @confirm="removeRecommendedTutors(tutor.id)"
+              @submit="handleBooked(tutor.id)"
             />
           </Transition>
         </div>
@@ -54,7 +52,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, computed } from "vue";
+
 import BookedTutorTile from "@/components/Tiles/BookedTutorTile.vue";
 import RecommendedTutorTile from "@/components/Tiles/RecommendedTutorTile.vue";
 import WhenClickedOnBook from "@/components/Tiles/WhenClickedOnBook.vue";
@@ -64,81 +63,22 @@ import Searchbar from "@/components/Searchbar.vue";
 import SettingsButton from "@/components/SettingsButton.vue";
 import Banner from "@/components/Banner.vue";
 
+import { useTutorsStore } from "@/stores/tutors";
+
+const tutorsStore = useTutorsStore();
+
+onMounted(() => {
+  tutorsStore.load();
+});
+
 const bookedTutorId = ref(null);
-const bookedTutors = ref([
-  {
-    id: 1,
-    name: "Maximilian Popek",
-    rating: 4,
-    reviews: 12,
-    grade: "1st Grade",
-    price: 25,
-    location: "Aula",
-    nextSess: "02.11.2025",
-    startTime: "14:00",
-    endTime: "15:00",
-    subject: "AM",
-    topic: "Quadratic Equations",
-    email: "max.popek@htl.rennweg.at"
-  },
-  {
-    id: 2,
-    name: "Oliver Rinner",
-    rating: 5,
-    reviews: 50,
-    grade: "4th Grade",
-    price: 25,
-    location: "Aula",
-    nextSess: "02.11.2025",
-    startTime: "15:00",
-    endTime: "16:00",
-    subject: "E",
-    topic: "Grammar",
-    email: "oliver.rinner@htl.rennweg.at"
-  },
-  {
-    id: 3,
-    name: "Maximilian Popek",
-    rating: 4,
-    reviews: 12,
-    grade: "1st Grade",
-    price: 25,
-    location: "Aula",
-    nextSess: "02.11.2025",
-    startTime: "16:00",
-    endTime: "17:00",
-    subject: "AM",
-    topic: "Quadratic Equations",
-    email: "max.popek@htl.rennweg.at"
-  }
-]);
+const bookedTutors = ref([]);
 
 const recommendedTutorId = ref(null);
-const recommendedTutors = ref([
-  {
-    id: 1,
-    name: "Anna Schmidt",
-    rating: 5,
-    reviews: 30,
-    grade: "2nd Grade",
-    price: 30,
-    subject: "AM",
-  },
-  {
-    id: 2,
-    name: "Lukas Meyer",
-    rating: 4,
-    reviews: 20,
-    grade: "3rd Grade",
-    price: 28,
-    subject: "DE",
-  },
-]);
+const recommendedTutors = computed(() => tutorsStore.tutorsForUI);
 
-function removeRecommendedTutors(id) {
-  recommendedTutors.value = recommendedTutors.value.filter(
-    (tutor) => tutor.id !== id
-  );
+function handleBooked(tutorId) {
+  tutorsStore.removeTutor(tutorId);
   recommendedTutorId.value = null;
 }
 </script>
@@ -164,8 +104,9 @@ main {
 .booked-wrapper,
 .recommended-wrapper {
   display: flex;
-  gap: 20px;
+  gap: 5rem;
   margin-bottom: 40px;
+  flex-wrap: wrap;
 }
 
 .settings {

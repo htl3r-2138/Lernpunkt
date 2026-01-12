@@ -19,8 +19,12 @@
 
       <p class="grade">{{ grade }} · {{ price }}€/h</p>
     </div>
-
-    <div class="badge">{{ subject }}</div>
+    teaches
+    <div class="badges">
+      <span v-for="s in subjects" :key="s" class="badge">
+        {{ s.description }}
+      </span>
+    </div>
 
     <div class="actions">
       <button class="book" @click="onBook">Book Tutor</button>
@@ -36,13 +40,13 @@ defineProps({
   reviews: Number,
   grade: String,
   price: Number,
-  subject: String,
+  subjects: Array, // ✅ statt subject
 });
 
 const emit = defineEmits(["book"]);
 
 function onBook() {
-  console.log("BOOK WAS CLICKED")
+  console.log("BOOK WAS CLICKED");
   emit("book");
 }
 </script>
@@ -101,15 +105,16 @@ function onBook() {
   font-size: 0.9rem;
   text-align: center;
 }
+.badges { display: flex; gap: 8px }
 
 .badge {
-  position: absolute;
+
   bottom: 1.2rem;
   left: 1.2rem;
   width: 56px;
   height: 56px;
   border-radius: 12px;
-  background: #ff5c5c;
+  background: #200863;
   color: white;
   font-weight: bold;
   font-size: 1.4rem;

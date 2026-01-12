@@ -36,13 +36,12 @@
         </div>
       </div>
       <div class="middle-wrapper">
-        <!--FIX ME (only subjects a tutor has selected in their settings can be selected here)-->
         <div class="class-wrapper">
-          <select @submit.prevent="submitForm">
-            <option selected disabled value="">Class ⬇</option>
-            <option value="AM">AM</option>
-            <option value="DE">DE</option>
-            <option value="E">E</option>
+          <select v-model="form.subjectId" required>
+            <option disabled value="">Class ⬇</option>
+            <option v-for="s in subjects" :key="s.id" :value="s.id">
+              {{ s.description }}
+            </option>
           </select>
         </div>
         <div class="topic-wrapper">
@@ -55,7 +54,7 @@
       </div>
       <div class="bottom-wrapper">
         <button class="button" @click="onCancel">Cancel</button>
-        <button class="button" type="submit" @click="onSubmit">Book</button>
+        <button class="button" type="submit">Book</button>
       </div>
     </form>
   </div>
@@ -63,22 +62,59 @@
 
 <script setup>
 import { ref } from "vue";
+
+const props = defineProps({
+  id: Number,
+  subjects: Array,
+});
+
+const emit = defineEmits(["cancel", "submit"]);
+
 const form = ref({
   date: "",
   startTime: "",
   endTime: "",
   location: "",
   topic: "",
+  subjectId: "",
 });
 
-const emit = defineEmits(["cancel", "submit"]);
 function onCancel() {
-  console.log("Cancelled");
-  emit("cancel");
+  emit("cancel", props.id);
 }
-function onSubmit() {
-  console.log("Submitted");
-  emit("submit", form.value);
+
+async function onSubmit() {
+  console.log("BOOKING PAYLOAD", {
+    tutorId: props.id,
+    subjectId: form.value.subjectId,
+    date: form.value.date,
+    startTime: form.value.startTime,
+    endTime: form.value.endTime,
+    location: form.value.location,
+    topic: form.value.topic,
+  });
+  const res = await fetch("http://localhost:3000/api/bookings", {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      tutorId: props.id,
+      subjectId: form.value.subjectId,
+      date: form.value.date,
+      startTime: form.value.startTime,
+      endTime: form.value.endTime,
+      location: form.value.location,
+      topic: form.value.topic,
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    alert(err.message || "Booking failed");
+    return;
+  }
+
+  emit("submit");
 }
 </script>
 
