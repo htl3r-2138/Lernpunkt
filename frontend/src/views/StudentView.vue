@@ -15,36 +15,21 @@
     <main>
       <h1>Booked Tutors</h1>
       <div class="booked-wrapper">
-        <BookedTutorTile
-          name="Maximilian Popek"
-          :rating="4"
-          :reviews="12"
-          grade="1st Grade"
-          :price="25"
-          location="Aula"
-          nextSess="02.11.2025"
-          subject="AM"
-        />
-        <BookedTutorTile
-          name="Maximilian Popek"
-          :rating="4"
-          :reviews="12"
-          grade="1st Grade"
-          :price="25"
-          location="Aula"
-          nextSess="02.11.2025"
-          subject="AM"
-        />
-        <BookedTutorTile
-          name="Maximilian Popek"
-          :rating="4"
-          :reviews="12"
-          grade="1st Grade"
-          :price="25"
-          location="Aula"
-          nextSess="02.11.2025"
-          subject="AM"
-        />
+        <div v-for="tutor in bookedTutors" :key="tutor.id">
+          <Transition name="card" mode="out-in">
+            <component
+              :is="
+                bookedTutorId === tutor.id
+                  ? WhenClickedOnMore
+                  : BookedTutorTile
+              "
+              v-bind="tutor"
+              @more="bookedTutorId = tutor.id"
+              @back="bookedTutorId = null"
+              @cancel="bookedTutorId = null"
+            />
+          </Transition>
+        </div>
       </div>
       <h1>Recommended Tutors for you</h1>
       <div class="recommended-wrapper">
@@ -52,14 +37,14 @@
           <Transition name="card" mode="out-in">
             <component
               :is="
-                bookingTutorId === tutor.id
+                recommendedTutorId === tutor.id
                   ? WhenClickedOnBook
                   : RecommendedTutorTile
               "
               v-bind="tutor"
-              @book="bookingTutorId = tutor.id"
-              @cancel="bookingTutorId = null"
-              @confirm="removeTutor(tutor.id)"
+              @book="recommendedTutorId = tutor.id"
+              @cancel="recommendedTutorId = null"
+              @confirm="removeRecommendedTutors(tutor.id)"
             />
           </Transition>
         </div>
@@ -79,7 +64,56 @@ import Searchbar from "@/components/Searchbar.vue";
 import SettingsButton from "@/components/SettingsButton.vue";
 import Banner from "@/components/Banner.vue";
 
-const bookingTutorId = ref(null);
+const bookedTutorId = ref(null);
+const bookedTutors = ref([
+  {
+    id: 1,
+    name: "Maximilian Popek",
+    rating: 4,
+    reviews: 12,
+    grade: "1st Grade",
+    price: 25,
+    location: "Aula",
+    nextSess: "02.11.2025",
+    startTime: "14:00",
+    endTime: "15:00",
+    subject: "AM",
+    topic: "Quadratic Equations",
+    email: "max.popek@htl.rennweg.at"
+  },
+  {
+    id: 2,
+    name: "Oliver Rinner",
+    rating: 5,
+    reviews: 50,
+    grade: "4th Grade",
+    price: 25,
+    location: "Aula",
+    nextSess: "02.11.2025",
+    startTime: "15:00",
+    endTime: "16:00",
+    subject: "E",
+    topic: "Grammar",
+    email: "oliver.rinner@htl.rennweg.at"
+  },
+  {
+    id: 3,
+    name: "Maximilian Popek",
+    rating: 4,
+    reviews: 12,
+    grade: "1st Grade",
+    price: 25,
+    location: "Aula",
+    nextSess: "02.11.2025",
+    startTime: "16:00",
+    endTime: "17:00",
+    subject: "AM",
+    topic: "Quadratic Equations",
+    email: "max.popek@htl.rennweg.at"
+  }
+]);
+
+const recommendedTutorId = ref(null);
 const recommendedTutors = ref([
   {
     id: 1,
@@ -101,11 +135,11 @@ const recommendedTutors = ref([
   },
 ]);
 
-function removeTutor(id) {
+function removeRecommendedTutors(id) {
   recommendedTutors.value = recommendedTutors.value.filter(
     (tutor) => tutor.id !== id
   );
-  bookingTutorId.value = null;
+  recommendedTutorId.value = null;
 }
 </script>
 

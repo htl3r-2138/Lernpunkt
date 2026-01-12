@@ -5,7 +5,7 @@
         <label for="date">
           <img src="@/assets/Tiles/Calendar.svg" alt="Calender Symbol" />
         </label>
-        <p id="date">{{ date }}</p>
+        <p id="date">{{ nextSess }}</p>
       </div>
       <div class="start-time-wrapper">
         <label for="start-time">
@@ -39,22 +39,39 @@
       </div>
     </div>
     <div class="bottom-wrapper">
-      <button class="button">Back</button>
+      <button class="button" @click="onBack">Back</button>
       <!--FIX: add termination of booking functionality (with confirmation pop-up :)-->
-      <button class="button">Cancel Booking</button>
+      <button class="button" @click="onCancel">Cancel Booking</button>
     </div>
   </div>
 </template>
 
 <script setup>
 defineProps({
-  date: String,
+  id: Number,
+  name: String,
+  rating: Number,
+  reviews: Number,
+  grade: String,
+  price: Number,
+  location: String,
+  nextSess: String,
   startTime: String,
   endTime: String,
-  location: String,
   subject: String,
   topic: String,
+  email: String,
 });
+
+const emit = defineEmits(["back", "cancel"]);
+function onBack() {
+  console.log("BACK WAS CLICKED");
+  emit("back");
+}
+function onCancel() {
+  console.log("CANCEL BOOKING WAS CLICKED");
+  emit("cancel");
+}
 </script>
 
 <style scoped>
