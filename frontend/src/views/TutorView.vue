@@ -17,26 +17,39 @@
       <div v-for="student in bookedStudents" :key="student.id">
         <Transition name="card" mode="out-in">
           <component
-              :is="
-                bookedStudentsId === student.id ? WhenClickedOnMore : BookedStudentTile
-              "
-              v-bind="student"
-              @more="bookedStudentsId = student.id"
-              @back="bookedStudentsId = null"
-              @cancel="bookedStudentsId = null"
-            />
+            :is="
+              bookedStudentsId === student.id
+                ? WhenClickedOnMore
+                : BookedStudentTile
+            "
+            v-bind="student"
+            @more="bookedStudentsId = student.id"
+            @back="bookedStudentsId = null"
+            @cancel="bookedStudentsId = null"
+          />
         </Transition>
       </div>
       <h1>Requested Bookings</h1>
-      <div v-for="b in store.requestedBookings" :key="b.id">
-        {{ b.studentName }} – {{ b.Date }}
-        <button @click="store.acceptBooking(b.id)">Accept</button>
+      <div v-for="student in requestedStudents" :key="student.id">
+        <Transition name="card" mode="out-in">
+          <component
+            :is="
+              requestedStudentsId === student.id
+                ? WhenClickedOnMore
+                : RequestedStudentTile
+            "
+            v-bind="student"
+            @accept="requestedStudentId = student.id"
+            @decline="requestedStudentsId = null"
+          />
+        </Transition>
       </div>
     </main>
   </div>
 </template>
 
 <script setup>
+import RequestedStudentTile from "@/components/Tiles/RequestedStudentTile.vue";
 import WhenClickedOnMore from "@/components/Tiles/WhenClickedOnMore.vue";
 import BookedStudentTile from "@/components/Tiles/BookedStudentTile.vue";
 import Logo from "@/components/Logo.vue";
@@ -66,8 +79,7 @@ const showBanner = computed(() => {
   // Tutor: keine Subjects ODER keine Hourly Rate
   if (userStore.isTutor) {
     return (
-      subjectsStore.mySubjects.length === 0 ||
-      userStore.pricePerHour === null
+      subjectsStore.mySubjects.length === 0 || userStore.pricePerHour === null
     );
   }
 
