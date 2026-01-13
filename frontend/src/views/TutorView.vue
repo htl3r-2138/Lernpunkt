@@ -75,23 +75,32 @@ const showBanner = computed(() => {
 });
 
 const bookedStudentsId = ref(null);
-const bookedStudents = ref([
-  {
-    id: 1,
-    name: "Alice Johnson",
+const bookedStudents = computed(() =>
+  store.acceptedBookings.map(b => ({
+    id: b.id,
+
+    // Student
+    name: b.studentName,
+    email: b.studentEmail ?? "",
+
+    // UI
     rating: 0,
     reviews: 0,
-    grade: "10th Grade",
-    price: 25,
-    location: "Vienna, Austria",
-    nextSess: "2024-07-10",
-    startTime: "14:00",
-    endTime: "15:00",
-    subject: "AM",
-    topic: "Algebra",
-    email: "alice.johnson@lernpunkt.at"
-  }
-]);
+
+    // Booking
+    grade: "—",
+    price: userStore.pricePerHour,
+    location: String(b.MeetUp),
+
+    nextSess: new Date(b.Date).toLocaleDateString("de-AT"),
+    startTime: b.Start?.slice(0, 5),
+    endTime: b.End?.slice(0, 5),
+
+    // ✅ jetzt korrekt
+    subject: b.subject,   // Badge (z.B. NWT)
+    topic: b.topic,       // Text ("Firewalls")
+  }))
+);
 </script>
 
 <style scoped>

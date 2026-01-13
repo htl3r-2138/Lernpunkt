@@ -118,13 +118,18 @@ exports.getTutorBookings = async (req, res) => {
       b.Start,
       b.End,
       b.MeetUp,
-      b.Description,
+      b.Description AS topic,
       b.isAccepted,
+
       s.Name AS studentName,
-      s.Email AS studentEmail
+      s.Email AS studentEmail,
+
+      sub.Description AS subject
     FROM Booking b
     JOIN is_in ii ON ii.FK_PK_Booking_ID = b.PK_Booking_ID
     JOIN Student s ON s.PK_Student_ID = b.FK_PK_Student_ID
+    JOIN contain c ON c.FK_PK_Booking_ID = b.PK_Booking_ID
+    JOIN Subject sub ON sub.PK_Subject_ID = c.FK_PK_Subject_ID
     WHERE ii.FK_PK_Tutor_ID = ?
     ORDER BY b.Date
   `, [user.id]);
