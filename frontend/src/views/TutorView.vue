@@ -2,37 +2,49 @@
   <div class="wrapper">
     <nav>
       <div>
-        <Logo/>
+        <Logo />
       </div>
       <div>
         <p class="text">Lernpunkt</p>
       </div>
       <div>
-        <SettingsButton/>
+        <SettingsButton />
       </div>
     </nav>
     <Banner v-if="showBanner" />
     <main>
-    <h1>Booked Students</h1>
-    <div v-for="b in store.acceptedBookings" :key="b.id">
-      {{ b.studentName }} – {{ b.Date }}
-    </div>
-
-    <h1>Requested Bookings</h1>
-    <div v-for="b in store.requestedBookings" :key="b.id">
-      {{ b.studentName }} – {{ b.Date }}
-      <button @click="store.acceptBooking(b.id)">Accept</button>
-    </div>
-  </main>
+      <h1>Booked Students</h1>
+      <div v-for="student in bookedStudents" :key="student.id">
+        <Transition name="card" mode="out-in">
+          <component
+              :is="
+                bookedStudentsId === student.id ? WhenClickedOnMore : BookedStudentTile
+              "
+              v-bind="student"
+              @more="bookedStudentsId = student.id"
+              @back="bookedStudentsId = null"
+              @cancel="bookedStudentsId = null"
+            />
+        </Transition>
+      </div>
+      <h1>Requested Bookings</h1>
+      <div v-for="b in store.requestedBookings" :key="b.id">
+        {{ b.studentName }} – {{ b.Date }}
+        <button @click="store.acceptBooking(b.id)">Accept</button>
+      </div>
+    </main>
   </div>
 </template>
 
 <script setup>
+import WhenClickedOnMore from "@/components/Tiles/WhenClickedOnMore.vue";
+import BookedStudentTile from "@/components/Tiles/BookedStudentTile.vue";
 import Logo from "@/components/Logo.vue";
 import SettingsButton from "@/components/SettingsButton.vue";
 import Banner from "@/components/Banner.vue";
 
 import { onMounted, computed } from "vue";
+import { ref } from "vue";
 import { useTutorBookingsStore } from "@/stores/tutorBookings";
 import { useUserStore } from "@/stores/user";
 import { useSubjectsStore } from "@/stores/subject";
@@ -61,6 +73,25 @@ const showBanner = computed(() => {
 
   return false;
 });
+
+const bookedStudentsId = ref(null);
+const bookedStudents = ref([
+  {
+    id: 1,
+    name: "Alice Johnson",
+    rating: 0,
+    reviews: 0,
+    grade: "10th Grade",
+    price: 25,
+    location: "Vienna, Austria",
+    nextSess: "2024-07-10",
+    startTime: "14:00",
+    endTime: "15:00",
+    subject: "AM",
+    topic: "Algebra",
+    email: "alice.johnson@lernpunkt.at"
+  }
+]);
 </script>
 
 <style scoped>
@@ -86,5 +117,20 @@ main {
   font-weight: 600;
   margin: 0;
   user-select: none;
+}
+
+.card-enter-active,
+.card-leave-active {
+  transition: all 0.25s ease;
+}
+
+.card-enter-from {
+  opacity: 0;
+  transform: scale(0.96) translateY(10px);
+}
+
+.card-leave-to {
+  opacity: 0;
+  transform: scale(0.96) translateY(-10px);
 }
 </style>

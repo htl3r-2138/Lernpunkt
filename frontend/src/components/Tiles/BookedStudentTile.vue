@@ -1,25 +1,10 @@
 <template>
-  <div class="tutor-card">
-    <div class="tutor">
+  <div class="student-card">
+    <div class="student">
       <div class="content">
         <h3 class="name">{{ name }}</h3>
+        <p class="next">next session on {{ nextSess }} ({{ startTime }} - {{ endTime }})</p>
       </div>
-
-      <div class="rating">
-        <span
-          v-for="i in 5"
-          :key="i"
-          class="star"
-          :class="{ active: i <= rating }"
-        >
-          ★
-        </span>
-        <span class="count">({{ reviews }})</span>
-      </div>
-
-      <p class="grade">{{ grade }} · {{ price }}€/h</p>
-      <p class="location"> {{ location }}</p>
-      <p class="next">next session on {{ nextSess }} ({{ startTime }} - {{ endTime }})</p>
     </div>
 
     <div class="badge">{{ subject }}</div>
@@ -66,10 +51,11 @@ function onMore() {
   console.log("MORE WAS CLICKED");
   emit("more");
 }
+
 </script>
 
 <style scoped>
-.tutor-card {
+.student-card {
   position: relative;
   width: 400px;
   padding: 1.5rem;
@@ -80,40 +66,13 @@ function onMore() {
 
 .content {
   text-align: center;
+  margin-bottom: 7rem;
 }
 
 .name {
   font-size: 1.4rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-}
-
-.rating {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  margin-bottom: 0.5rem;
-}
-
-.star {
-  color: #ccc;
-  font-size: 1.2rem;
-}
-
-.star.active {
-  color: #7cff00;
-}
-
-.count {
-  font-size: 0.9rem;
-  color: #666;
-  margin-left: 6px;
-}
-
-.grade {
-  font-weight: 500;
-  text-align: center;
 }
 
 .location,
@@ -161,5 +120,11 @@ function onMore() {
   justify-content: center;
   cursor: pointer;
   padding: 0;
+}
+
+.next {
+  color: #666;
+  font-size: 0.9rem;
+  text-align: center;
 }
 </style>
