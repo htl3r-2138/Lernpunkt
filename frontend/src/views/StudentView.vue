@@ -11,7 +11,7 @@
         <SettingsButton class="settings"></SettingsButton>
       </div>
     </nav>
-    <Banner />
+    <Banner v-if="showBanner" />
     <main>
       <h1>Booked Tutors</h1>
       <div class="booked-wrapper">
@@ -65,6 +65,11 @@ import Banner from "@/components/Banner.vue";
 
 import { useTutorsStore } from "@/stores/tutors";
 import { useBookingsStore } from "@/stores/bookings";
+import { useUserStore } from "@/stores/user";
+import { useSubjectsStore } from "@/stores/subject";
+
+const userStore = useUserStore();
+const subjectsStore = useSubjectsStore();
 
 const tutorsStore = useTutorsStore();
 const bookingsStore = useBookingsStore();
@@ -100,6 +105,14 @@ function handleBooked(tutorId) {
   tutorsStore.removeTutor(tutorId);
   recommendedTutorId.value = null;
 }
+
+const showBanner = computed(() => {
+  // Student: keine Subjects
+  if (userStore.isStudent) {
+    return subjectsStore.mySubjects.length === 0;
+  }
+  return false;
+});
 </script>
 
 <style scoped>

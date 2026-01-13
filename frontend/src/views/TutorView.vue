@@ -11,6 +11,7 @@
         <SettingsButton/>
       </div>
     </nav>
+    <Banner v-if="showBanner" />
     <main>
     <h1>Booked Students</h1>
     <div v-for="b in store.acceptedBookings" :key="b.id">
@@ -29,14 +30,36 @@
 <script setup>
 import Logo from "@/components/Logo.vue";
 import SettingsButton from "@/components/SettingsButton.vue";
+import Banner from "@/components/Banner.vue";
 
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { useTutorBookingsStore } from "@/stores/tutorBookings";
+import { useUserStore } from "@/stores/user";
+import { useSubjectsStore } from "@/stores/subject";
 
+const userStore = useUserStore();
+const subjectsStore = useSubjectsStore();
 const store = useTutorBookingsStore();
 
 onMounted(() => {
   store.load();
+});
+
+const showBanner = computed(() => {
+  // Student: keine Subjects
+  if (userStore.isStudent) {
+    return subjectsStore.mySubjects.length === 0;
+  }
+
+  // Tutor: keine Subjects ODER keine Hourly Rate
+  if (userStore.isTutor) {
+    return (
+      subjectsStore.mySubjects.length === 0 ||
+      userStore.pricePerHour === null
+    );
+  }
+
+  return false;
 });
 </script>
 
