@@ -14,9 +14,22 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import Magnifier from '@/assets/Magnifier.svg'
-const inputText = ref("");
+import { computed } from "vue";
+import Magnifier from "@/assets/Magnifier.svg";
+
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: ""
+  }
+});
+
+const emit = defineEmits(["update:modelValue"]);
+
+const inputText = computed({
+  get: () => props.modelValue,
+  set: value => emit("update:modelValue", value)
+});
 </script>
 
 <style scoped>
