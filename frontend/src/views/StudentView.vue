@@ -17,33 +17,26 @@
       <div class="booked-wrapper">
         <div v-for="tutor in bookedTutors" :key="tutor.id">
           <Transition name="card" mode="out-in">
-            <component
-              :is="
-                bookedTutorId === tutor.id ? WhenClickedOnMore : BookedTutorTile
-              "
-              v-bind="tutor"
-              @more="bookedTutorId = tutor.id"
-              @back="bookedTutorId = null"
-              @cancel="bookedTutorId = null"
-            />
+            <component :is="bookedTutorId === tutor.id ? WhenClickedOnMore : BookedTutorTile
+              " v-bind="tutor" @more="bookedTutorId = tutor.id" @back="bookedTutorId = null"
+              @cancel="bookedTutorId = null" />
           </Transition>
         </div>
       </div>
-      <h1>All Tutors</h1>
+      <div class="flex-wrapper">
+        <h1> {{ typeOfTutors }}</h1>
+        <div class="switch">
+          <RecToAllSwitch v-model="showRecommended" />
+        </div>
+      </div>
       <div class="recommended-wrapper">
         <div v-for="tutor in recommendedTutors" :key="tutor.id">
           <Transition name="card" mode="out-in">
-            <component
-              :is="
-                recommendedTutorId === tutor.id
-                  ? WhenClickedOnBook
-                  : RecommendedTutorTile
-              "
-              v-bind="tutor"
-              @book="recommendedTutorId = tutor.id"
-              @cancel="recommendedTutorId = null"
-              @submit="handleBooked(tutor.id)"
-            />
+            <component :is="recommendedTutorId === tutor.id
+                ? WhenClickedOnBook
+                : RecommendedTutorTile
+              " v-bind="tutor" @book="recommendedTutorId = tutor.id" @cancel="recommendedTutorId = null"
+              @submit="handleBooked(tutor.id)" />
           </Transition>
         </div>
       </div>
@@ -53,7 +46,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
-
+import RecToAllSwitch from "@/components/RecToAllSwitch.vue";
 import BookedTutorTile from "@/components/Tiles/BookedTutorTile.vue";
 import RecommendedTutorTile from "@/components/Tiles/RecommendedTutorTile.vue";
 import WhenClickedOnBook from "@/components/Tiles/WhenClickedOnBook.vue";
@@ -67,6 +60,11 @@ import { useTutorsStore } from "@/stores/tutors";
 import { useBookingsStore } from "@/stores/bookings";
 import { useUserStore } from "@/stores/user";
 import { useSubjectsStore } from "@/stores/subject";
+
+const showRecommended = ref(true);
+const typeOfTutors = computed(() =>
+  showRecommended.value ? "Recommended Tutors" : "All Tutors"
+);
 
 const userStore = useUserStore();
 const subjectsStore = useSubjectsStore();
@@ -158,5 +156,17 @@ main {
 .card-leave-to {
   opacity: 0;
   transform: scale(0.96) translateY(-10px);
+}
+
+.flex-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.switch {
+  margin-right: 2rem;
+  justify-content: left;
 }
 </style>
