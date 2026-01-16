@@ -15,7 +15,7 @@
     <main>
       <h1>Booked Tutors</h1>
       <div class="booked-wrapper">
-        <div v-for="tutor in filteredBookedTutors" :key="tutor.id">
+        <div v-for="tutor in bookedTutors" :key="tutor.id">
           <Transition name="card" mode="out-in">
             <component :is="bookedTutorId === tutor.id ? WhenClickedOnMore : BookedTutorTile
               " v-bind="tutor" @more="bookedTutorId = tutor.id" @back="bookedTutorId = null"
@@ -131,12 +131,6 @@ function matchesSearch(item, query) {
     String(value).toLowerCase().includes(q)
   );
 }
-
-const filteredBookedTutors = computed(() =>
-  bookedTutors.value.filter(tutor =>
-    matchesSearch(tutor, searchQuery.value)
-  )
-);
 
 const filteredAllTutors = computed(() =>
   allTutors.value.filter(tutor =>
