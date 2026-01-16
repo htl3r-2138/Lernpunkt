@@ -14,16 +14,22 @@
     <Banner v-if="showBanner" />
     <main>
       <h1>Booked Tutors</h1>
-      <div class="booked-wrapper">
-        <div v-for="tutor in bookedTutors" :key="tutor.id">
-          <Transition name="card" mode="out-in">
-            <component :is="bookedTutorId === tutor.id ? WhenClickedOnMore : BookedTutorTile
-              " v-bind="tutor" @more="bookedTutorId = tutor.id" @back="bookedTutorId = null"
-              @cancel="bookedTutorId = null" />
-          </Transition>
+      <div v-if="bookedTutors.length === 0" class="empty-state">
+        Here your booked tutors will be displayed.
+      </div>
+      <div v-else>
+        <div class="booked-wrapper">
+          <div v-for="tutor in bookedTutors" :key="tutor.id">
+            <Transition name="card" mode="out-in">
+              <component :is="bookedTutorId === tutor.id ? WhenClickedOnMore : BookedTutorTile
+                " v-bind="tutor" @more="bookedTutorId = tutor.id" @back="bookedTutorId = null"
+                @cancel="bookedTutorId = null" />
+            </Transition>
+          </div>
         </div>
       </div>
-      <div class="flex-wrapper">
+
+      <div class="flex-wrapper">  
         <h1 class="title">
           <Transition name="flip-word" mode="out-in">
             <span id="recAllSwitchText" :key="showRecommended ? 'recommended' : 'all'">
@@ -170,6 +176,12 @@ watch(
 
 
 <style scoped>
+.empty-state {
+  text-align: left;
+  color: #999;
+  padding: 2rem;
+  font-style: italic;
+}
 
 .title {
   display: flex;
@@ -193,7 +205,7 @@ watch(
 
 .static {
   white-space: nowrap;
-  transition: all 0.3s ease; 
+  transition: all 0.3s ease;
 }
 
 
