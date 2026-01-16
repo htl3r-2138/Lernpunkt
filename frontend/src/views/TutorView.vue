@@ -59,7 +59,7 @@ import Banner from "@/components/Banner.vue";
 import { onMounted, computed } from "vue";
 import { ref } from "vue";
 import { useTutorBookingsStore } from "@/stores/tutorBookings";
-import { useUserStore } from "@/stores/user";
+import { useUserStore } from "@/stores/user.js";
 import { useSubjectsStore } from "@/stores/subject";
 
 const userStore = useUserStore();
@@ -67,7 +67,7 @@ const subjectsStore = useSubjectsStore();
 const store = useTutorBookingsStore();
 
 onMounted(() => {
-  store.load();
+  userStore.load();
 });
 
 const showBanner = computed(() => {

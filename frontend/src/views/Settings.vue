@@ -48,7 +48,13 @@
         </form>
       </div>
       <div class="subjects">
-        <h2>Subject you want to teach</h2>
+        <h2>
+          {{ userStore.role === 'student'
+            ? 'Subjects you need help with'
+            : 'Subjects you want to teach'
+          }}
+        </h2>
+
         <div class="subject-grid">
           <button v-for="s in subjectsStore.allSubjects" :key="s.PK_Subject_ID" :class="{
             active: subjectsStore.mySubjectIds.includes(s.PK_Subject_ID),

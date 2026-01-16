@@ -44,9 +44,6 @@
               " v-bind="tutor" @book="recommendedTutorId = tutor.id" @cancel="recommendedTutorId = null"
               @submit="handleBooked(tutor.id)" />
           </Transition>
-          <div class="switch">
-            <RecToAllSwitch v-model="showRecommended" />
-          </div>
         </div>
       </div>
     </main>
@@ -65,10 +62,10 @@ import Searchbar from "@/components/Searchbar.vue";
 import SettingsButton from "@/components/SettingsButton.vue";
 import Banner from "@/components/Banner.vue";
 
-import { useTutorsStore } from "@/stores/tutors";
-import { useBookingsStore } from "@/stores/bookings";
-import { useUserStore } from "@/stores/user";
-import { useSubjectsStore } from "@/stores/subject";
+import { useTutorsStore } from "@/stores/tutors.js";
+import { useBookingsStore } from "@/stores/bookings.js";
+import { useUserStore } from "@/stores/user.js";
+import { useSubjectsStore } from "@/stores/subject.js";
 
 const showRecommended = ref(true);
 const typeOfTutors = computed(() =>
@@ -84,6 +81,7 @@ const bookingsStore = useBookingsStore();
 onMounted(async () => {
   await tutorsStore.load();
   await bookingsStore.load();
+  await userStore.load();
 });
 
 const bookedTutorId = ref(null);
