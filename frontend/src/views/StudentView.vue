@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div class="flex-wrapper">  
+      <div class="flex-wrapper">
         <h1 class="title">
           <Transition name="flip-word" mode="out-in">
             <span id="recAllSwitchText" :key="showRecommended ? 'recommended' : 'all'">
@@ -40,7 +40,11 @@
         <div class="switch">
           <RecToAllSwitch v-model="showRecommended" />
         </div>
+         <div v-if="filteredAllTutors.length === 0" :key="showRecommended ? 'recommended' : 'all'" class="empty-state">
+            {{ showRecommended ? 'Here your Recommended tutors will be displayed.' : 'No tutors match your search criteria.'}}
+          </div>
       </div>
+
       <div class="tutor-wrapper">
         <div v-for="tutor in filteredAllTutors" :key="tutor.id">
           <Transition name="card" mode="out-in">
