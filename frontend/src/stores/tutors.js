@@ -22,9 +22,9 @@ export const useTutorsStore = defineStore("tutors", {
     tutorsForUI(state) {
       return state.tutors.map((t) => ({
         id: t.id,
-        name: `${t.name} ${t.surname}`, // ✅ voller Name
-        grade: `${t.grade}. Grade`, // ✅ UI-Format
-        price: Number(t.pricePerHour), // ✅ umbenannt
+        name: `${t.name} ${t.surname}`,
+        grade: `${t.grade}. Grade`,
+        price: Number(t.pricePerHour),
         subjects: t.subjects,
       }));
     },
@@ -44,6 +44,23 @@ export const useTutorsStore = defineStore("tutors", {
 
       this.tutors = await res.json();
       this.loaded = true;
+    },
+
+    async loadRecommended(studentId) {
+      const res = await fetch(`${API_BASE}/students/${studentId}/recommended-tutors`, {
+        credentials: "include",
+      });
+
+      if (!res.ok) throw new Error("Failed to load recommended tutors");
+
+      const recommendedTutors = await res.json();
+      return recommendedTutors.map(t => ({
+        id: t.id,
+        name: `${t.name} ${t.surname}`,
+        grade: `${t.grade}. Grade`,
+        price: Number(t.pricePerHour),
+        subjects: t.subjects,
+      }));
     },
 
     setSearchText(text) {

@@ -66,8 +66,9 @@ const userStore = useUserStore();
 const subjectsStore = useSubjectsStore();
 const store = useTutorBookingsStore();
 
-onMounted(() => {
-  userStore.load();
+onMounted(async() => {
+  await subjectsStore.load();
+  await userStore.load();
 });
 
 const showBanner = computed(() => {

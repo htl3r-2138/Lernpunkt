@@ -68,20 +68,18 @@ import { useUserStore } from "@/stores/user.js";
 import { useSubjectsStore } from "@/stores/subject.js";
 
 const showRecommended = ref(true);
-const typeOfTutors = computed(() =>
-  showRecommended.value ? "Recommended" : "All"
-);
 
 const userStore = useUserStore();
-const subjectsStore = useSubjectsStore();
-
 const tutorsStore = useTutorsStore();
+const subjectsStore = useSubjectsStore();
 const bookingsStore = useBookingsStore();
 
 onMounted(async () => {
+  await subjectsStore.load();
   await tutorsStore.load();
   await bookingsStore.load();
   await userStore.load();
+  
 });
 
 const bookedTutorId = ref(null);
