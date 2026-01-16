@@ -11,38 +11,53 @@
         <SettingsButton />
       </div>
     </nav>
-    <Banner v-if="showBanner" />
+    <!-- <Banner v-if="showBanner" /> -->
     <main>
       <h1>Booked Students</h1>
-      <div v-for="student in bookedStudents" :key="student.id">
-        <Transition name="card" mode="out-in">
-          <component
-            :is="
-              bookedStudentsId === student.id
-                ? WhenClickedOnMore
-                : BookedStudentTile
-            "
-            v-bind="student"
-            @more="bookedStudentsId = student.id"
-            @back="bookedStudentsId = null"
-            @cancel="bookedStudentsId = null"
-          />
-        </Transition>
+      <div v-if="bookedStudents.length === 0" class="empty-state">
+        Here your booked students will be displayed.
+      </div>
+
+      <div v-else>
+        <div v-for="student in bookedStudents" :key="student.id">
+          <Transition name="card" mode="out-in">
+            <component
+              :is="
+                bookedStudentsId === student.id
+                  ? WhenClickedOnMore
+                  : BookedStudentTile
+              "
+              v-bind="student"
+              @more="bookedStudentsId = student.id"
+              @back="bookedStudentsId = null"
+              @cancel="bookedStudentsId = null"
+            />
+          </Transition>
+        </div>
       </div>
       <h1>Requested Bookings</h1>
-      <div v-for="student in requestedStudents" :key="student.id">
-        <Transition name="card" mode="out-in">
-          <component
-            :is="
-              requestedStudentsId === student.id
-                ? WhenClickedOnMore
-                : RequestedStudentTile
-            "
-            v-bind="student"
-            @accept="handleAccept(student.id)"
-            @decline="requestedStudentsId = null"
-          />
-        </Transition>
+      <div
+        v-if="!requestedStudents || requestedStudents.length === 0"
+        class="empty-state"
+      >
+        Here the students that have requested a booking will be displayed.
+      </div>
+
+      <div v-else>
+        <div v-for="student in requestedStudents" :key="student.id">
+          <Transition name="card" mode="out-in">
+            <component
+              :is="
+                requestedStudentsId === student.id
+                  ? WhenClickedOnMore
+                  : RequestedStudentTile
+              "
+              v-bind="student"
+              @accept="handleAccept(student.id)"
+              @decline="requestedStudentsId = null"
+            />
+          </Transition>
+        </div>
       </div>
     </main>
   </div>
@@ -59,16 +74,15 @@ import Banner from "@/components/Banner.vue";
 import { onMounted, computed } from "vue";
 import { ref } from "vue";
 import { useTutorBookingsStore } from "@/stores/tutorBookings";
-import { useUserStore } from "@/stores/user.js";
+import { useUserStore } from "@/stores/user";
 import { useSubjectsStore } from "@/stores/subject";
 
 const userStore = useUserStore();
 const subjectsStore = useSubjectsStore();
 const store = useTutorBookingsStore();
 
-onMounted(async() => {
-  await subjectsStore.load();
-  await userStore.load();
+onMounted(() => {
+  store.load();
 });
 
 const showBanner = computed(() => {
@@ -149,6 +163,12 @@ async function handleAccept(id) {
 </script>
 
 <style scoped>
+.empty-state {
+  text-align: left;
+  color: #999;
+  padding: 2rem;
+  font-style: italic;
+}
 .wrapper {
   min-height: 100vh;
   width: 100%;
