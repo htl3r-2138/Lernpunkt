@@ -1,7 +1,7 @@
 <template>
     <div class="flex">
         <label for="schalter">
-            switch to {{ modelValue ? 'all ' : 'rec' }}
+            only show recommended
         </label>
 
         <label class="switch">
@@ -25,7 +25,7 @@ const emit = defineEmits(['update:modelValue'])
 <style scoped>
 .flex {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: left;
     gap: 10px;
 }

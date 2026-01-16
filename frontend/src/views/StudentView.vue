@@ -24,7 +24,13 @@
         </div>
       </div>
       <div class="flex-wrapper">
-        <h1> {{ typeOfTutors }}</h1>
+        <h1 class="title">
+          <Transition name="flip-word" mode="out-in">
+            <span id="recAllSwitchText" :key="showRecommended ? 'recommended' : 'all'">
+              {{ showRecommended ? 'Recommended Tutors' : 'All Tutors' }}
+            </span>
+          </Transition>
+        </h1>
         <div class="switch">
           <RecToAllSwitch v-model="showRecommended" />
         </div>
@@ -33,11 +39,14 @@
         <div v-for="tutor in recommendedTutors" :key="tutor.id">
           <Transition name="card" mode="out-in">
             <component :is="recommendedTutorId === tutor.id
-                ? WhenClickedOnBook
-                : RecommendedTutorTile
+              ? WhenClickedOnBook
+              : RecommendedTutorTile
               " v-bind="tutor" @book="recommendedTutorId = tutor.id" @cancel="recommendedTutorId = null"
               @submit="handleBooked(tutor.id)" />
           </Transition>
+          <div class="switch">
+            <RecToAllSwitch v-model="showRecommended" />
+          </div>
         </div>
       </div>
     </main>
@@ -63,7 +72,7 @@ import { useSubjectsStore } from "@/stores/subject";
 
 const showRecommended = ref(true);
 const typeOfTutors = computed(() =>
-  showRecommended.value ? "Recommended Tutors" : "All Tutors"
+  showRecommended.value ? "Recommended" : "All"
 );
 
 const userStore = useUserStore();
@@ -114,6 +123,33 @@ const showBanner = computed(() => {
 </script>
 
 <style scoped>
+
+.title {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.flip-word-enter-active,
+.flip-word-leave-active {
+  transition: all 0.25s ease;
+}
+
+.flip-word-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.flip-word-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.static {
+  white-space: nowrap;
+  transition: all 0.3s ease; 
+}
+
+
 .wrapper {
   min-height: 100vh;
   width: 100%;
@@ -161,8 +197,8 @@ main {
 .flex-wrapper {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
   margin-bottom: 20px;
+  flex-direction: column;
 }
 
 .switch {
