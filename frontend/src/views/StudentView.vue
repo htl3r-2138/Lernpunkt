@@ -35,8 +35,8 @@
           <RecToAllSwitch v-model="showRecommended" />
         </div>
       </div>
-      <div class="recommended-wrapper">
-        <div v-for="tutor in recommendedTutors" :key="tutor.id">
+      <div class="tutor-wrapper">
+        <div v-for="tutor in allTutors" :key="tutor.id">
           <Transition name="card" mode="out-in">
             <component :is="recommendedTutorId === tutor.id
               ? WhenClickedOnBook
@@ -51,7 +51,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
+
 import RecToAllSwitch from "@/components/RecToAllSwitch.vue";
 import BookedTutorTile from "@/components/Tiles/BookedTutorTile.vue";
 import RecommendedTutorTile from "@/components/Tiles/RecommendedTutorTile.vue";
@@ -67,22 +68,31 @@ import { useBookingsStore } from "@/stores/bookings.js";
 import { useUserStore } from "@/stores/user.js";
 import { useSubjectsStore } from "@/stores/subject.js";
 
-const showRecommended = ref(true);
+/* ---------------- state ---------------- */
 
-const userStore = useUserStore();
+const showRecommended = ref(true);
+const tutors = ref([]);
+
+const bookedTutorId = ref(null);
+const recommendedTutorId = ref(null);
+
+/* ---------------- stores ---------------- */
+
 const tutorsStore = useTutorsStore();
-const subjectsStore = useSubjectsStore();
 const bookingsStore = useBookingsStore();
+const userStore = useUserStore();
+const subjectsStore = useSubjectsStore();
+
+/* ---------------- lifecycle ---------------- */
 
 onMounted(async () => {
   await subjectsStore.load();
-  await tutorsStore.load();
   await bookingsStore.load();
   await userStore.load();
-  
 });
 
-const bookedTutorId = ref(null);
+/* ---------------- computed ---------------- */
+
 const bookedTutors = computed(() =>
   bookingsStore.acceptedBookings.map(b => ({
     id: b.id,
@@ -101,22 +111,46 @@ const bookedTutors = computed(() =>
   }))
 );
 
-const recommendedTutorId = ref(null);
-const recommendedTutors = computed(() => tutorsStore.tutorsForUI);
-
-function handleBooked(tutorId) {
-  tutorsStore.removeTutor(tutorId);
-  recommendedTutorId.value = null;
-}
+const allTutors = computed(() => tutors.value);
 
 const showBanner = computed(() => {
-  // Student: keine Subjects
   if (userStore.isStudent) {
     return subjectsStore.mySubjects.length === 0;
   }
   return false;
 });
+
+/* ---------------- actions ---------------- */
+
+function handleBooked(tutorId) {
+  tutorsStore.removeTutor(tutorId);
+  tutors.value = tutors.value.filter(t => t.id !== tutorId);
+  recommendedTutorId.value = null;
+}
+
+/* ---------------- watcher ---------------- */
+
+watch(
+  [showRecommended, () => userStore.id],
+  async ([recommended, userId]) => {
+    if (!userId) return; // ⛔ noch kein User
+
+    try {
+      if (recommended) {
+        tutors.value = await tutorsStore.loadRecommended(userId);
+      } else {
+        await tutorsStore.load();
+        tutors.value = tutorsStore.getTutors;
+      }
+    } catch (err) {
+      console.error("Failed to load tutors", err);
+      tutors.value = [];
+    }
+  },
+  { immediate: true }
+);
 </script>
+
 
 <style scoped>
 
@@ -164,7 +198,7 @@ main {
 }
 
 .booked-wrapper,
-.recommended-wrapper {
+.tutor-wrapper {
   display: flex;
   gap: 5rem;
   margin-bottom: 40px;
