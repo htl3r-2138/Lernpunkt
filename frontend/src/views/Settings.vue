@@ -60,7 +60,7 @@
           Save subjects
         </button>
       </div>
-      <div class="changeHRate">
+      <div class="changeHRate" v-if="userStore.role === 'tutor'">
         <h2>Change hourly rate</h2>
         <form @submit.prevent="handleHRateChange">
           <TextField name="HRate" label="Set Hourly Rate" v-model="userStore.pricePerHour" />
