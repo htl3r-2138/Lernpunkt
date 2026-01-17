@@ -41,7 +41,7 @@
           <RecToAllSwitch v-model="showRecommended" />
         </div>
          <div v-if="filteredAllTutors.length === 0" :key="showRecommended ? 'recommended' : 'all'" class="empty-state">
-            {{ showRecommended ? 'Here your Recommended tutors will be displayed.' : 'No tutors match your search criteria.'}}
+            {{ showRecommended ? 'No tutors match your search criteria.' : 'No tutors match your search criteria.'}}
           </div>
       </div>
 
@@ -202,7 +202,8 @@ watch(
 .empty-state {
   text-align: left;
   color: #999;
-  padding: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   font-style: italic;
 }
 

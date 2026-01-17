@@ -166,7 +166,8 @@ async function handleAccept(id) {
 .empty-state {
   text-align: left;
   color: #999;
-  padding: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   font-style: italic;
 }
 .wrapper {
