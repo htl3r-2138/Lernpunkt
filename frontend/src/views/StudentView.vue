@@ -132,15 +132,34 @@ const showBanner = computed(() => {
   return false;
 });
 
-function matchesSearch(item, query) {
+function matchesSearch(tutor, query) {
   if (!query) return true;
 
   const q = query.toLowerCase();
 
-  return Object.values(item).some(value =>
-    String(value).toLowerCase().includes(q)
-  );
+  const nameMatch =
+    typeof tutor.name === "string" &&
+    tutor.name.toLowerCase().includes(q);
+
+  const subjectMatch = Array.isArray(tutor.subjects)
+    ? tutor.subjects.some(subject => {
+        if (typeof subject === "string") {
+          return subject.toLowerCase().includes(q);
+        }
+
+        if (typeof subject === "object" && subject !== null) {
+          return Object.values(subject).some(val =>
+            String(val).toLowerCase().includes(q)
+          );
+        }
+
+        return false;
+      })
+    : false;
+
+  return nameMatch || subjectMatch;
 }
+
 
 const filteredAllTutors = computed(() =>
   allTutors.value.filter(tutor =>
