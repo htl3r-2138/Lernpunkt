@@ -2,7 +2,13 @@
   <div class="wrapper">
     <nav>
       <div class="return">
-        <div class="back" @click="exitSettings">
+        <div class="back" @click="() => {
+          if(userStore.isTutor === true){
+            handleHRateChange()
+          }
+          handleSubjectChange()
+          exitSettings()
+        }">
           <img src="@/assets/settings/X.svg" alt="exit settings" />
           <span>Exit</span>
         </div>
@@ -20,13 +26,8 @@
           <span>Logout</span>
         </div>
 
-        <ConfirmModal
-          v-if="showConfirm"
-          title="Confirm logout"
-          message="Are you sure you want to log out?"
-          @confirm="confirmLogout"
-          @cancel="cancelLogout"
-        />
+        <ConfirmModal v-if="showConfirm" title="Confirm logout" message="Are you sure you want to log out?"
+          @confirm="confirmLogout" @cancel="cancelLogout" />
       </div>
     </nav>
     <main>
@@ -34,44 +35,20 @@
         <form @submit.prevent="changeEmail">
           <TextField name="currEmail" label="current Email Address" required />
           <TextField name="newEmail" label="new Email Address" required />
-          <button
-            class="login-btn"
-            @click="handleLogin"
-            @mouseenter="hoverEnter"
-            @mouseleave="hoverLeave"
-          >
+          <button class="login-btn" @click="handleLogin" @mouseenter="hoverEnter" @mouseleave="hoverLeave">
             set new Email
           </button>
         </form>
       </div>
       <div class="password">
         <form @submit.prevent>
-          <PasswordField
-            name="currentPassword"
-            label="current Password"
-            type="password"
-            required
-          />
+          <PasswordField name="currentPassword" label="current Password" type="password" required />
 
-          <PasswordField
-            name="newPassword"
-            label="new Password"
-            type="password"
-            required
-          />
+          <PasswordField name="newPassword" label="new Password" type="password" required />
 
-          <PasswordField
-            name="repeatNewPassword"
-            label="repeat new Password"
-            type="password"
-            required
-          />
+          <PasswordField name="repeatNewPassword" label="repeat new Password" type="password" required />
 
-          <button
-            class="login-btn"
-            @mouseenter="hoverEnter"
-            @mouseleave="hoverLeave"
-          >
+          <button class="login-btn" @mouseenter="hoverEnter" @mouseleave="hoverLeave">
             set new password
           </button>
         </form>
@@ -86,41 +63,18 @@
         </h2>
 
         <div class="subject-grid">
-          <button
-            v-for="s in subjectsStore.allSubjects"
-            :key="s.PK_Subject_ID"
-            :class="{
-              active: subjectsStore.mySubjectIds.includes(s.PK_Subject_ID),
-            }"
-            @click="subjectsStore.toggleSubject(s)"
-          >
+          <button v-for="s in subjectsStore.allSubjects" :key="s.PK_Subject_ID" :class="{
+            active: subjectsStore.mySubjectIds.includes(s.PK_Subject_ID),
+          }" @click="subjectsStore.toggleSubject(s)">
             {{ s.Description }}
           </button>
         </div>
-        <button
-          class="login-btn"
-          @click="handleSubjectChange"
-          @mouseenter="hoverEnter"
-          @mouseleave="hoverLeave"
-        >
-          Save subjects
-        </button>
+       
       </div>
       <div class="changeHRate" v-if="userStore.role === 'tutor'">
         <h2>Change hourly rate</h2>
         <form @submit.prevent="handleHRateChange">
-          <TextField
-            name="HRate"
-            label="Set Hourly Rate"
-            v-model="userStore.pricePerHour"
-          />
-          <button
-            class="login-btn"
-            @mouseenter="hoverEnter"
-            @mouseleave="hoverLeave"
-          >
-            Save
-          </button>
+          <TextField name="HRate" label="Set Hourly Rate" v-model="userStore.pricePerHour" />
         </form>
       </div>
     </main>
