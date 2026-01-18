@@ -1,5 +1,13 @@
 <template>
   <div class="wrapper">
+    <!-- Exit-Button -->
+    <div class="exit-btn" @click="exitSettings">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#383838" stroke-width="3"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </div>
     <!-- Animated Headline -->
     <nav>
       <h1>Settings</h1>
@@ -8,14 +16,6 @@
           {{ sectionHeadline }}
         </h2>
       </transition>
-      <!-- Exit-Button -->
-      <div class="exit-btn" @click="exitSettings">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#383838" stroke-width="3"
-          stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18" />
-          <line x1="6" y1="6" x2="18" y2="18" />
-        </svg>
-      </div>
     </nav>
 
     <div class="settings-layout">
@@ -72,7 +72,9 @@
 
           <form v-if="userStore.role === 'tutor'" class="vertical-form" @submit.prevent="handleHRateChange">
             <TextField label="Hourly Rate" v-model="userStore.pricePerHour" />
+            <p v-if="priceError" class="error">{{ priceError }}</p>
           </form>
+
 
           <div class="subject-grid">
             <button v-for="s in subjectsStore.allSubjects" :key="s.PK_Subject_ID"
@@ -118,21 +120,28 @@ const sectionHeadline = computed(() => {
   }
 });
 //Exit Settings
-const exitSettings = () => {
-  // Einfaches Bestätigungs-Popup
+const exitSettings = async () => {
   const save = window.confirm("Willst du die Änderungen speichern?");
 
   if (save) {
-    // Wenn "Ja", dann Änderungen speichern
-    if (userStore.isTutor === true) {
-      handleHRateChange();
-    }
-    handleSubjectChange();
-  }
+    let ok = true;
 
-  // Egal ob Ja oder Nein → zurück
-  router.back();
+    if (userStore.isTutor === true) {
+      const rateSaved = await handleHRateChange();
+      if (!rateSaved) {
+        ok = false; // Validation/Save failed → nicht rausgehen
+      }
+    }
+
+    if (ok) {
+      await handleSubjectChange();
+      router.back(); // nur wenn alles ok ist
+    }
+  } else {
+    router.back(); // Benutzer will nicht speichern → einfach raus
+  }
 };
+
 
 // Confirm Modal for Logout
 const showConfirm = ref(false);
@@ -150,10 +159,28 @@ onMounted(async () => {
 });
 
 // Actions
+const priceError = ref(""); // Fehlermeldung für das TextField
+
 const handleHRateChange = async () => {
-  await userStore.updateHourlyRate(Number(userStore.pricePerHour));
-  alert("Hourly rate saved");
+  const price = Number(userStore.pricePerHour);
+
+  if (price > 99.99) {
+    priceError.value = "The maximum hourly Rate is 99.99€";
+    return false; // wichtig: NICHT speichern, Fehler signalisieren
+  } else {
+    priceError.value = "";
+  }
+
+  try {
+    await userStore.updateHourlyRate(price);
+    alert("Hourly rate saved");
+    return true; // Speichern ok
+  } catch (err) {
+    alert(err.message || "Failed to save hourly rate");
+    return false;
+  }
 };
+
 const handleSubjectChange = async () => {
   try {
     await subjectsStore.save();
@@ -171,6 +198,18 @@ const deleteAccount = () => {
 </script>
 
 <style scoped>
+.error {
+  color: rgb(255, 0, 0);
+  font-size: 12px;
+  margin-top: 0;
+}
+
+.exit-btn {
+  position: fixed;
+  right: 30px;
+  top: 30px;
+}
+
 .wrapper {
   background: linear-gradient(white, #e2d8ff);
   height: 100dvh;
@@ -219,7 +258,6 @@ h2 {
 /* Layout */
 .settings-layout {
   display: flex;
-  height: calc(100vh - 120px);
 }
 
 /* Sidebar */
@@ -239,11 +277,13 @@ h2 {
   font-size: 16px;
   text-align: left;
   cursor: pointer;
+  transition: 0.3s ease-in-out;
 }
 
 .sidebar button.active {
   background: #7e52fc;
   color: white;
+  transition: 0.3s ease-in-out;
 }
 
 /* Content */
@@ -279,12 +319,26 @@ h2 {
   border: 1px solid #383838;
   background: transparent;
   cursor: pointer;
+  transition: 0.3s ease-in-out;
 }
 
 .subject-grid button.active {
   background: #7e52fc;
   color: white;
-  border-color: #7e52fc;
+  border: none;
+  transform: scale(1);
+  transition: 0.3s ease-in-out;
+}
+
+.subject-grid button:active {
+  transition: 0.3s ease-in-out;
+  transform: scale(0.9);
+}
+
+.subject-grid button:hover {
+  transition: 0.3s ease-in-out;
+  transform: scale(1.05);
+
 }
 
 /* Delete & Logout */
@@ -297,24 +351,19 @@ h2 {
 .deleteAcc,
 .logout {
   display: flex;
-  /* Flex-Container */
   flex-direction: column;
-  /* Icon oben, Text darunter */
   align-items: center;
-  /* horizontal zentrieren */
   justify-content: center;
   width: 100%;
-  /* volle Breite vom Wrapper */
   border-radius: 12px;
   cursor: pointer;
   gap: 0.3rem;
-  /* Abstand zwischen Icon und Text */
+  transition: 0.3s ease-in-out;
 }
 
 .deleteAcc img,
 .logout img {
   width: 24px;
-  /* optional, Icon-Größe anpassen */
   height: 24px;
 }
 
@@ -326,11 +375,15 @@ h2 {
 .deleteAcc:hover {
   background: red;
   color: white;
+  transition: 0.3s ease-in-out;
+  transform: scale(1.05);
 }
 
 .logout:hover {
   background: #26006a;
   color: white;
+  transition: 0.3s ease-in-out;
+  transform: scale(1.05);
 }
 
 /* Section H2 */
