@@ -60,11 +60,13 @@
         </div>
       </div>
     </main>
+    <Footer></Footer>
   </div>
 </template>
 
 <script setup>
 import RequestedStudentTile from "@/components/Tiles/RequestedStudentTile.vue";
+import Footer from "@/components/Footer.vue";
 import WhenClickedOnMore from "@/components/Tiles/WhenClickedOnMore.vue";
 import BookedStudentTile from "@/components/Tiles/BookedStudentTile.vue";
 import Logo from "@/components/Logo.vue";
@@ -174,6 +176,9 @@ async function handleAccept(id) {
   min-height: 100vh;
   width: 100%;
   color: black;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 nav {
   display: flex;

@@ -57,12 +57,14 @@
         </div>
       </div>
     </main>
+    <Footer></Footer>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
 
+import Footer from "@/components/Footer.vue";
 import RecToAllSwitch from "@/components/RecToAllSwitch.vue";
 import BookedTutorTile from "@/components/Tiles/BookedTutorTile.vue";
 import RecommendedTutorTile from "@/components/Tiles/RecommendedTutorTile.vue";
