@@ -170,10 +170,10 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   font-family: Google Sans;
   padding: 10px;
   border: none;
-  border-bottom: 1px solid #ccc;
   font-size: 0.8rem;
   width: 100%;
   box-sizing: border-box;
+  background: none;
 }
 
 .location-wrapper input {
@@ -196,7 +196,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 .topic-wrapper .topic {
   font-family: Google Sans;
-  border: 1px solid #ccc;
+  background: rgb(255, 255, 255, 0.5);
+  box-shadow: 4px 4px 4.5px 0 rgba(0, 0, 0, 0.1);
+  border: none;
   border-radius: 8px;
   padding: 10px;
   outline: none;
