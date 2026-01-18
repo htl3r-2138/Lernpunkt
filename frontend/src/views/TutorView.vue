@@ -54,7 +54,7 @@
               "
               v-bind="student"
               @accept="handleAccept(student.id)"
-              @decline="requestedStudentsId = null"
+              @decline="handleDecline(student.id)"
             />
           </Transition>
         </div>
@@ -172,6 +172,15 @@ async function handleCancel(bookingId) {
 async function handleAccept(id) {
   await store.acceptBooking(id);
   requestedStudentsId.value = null;
+}
+
+async function handleDecline(bookingId) {
+  try {
+    await store.declineBooking(bookingId);
+    requestedStudentsId.value = null;
+  } catch (err) {
+    console.error("Decline booking failed", err);
+  }
 }
 </script>
 

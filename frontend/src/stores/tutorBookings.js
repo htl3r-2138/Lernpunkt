@@ -48,5 +48,19 @@ export const useTutorBookingsStore = defineStore("tutorBookings", {
       const booking = this.bookings.find((b) => b.id === id);
       if (booking) booking.isAccepted = 1;
     },
+
+    async declineBooking(id) {
+      const res = await fetch(`${API}/bookings/tutor/bookings/${id}/decline`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to decline booking");
+      }
+
+      // lokal entfernen
+      this.bookings = this.bookings.filter((b) => b.id !== id);
+    },
   },
 });

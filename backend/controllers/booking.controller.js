@@ -154,6 +154,54 @@ exports.acceptBooking = async (req, res) => {
   res.json({ message: "Booking accepted" });
 };
 
+exports.declineBookingAsTutor = async (req, res) => {
+  const user = req.session.user;
+  const bookingId = req.params.id;
+
+  if (!user || user.role !== "tutor") {
+    return res.status(403).json({ message: "Only tutors allowed" });
+  }
+
+  const conn = await db.getConnection();
+
+  try {
+    await conn.beginTransaction();
+
+    // 🔐 Check: gehört Booking diesem Tutor UND ist noch nicht accepted
+    const [rows] = await conn.query(
+      `
+      SELECT b.PK_Booking_ID
+      FROM Booking b
+      JOIN is_in ii ON ii.FK_PK_Booking_ID = b.PK_Booking_ID
+      WHERE b.PK_Booking_ID = ?
+        AND ii.FK_PK_Tutor_ID = ?
+        AND b.isAccepted != 1
+      `,
+      [bookingId, user.id]
+    );
+
+    if (rows.length === 0) {
+      await conn.rollback();
+      return res.status(404).json({ message: "Booking not found or already accepted" });
+    }
+
+    // 🔥 löschen
+    await conn.query(`DELETE FROM contain WHERE FK_PK_Booking_ID = ?`, [bookingId]);
+    await conn.query(`DELETE FROM is_in WHERE FK_PK_Booking_ID = ?`, [bookingId]);
+    await conn.query(`DELETE FROM Booking WHERE PK_Booking_ID = ?`, [bookingId]);
+
+    await conn.commit();
+
+    res.json({ message: "Booking declined" });
+  } catch (err) {
+    await conn.rollback();
+    console.error(err);
+    res.status(500).json({ message: "Decline booking failed" });
+  } finally {
+    conn.release();
+  }
+};
+
 /**
  * DELETE /api/bookings/:id
  * Student cancelt seine eigene Buchung

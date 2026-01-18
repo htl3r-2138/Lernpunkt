@@ -12,9 +12,15 @@ router.delete("/bookings/:id", isLoggedIn, controller.cancelBooking);
 router.get("/tutor/bookings", isLoggedIn, controller.getTutorBookings);
 router.patch("/bookings/:id/accept", isLoggedIn, controller.acceptBooking);
 router.delete(
+  "/tutor/bookings/:id/decline",
+  isLoggedIn,
+  controller.declineBookingAsTutor
+);
+router.delete(
   "/tutor/bookings/:id",
   isLoggedIn,
   controller.cancelBookingAsTutor
 );
+
 
 module.exports = router;
