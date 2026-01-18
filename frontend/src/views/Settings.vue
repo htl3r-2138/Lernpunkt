@@ -3,19 +3,14 @@
     <nav>
       <div class="return">
         <div class="back" @click="() => {
-          if(userStore.isTutor === true){
-            handleHRateChange()
-          }
-          handleSubjectChange()
           exitSettings()
         }">
+
           <img src="@/assets/settings/X.svg" alt="exit settings" />
           <span>Exit</span>
         </div>
       </div>
-      <div class="navTitle">
-        <h1>Settings</h1>
-      </div>
+      <h1 class="navTitle">Settings</h1>
       <div class="accountFeatures">
         <div class="deleteAcc" @click="deleteAccount">
           <img src="@/assets/settings/delete_account.svg" alt="Logout" />
@@ -35,9 +30,6 @@
         <form @submit.prevent="changeEmail">
           <TextField name="currEmail" label="current Email Address" required />
           <TextField name="newEmail" label="new Email Address" required />
-          <button class="login-btn" @click="handleLogin" @mouseenter="hoverEnter" @mouseleave="hoverLeave">
-            set new Email
-          </button>
         </form>
       </div>
       <div class="password">
@@ -47,10 +39,6 @@
           <PasswordField name="newPassword" label="new Password" type="password" required />
 
           <PasswordField name="repeatNewPassword" label="repeat new Password" type="password" required />
-
-          <button class="login-btn" @mouseenter="hoverEnter" @mouseleave="hoverLeave">
-            set new password
-          </button>
         </form>
       </div>
       <div class="subjects">
@@ -69,7 +57,7 @@
             {{ s.Description }}
           </button>
         </div>
-       
+
       </div>
       <div class="changeHRate" v-if="userStore.role === 'tutor'">
         <h2>Change hourly rate</h2>
@@ -122,7 +110,6 @@ const requestLogout = () => {
 const handleSubjectChange = async () => {
   try {
     await subjectsStore.save();
-    alert("Subjects saved");
   } catch (err) {
     alert(err.message || "Failed to save subjects");
   }
@@ -153,6 +140,18 @@ const cancelLogout = () => {
 };
 
 const exitSettings = () => {
+  // Einfaches Bestätigungs-Popup
+  const save = window.confirm("Willst du die Änderungen speichern?");
+  
+  if (save) {
+    // Wenn "Ja", dann Änderungen speichern
+    if (userStore.isTutor === true) {
+      handleHRateChange();
+    }
+    handleSubjectChange();
+  }
+
+  // Egal ob Ja oder Nein → zurück
   router.back();
 };
 </script>
