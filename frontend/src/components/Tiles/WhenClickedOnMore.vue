@@ -53,7 +53,7 @@ const props = defineProps({
   rating: Number,
   reviews: Number,
   grade: String,
-  price: Number,
+  price: String,
   location: String,
   nextSess: String,
   startTime: String,

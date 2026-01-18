@@ -30,7 +30,7 @@
               v-bind="student"
               @more="bookedStudentsId = student.id"
               @back="bookedStudentsId = null"
-              @cancel="bookedStudentsId = null"
+              @cancel="handleCancel"
             />
           </Transition>
         </div>
@@ -159,6 +159,15 @@ const requestedStudents = computed(() =>
     topic: b.topic,
   }))
 );
+
+async function handleCancel(bookingId) {
+  try {
+    await store.cancelBooking(bookingId);
+    bookedStudentsId.value = null;
+  } catch (err) {
+    console.error("Tutor cancel booking failed", err);
+  }
+}
 
 async function handleAccept(id) {
   await store.acceptBooking(id);

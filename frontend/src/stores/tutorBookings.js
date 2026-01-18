@@ -9,10 +9,10 @@ export const useTutorBookingsStore = defineStore("tutorBookings", {
 
   getters: {
     requestedBookings: (state) =>
-      state.bookings.filter(b => b.isAccepted !== 1),
+      state.bookings.filter((b) => b.isAccepted !== 1),
 
     acceptedBookings: (state) =>
-      state.bookings.filter(b => b.isAccepted === 1),
+      state.bookings.filter((b) => b.isAccepted === 1),
   },
 
   actions: {
@@ -25,13 +25,27 @@ export const useTutorBookingsStore = defineStore("tutorBookings", {
       this.bookings = await res.json();
     },
 
+    async cancelBooking(id) {
+      const res = await fetch(`${API}/tutor/bookings/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to cancel booking as tutor");
+      }
+
+      // lokal entfernen
+      this.bookings = this.bookings.filter((b) => b.id !== id);
+    },
+
     async acceptBooking(id) {
       await fetch(`${API}/bookings/${id}/accept`, {
         method: "PATCH",
         credentials: "include",
       });
 
-      const booking = this.bookings.find(b => b.id === id);
+      const booking = this.bookings.find((b) => b.id === id);
       if (booking) booking.isAccepted = 1;
     },
   },

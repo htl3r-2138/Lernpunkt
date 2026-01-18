@@ -214,3 +214,60 @@ exports.cancelBooking = async (req, res) => {
     conn.release();
   }
 };
+
+exports.cancelBookingAsTutor = async (req, res) => {
+  const user = req.session.user;
+  const bookingId = req.params.id;
+
+  if (!user || user.role !== "tutor") {
+    return res.status(403).json({ message: "Only tutors can cancel bookings" });
+  }
+
+  const conn = await db.getConnection();
+
+  try {
+    await conn.beginTransaction();
+
+    // 🔐 Check: gehört die Buchung diesem Tutor?
+    const [rows] = await conn.query(
+      `
+      SELECT FK_PK_Booking_ID
+      FROM is_in
+      WHERE FK_PK_Booking_ID = ?
+        AND FK_PK_Tutor_ID = ?
+      `,
+      [bookingId, user.id]
+    );
+
+    if (rows.length === 0) {
+      await conn.rollback();
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    // 🔥 löschen (Reihenfolge wegen FKs!)
+    await conn.query(
+      `DELETE FROM contain WHERE FK_PK_Booking_ID = ?`,
+      [bookingId]
+    );
+
+    await conn.query(
+      `DELETE FROM is_in WHERE FK_PK_Booking_ID = ?`,
+      [bookingId]
+    );
+
+    await conn.query(
+      `DELETE FROM Booking WHERE PK_Booking_ID = ?`,
+      [bookingId]
+    );
+
+    await conn.commit();
+
+    res.json({ message: "Booking cancelled by tutor" });
+  } catch (err) {
+    await conn.rollback();
+    console.error(err);
+    res.status(500).json({ message: "Cancel booking failed" });
+  } finally {
+    conn.release();
+  }
+};
