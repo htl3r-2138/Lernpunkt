@@ -6,12 +6,7 @@
       </div>
 
       <div class="rating">
-        <span
-          v-for="i in 5"
-          :key="i"
-          class="star"
-          :class="{ active: i <= rating }"
-        >
+        <span v-for="i in 5" :key="i" class="star" :class="{ active: i <= rating }">
           ★
         </span>
         <span class="count">({{ reviews }})</span>
@@ -55,6 +50,7 @@ function onBook() {
 .tutor-card {
   position: relative;
   width: 420px;
+  height: 280px;
   box-sizing: border-box;
   padding: 1.5rem;
   border-radius: 24px;
@@ -106,10 +102,13 @@ function onBook() {
   font-size: 0.9rem;
   text-align: center;
 }
-.badges { display: flex; gap: 8px }
+
+.badges {
+  display: flex;
+  gap: 8px
+}
 
 .badge {
-
   bottom: 1.2rem;
   left: 1.2rem;
   width: 56px;
@@ -134,13 +133,25 @@ function onBook() {
 }
 
 .book {
-  padding: 10px 20px;
+  display: inline-flex; 
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  height: 50px;
+  border-radius: 25px;
   background: #7e52fc;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  font-size: 0.85rem;
+  box-shadow: 4px 4px 4.5px 0 rgba(0, 0, 0, 0.1);
+  color: #ffffff;
+  font-size: 16px;
   cursor: pointer;
-  transition: box-shadow 0.2s;
+  transition: all 0.3s ease-in-out;
+  white-space: nowrap;
+  text-align: center;
+  border: none;
+}
+
+.book:hover {
+  transform: scale(1.05);
+  transition: all 0.3s ease-in-out;
 }
 </style>

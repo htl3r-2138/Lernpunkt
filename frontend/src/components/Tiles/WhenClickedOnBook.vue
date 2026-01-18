@@ -41,8 +41,8 @@
         </div>
       </div>
       <div class="bottom-wrapper">
-        <button class="button" @click="onCancel">Cancel</button>
-        <button class="button" type="submit">Book</button>
+        <button class="button" id="cancelBooking" @click="onCancel">Cancel</button>
+        <button class="button" id="confirmBooking" type="submit">Book</button>
       </div>
     </form>
   </div>
@@ -132,6 +132,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .tutor-card {
   position: relative;
   width: 420px;
+  height: 280px;
   padding: 1.5rem;
   box-sizing: border-box;
   border-radius: 24px;
@@ -211,7 +212,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .button {
@@ -228,8 +229,21 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   transition: all 0.3s ease-in-out;
 }
 
-button:hover {
+.button:hover {
   background: rgb(255, 255, 255, 1);
   transition: all 0.3s ease-in-out;
+  transform: scale(1.05);
 }
+
+#confirmBooking:hover {
+  background-color: #7e52fc;
+  color: white;
+
+}
+
+#cancelBooking:hover {
+  background-color: red;
+  color: white;
+}
+
 </style>
