@@ -11,7 +11,7 @@
         <SettingsButton />
       </div>
     </nav>
-    <!-- <Banner v-if="showBanner" /> -->
+    <Banner v-if="showBanner" />
     <main>
       <h1>Booked Students</h1>
       <div v-if="bookedStudents.length === 0" class="empty-state">
@@ -79,25 +79,27 @@ import { useTutorBookingsStore } from "@/stores/tutorBookings";
 import { useUserStore } from "@/stores/user";
 import { useSubjectsStore } from "@/stores/subject";
 
+
 const userStore = useUserStore();
 const subjectsStore = useSubjectsStore();
 const store = useTutorBookingsStore();
 
-onMounted(() => {
-  store.load();
+onMounted(async () => {
+  await userStore.load();
+  await subjectsStore.load();
+  await store.load();
 });
 
 const showBanner = computed(() => {
-  // Student: keine Subjects
-  if (userStore.isStudent) {
-    return subjectsStore.mySubjects.length === 0;
-  }
-
-  // Tutor: keine Subjects ODER keine Hourly Rate
   if (userStore.isTutor) {
     return (
-      subjectsStore.mySubjects.length === 0 || userStore.pricePerHour === null
+      subjectsStore.mySubjects?.length === 0 ||
+      userStore.pricePerHour == null
     );
+  }
+
+  if (userStore.isStudent) {
+    return subjectsStore.mySubjects?.length === 0;
   }
 
   return false;

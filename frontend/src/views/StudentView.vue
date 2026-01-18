@@ -128,9 +128,17 @@ const bookedTutors = computed(() =>
 const allTutors = computed(() => tutors.value);
 
 const showBanner = computed(() => {
-  if (userStore.isStudent) {
-    return subjectsStore.mySubjects.length === 0;
+  if (userStore.isTutor) {
+    return (
+      subjectsStore.mySubjects?.length === 0 ||
+      userStore.pricePerHour == null
+    );
   }
+
+  if (userStore.isStudent) {
+    return subjectsStore.mySubjects?.length === 0;
+  }
+
   return false;
 });
 
@@ -240,6 +248,8 @@ watch(
   width: 100%;
   color: black;
   background:  linear-gradient(white,#E2D8FF);
+  display: flex;
+  flex-direction: column;
 }
 
 nav {
