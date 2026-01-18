@@ -126,16 +126,13 @@ function onMore() {
 }
 
 .badge {
-  position: absolute;
-  bottom: 1.2rem;
-  left: 1.2rem;
   width: 56px;
   height: 56px;
   border-radius: 12px;
-  background: #ff5c5c;
+  background: #200863;
   color: white;
   font-weight: bold;
-  font-size: 1.4rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;

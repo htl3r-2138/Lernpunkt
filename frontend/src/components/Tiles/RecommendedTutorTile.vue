@@ -6,7 +6,12 @@
       </div>
 
       <div class="rating">
-        <span v-for="i in 5" :key="i" class="star" :class="{ active: i <= rating }">
+        <span
+          v-for="i in 5"
+          :key="i"
+          class="star"
+          :class="{ active: i <= rating }"
+        >
           ★
         </span>
         <span class="count">({{ reviews }})</span>
@@ -15,13 +20,13 @@
       <p class="grade">{{ grade }} · {{ price }}€/h</p>
     </div>
     teaches
-    <div class="badges">
-      <span v-for="s in subjects" :key="s" class="badge">
-        {{ s.description }}
-      </span>
-    </div>
+    <div class="footer">
+      <div class="badges">
+        <span v-for="s in subjects" :key="s" class="badge">
+          {{ s.description }}
+        </span>
+      </div>
 
-    <div class="actions">
       <button class="book" @click="onBook">Book Tutor</button>
     </div>
   </div>
@@ -48,14 +53,15 @@ function onBook() {
 
 <style scoped>
 .tutor-card {
-  position: relative;
   width: 420px;
-  height: 280px;
-  box-sizing: border-box;
+  min-height: 280px;       /* ❗ nicht height */
   padding: 1.5rem;
   border-radius: 24px;
   background: rgb(255, 255, 255, 0.5);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+  display: flex;
+  flex-direction: column;
 }
 
 .content {
@@ -103,37 +109,36 @@ function onBook() {
   text-align: center;
 }
 
+.footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+  align-items: flex-end;
+}
+
 .badges {
   display: flex;
-  gap: 8px
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 70%;
 }
 
 .badge {
-  bottom: 1.2rem;
-  left: 1.2rem;
   width: 56px;
   height: 56px;
   border-radius: 12px;
   background: #200863;
   color: white;
   font-weight: bold;
-  font-size: 1.4rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.actions {
-  position: absolute;
-  right: 1.2rem;
-  bottom: 1.2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
 .book {
-  display: inline-flex; 
   justify-content: center;
   align-items: center;
   padding: 0 20px;
