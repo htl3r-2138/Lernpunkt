@@ -54,10 +54,12 @@ function onBook() {
 <style scoped>
 .tutor-card {
   width: 420px;
+  height: 280px;
   padding: 1.5rem;
   border-radius: 24px;
   background: rgb(255, 255, 255, 0.5);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-sizing: content-box;
 
   display: flex;
   flex-direction: column;
