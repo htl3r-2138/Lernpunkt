@@ -38,7 +38,7 @@
       <div class="middle-wrapper">
         <div class="class-wrapper">
           <select v-model="form.subjectId" required>
-            <option disabled value="">Class ⬇</option>
+            <option disabled value="">Subject</option>
             <option v-for="s in subjects" :key="s.id" :value="s.id">
               {{ s.description }}
             </option>
@@ -47,7 +47,7 @@
         <div class="topic-wrapper">
           <textarea
             class="topic"
-            placeholder="Type your topic here..."
+            placeholder="What topics do you need help with?"
             v-model="form.topic"
           ></textarea>
         </div>
@@ -121,6 +121,23 @@ async function onSubmit() {
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap");
 
+input[type="date"],
+input[type="time"] {
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+  text-align: center;
+
+}
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+  text-align: center;
+}
 .tutor-card {
   position: relative;
   width: 420px;
@@ -132,15 +149,21 @@ async function onSubmit() {
 }
 
 .top-wrapper {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 0.8fr 1fr;
   gap: 20px;
   justify-content: space-between;
+align-items: stretch;
+}
+.top-wrapper label img {
+  opacity: 0.7;
 }
 
 .date-wrapper,
 .start-time-wrapper,
 .end-time-wrapper,
 .location-wrapper {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -156,6 +179,8 @@ async function onSubmit() {
   border:none;
   border-bottom: 1px solid #ccc;
   font-size: 0.8rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .location-wrapper input {
@@ -178,7 +203,9 @@ async function onSubmit() {
 
 .topic-wrapper .topic {
   font-family: Google Sans;
-  border: none;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
   outline: none;
   width: 210px;
   font-size: 0.8rem;
