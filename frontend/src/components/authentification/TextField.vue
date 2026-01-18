@@ -1,12 +1,8 @@
 <template>
   <div class="wrapper-textField">
     <label v-if="label">{{ label }}</label>
-    <input
-      :type="type"
-      :placeholder="placeholder"
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
-    />
+    <input :type="type" :placeholder="placeholder" :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)" />
   </div>
 </template>
 
@@ -29,7 +25,6 @@ defineEmits(["update:modelValue"]);
 
 
 <style scoped>
-
 .wrapper-textField {
   display: flex;
   flex-direction: column;
@@ -37,7 +32,7 @@ defineEmits(["update:modelValue"]);
 }
 
 input {
-  width: 20rem;
+  width: 15rem;
   padding: 1em 1em;
   border: 1px solid #000;
   border-radius: 10px;
@@ -51,8 +46,8 @@ label {
   display: block;
   color: #000;
   font-size: small;
-  margin-top: 1rem;
-  margin-bottom: 0.5em;
+  margin-top: 0;
+  margin-bottom: 0;
   text-align: left;
 }
 

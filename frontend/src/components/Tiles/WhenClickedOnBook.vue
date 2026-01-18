@@ -246,5 +246,4 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   background-color: red;
   color: white !important;
 }
-
 </style>

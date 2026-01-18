@@ -40,9 +40,9 @@
         <div class="switch">
           <RecToAllSwitch v-model="showRecommended" />
         </div>
-         <div v-if="filteredAllTutors.length === 0" :key="showRecommended ? 'recommended' : 'all'" class="empty-state">
-            {{ showRecommended ? 'No tutors match your search criteria.' : 'No tutors match your search criteria.'}}
-          </div>
+        <div v-if="filteredAllTutors.length === 0" :key="showRecommended ? 'recommended' : 'all'" class="empty-state">
+          {{ showRecommended ? 'No tutors match your search criteria.' : 'No tutors match your search criteria.' }}
+        </div>
       </div>
 
       <div class="tutor-wrapper">
@@ -153,18 +153,18 @@ function matchesSearch(tutor, query) {
 
   const subjectMatch = Array.isArray(tutor.subjects)
     ? tutor.subjects.some(subject => {
-        if (typeof subject === "string") {
-          return subject.toLowerCase().includes(q);
-        }
+      if (typeof subject === "string") {
+        return subject.toLowerCase().includes(q);
+      }
 
-        if (typeof subject === "object" && subject !== null) {
-          return Object.values(subject).some(val =>
-            String(val).toLowerCase().includes(q)
-          );
-        }
+      if (typeof subject === "object" && subject !== null) {
+        return Object.values(subject).some(val =>
+          String(val).toLowerCase().includes(q)
+        );
+      }
 
-        return false;
-      })
+      return false;
+    })
     : false;
 
   return nameMatch || subjectMatch;
@@ -258,7 +258,7 @@ watch(
   min-height: 100vh;
   width: 100%;
   color: black;
-  background:  linear-gradient(white,#E2D8FF);
+  background: linear-gradient(white, #E2D8FF);
   display: flex;
   flex-direction: column;
 }
