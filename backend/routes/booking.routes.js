@@ -6,6 +6,7 @@ const { isLoggedIn } = require("../middleware/auth.middleware");
 // Student
 router.post("/bookings", isLoggedIn, controller.createBooking);
 router.get("/bookings/me", isLoggedIn, controller.getMyBookings);
+router.delete("/bookings/:id", isLoggedIn, controller.cancelBooking);
 
 // Tutor
 router.get("/tutor/bookings", isLoggedIn, controller.getTutorBookings);

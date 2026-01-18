@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   id: Number,
   name: String,
   rating: Number,
@@ -64,13 +64,13 @@ defineProps({
 });
 
 const emit = defineEmits(["back", "cancel"]);
+
 function onBack() {
-  console.log("BACK WAS CLICKED");
   emit("back");
 }
+
 function onCancel() {
-  console.log("CANCEL BOOKING WAS CLICKED");
-  emit("cancel");
+  emit("cancel", props.id);
 }
 </script>
 

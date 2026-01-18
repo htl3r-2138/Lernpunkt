@@ -31,17 +31,19 @@ export const useBookingsStore = defineStore("bookings", {
       this.bookings = await res.json();
       this.loaded = true;
     },
-    async reload() {
-      this.loaded = false;
-      await this.load();
-    },
 
-    addBooking(booking) {
-      this.bookings.push(booking);
-    },
+    async cancelBooking(bookingId) {
+      const res = await fetch(`${API_BASE}/bookings/${bookingId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
 
-    removeBooking(id) {
-      this.bookings = this.bookings.filter((b) => b.id !== id);
+      if (!res.ok) {
+        throw new Error("Failed to cancel booking");
+      }
+
+      // ✅ lokal entfernen
+      this.bookings = this.bookings.filter((b) => b.id !== bookingId);
     },
   },
 });

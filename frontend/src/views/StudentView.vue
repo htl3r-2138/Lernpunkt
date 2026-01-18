@@ -23,7 +23,7 @@
             <Transition name="card" mode="out-in">
               <component :is="bookedTutorId === tutor.id ? WhenClickedOnMore : BookedTutorTile
                 " v-bind="tutor" @more="bookedTutorId = tutor.id" @back="bookedTutorId = null"
-                @cancel="bookedTutorId = null" />
+                @cancel="handleCancel" />
             </Transition>
           </div>
         </div>
@@ -182,6 +182,17 @@ function handleBooked(tutorId) {
   tutorsStore.removeTutor(tutorId);
   tutors.value = tutors.value.filter(t => t.id !== tutorId);
   recommendedTutorId.value = null;
+}
+
+async function handleCancel(bookingId) {
+  try {
+    await bookingsStore.cancelBooking(bookingId);
+
+    // UI zurücksetzen
+    bookedTutorId.value = null;
+  } catch (err) {
+    console.error("Cancel booking failed", err);
+  }
 }
 
 /* ---------------- watcher ---------------- */

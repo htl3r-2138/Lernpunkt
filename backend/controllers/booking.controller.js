@@ -153,3 +153,64 @@ exports.acceptBooking = async (req, res) => {
 
   res.json({ message: "Booking accepted" });
 };
+
+/**
+ * DELETE /api/bookings/:id
+ * Student cancelt seine eigene Buchung
+ */
+exports.cancelBooking = async (req, res) => {
+  const user = req.session.user;
+  const bookingId = req.params.id;
+
+  if (!user || user.role !== "student") {
+    return res.status(403).json({ message: "Only students can cancel bookings" });
+  }
+
+  const conn = await db.getConnection();
+
+  try {
+    await conn.beginTransaction();
+
+    // 🔐 Sicherheitscheck: gehört die Buchung dem Student?
+    const [rows] = await conn.query(
+      `
+      SELECT PK_Booking_ID
+      FROM Booking
+      WHERE PK_Booking_ID = ?
+        AND FK_PK_Student_ID = ?
+      `,
+      [bookingId, user.id]
+    );
+
+    if (rows.length === 0) {
+      await conn.rollback();
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    // 🔥 Reihenfolge wichtig wegen Foreign Keys
+    await conn.query(
+      `DELETE FROM contain WHERE FK_PK_Booking_ID = ?`,
+      [bookingId]
+    );
+
+    await conn.query(
+      `DELETE FROM is_in WHERE FK_PK_Booking_ID = ?`,
+      [bookingId]
+    );
+
+    await conn.query(
+      `DELETE FROM Booking WHERE PK_Booking_ID = ?`,
+      [bookingId]
+    );
+
+    await conn.commit();
+
+    res.json({ message: "Booking cancelled" });
+  } catch (err) {
+    await conn.rollback();
+    console.error(err);
+    res.status(500).json({ message: "Cancel booking failed" });
+  } finally {
+    conn.release();
+  }
+};
