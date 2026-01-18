@@ -54,7 +54,8 @@ function onBook() {
 <style scoped>
 .tutor-card {
   position: relative;
-  width: 400px;
+  width: 420px;
+  box-sizing: border-box;
   padding: 1.5rem;
   border-radius: 24px;
   background: white;

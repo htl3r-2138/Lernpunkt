@@ -123,10 +123,11 @@ async function onSubmit() {
 
 .tutor-card {
   position: relative;
-  width: 470px;
+  width: 420px;
   padding: 1.5rem;
+  box-sizing: border-box;
   border-radius: 24px;
-  background: white;
+  background: transparent;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
@@ -152,8 +153,8 @@ async function onSubmit() {
 .location-wrapper input {
   font-family: Google Sans;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border:none;
+  border-bottom: 1px solid #ccc;
   font-size: 0.8rem;
 }
 
