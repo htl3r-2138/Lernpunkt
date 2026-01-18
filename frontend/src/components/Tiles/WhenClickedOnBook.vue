@@ -162,6 +162,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   align-items: center;
   gap: 10px;
   flex-direction: column;
+  color: #383838 !important;
 }
 
 .date-wrapper input,
@@ -223,7 +224,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   border-radius: 25px;
   background: rgb(255, 255, 255, 0.5);
   box-shadow: 4px 4px 4.5px 0 rgba(0, 0, 0, 0.1);
-  color: #383838;
+  color: #383838 !important;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
@@ -237,13 +238,13 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 #confirmBooking:hover {
   background-color: #7e52fc;
-  color: white;
+  color: white !important;
 
 }
 
 #cancelBooking:hover {
   background-color: red;
-  color: white;
+  color: white !important;
 }
 
 </style>

@@ -1,29 +1,8 @@
 <template>
   <div class="wrapper">
     <nav>
-      <div class="return">
-        <div class="back" @click="() => {
-          exitSettings()
-        }">
-
-          <img src="@/assets/settings/X.svg" alt="exit settings" />
-          <span>Exit</span>
-        </div>
-      </div>
-      <h1 class="navTitle">Settings</h1>
-      <div class="accountFeatures">
-        <div class="deleteAcc" @click="deleteAccount">
-          <img src="@/assets/settings/delete_account.svg" alt="Logout" />
-          <span>Delete</span>
-        </div>
-        <div class="logout" @click="requestLogout">
-          <img src="@/assets/settings/logout.svg" alt="Logout" />
-          <span>Logout</span>
-        </div>
-
-        <ConfirmModal v-if="showConfirm" title="Confirm logout" message="Are you sure you want to log out?"
-          @confirm="confirmLogout" @cancel="cancelLogout" />
-      </div>
+      
+      <h1 class="headline">Settings</h1>
     </nav>
     <main>
       <div class="email">
@@ -157,14 +136,22 @@ const exitSettings = () => {
 </script>
 
 <style scoped>
+
+
+.headline{
+  font-size: 48px;
+}
 .wrapper {
-  color: black;
+  background:  linear-gradient(white,#E2D8FF);
+  color: #383838;
 }
 
 nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   padding: 2rem;
+  position: relative;
 }
 
 .accountFeatures {

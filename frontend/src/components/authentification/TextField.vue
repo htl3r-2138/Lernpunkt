@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper-textField">
     <label v-if="label">{{ label }}</label>
     <input
       :type="type"
@@ -30,9 +30,10 @@ defineEmits(["update:modelValue"]);
 
 <style scoped>
 
-.wrapper {
+.wrapper-textField {
   display: flex;
   flex-direction: column;
+  background: transparent;
 }
 
 input {
