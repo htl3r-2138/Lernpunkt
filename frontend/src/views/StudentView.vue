@@ -239,6 +239,7 @@ watch(
   min-height: 100vh;
   width: 100%;
   color: black;
+  background:  linear-gradient(white,#E2D8FF);
 }
 
 nav {

@@ -58,7 +58,7 @@ function onBook() {
   box-sizing: border-box;
   padding: 1.5rem;
   border-radius: 24px;
-  background: white;
+  background: rgb(255, 255, 255, 0.5);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
