@@ -54,7 +54,6 @@ function onBook() {
 <style scoped>
 .tutor-card {
   width: 420px;
-  min-height: 280px;       /* ❗ nicht height */
   padding: 1.5rem;
   border-radius: 24px;
   background: rgb(255, 255, 255, 0.5);
@@ -110,11 +109,8 @@ function onBook() {
 }
 
 .footer {
-  margin-top: auto;
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  gap: 12px;
   align-items: flex-end;
 }
 
@@ -123,6 +119,7 @@ function onBook() {
   flex-wrap: wrap;
   gap: 8px;
   max-width: 70%;
+  margin-top: 0.5rem;
 }
 
 .badge {
