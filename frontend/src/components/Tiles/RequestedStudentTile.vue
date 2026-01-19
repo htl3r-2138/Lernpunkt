@@ -11,9 +11,9 @@
       <span>{{ subject }}</span>
     </div>
 
-    <div class="actions">
-      <button class="decline" @click="onDecline">Decline</button>
-      <button class="accept" @click="onAccept">Accept</button>
+    <div class="bottom-wrapper">
+      <button class="button" id="cancelBooking" @click="onDecline">Decline</button>
+      <button class="button" id="confirmBooking" @click="onAccept">Accept</button>
     </div>
   </div>
 </template>
@@ -52,13 +52,13 @@ function onDecline() {
   width: 400px;
   padding: 1.5rem;
   border-radius: 24px;
-  background: white;
+  background: rgb(255, 255, 255,0.5);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .content {
   text-align: center;
-  margin-bottom: 7rem;
+  margin-bottom: 2rem;
 }
 
 .name {
@@ -99,35 +99,39 @@ function onDecline() {
   justify-content: center;
 }
 
-.actions {
-  position: absolute;
-  left: 8.5rem;
-  bottom: 1.2rem;
+.bottom-wrapper {
   display: flex;
+  justify-content: center;
   gap: 10px;
 }
-
-.accept,
-.decline {
-  color: black;
-  padding: 15px 30px;
-  background: none;
-  border: 1px solid black;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: box-shadow 0.2s;
-}
-
-.decline:hover,
-.accept:hover {
-  padding: 15px 30px;
-  background: #7e52fc;
+.button {
+  width: 110px;
+  height: 50px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 10px;
-  color: white;
+  border-radius: 25px;
+  background: rgb(255, 255, 255, 0.5);
+  box-shadow: 4px 4px 4.5px 0 rgba(0, 0, 0, 0.1);
+  color: #383838 !important;
   font-size: 16px;
   cursor: pointer;
-  transition: box-shadow 0.2s;
+  transition: all 0.3s ease-in-out;
 }
+
+.button:hover {
+  background: rgb(255, 255, 255, 1);
+  transition: all 0.3s ease-in-out;
+  transform: scale(1.05);
+}
+
+#confirmBooking:hover {
+  background-color: #7e52fc;
+  color: white !important;
+}
+
+#cancelBooking:hover {
+  background-color: red;
+  color: white !important;
+}
+
 </style>
