@@ -262,11 +262,13 @@ h2 {
 
 /* Sidebar */
 .sidebar {
-  width: 240px;
+  position: absolute;
+  left: 0;
   padding: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 18rem;
 }
 
 .sidebar button {
@@ -290,6 +292,8 @@ h2 {
 .content {
   flex: 1;
   padding: 3rem;
+  display: flex;
+  justify-content: center;
 }
 
 /* Sections */
