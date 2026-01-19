@@ -40,13 +40,25 @@
     </div>
     <div class="bottom-wrapper">
       <button class="button" @click="onBack">Back</button>
-      <!--FIX: add termination of booking functionality (with confirmation pop-up :)-->
-      <button class="button" @click="onCancel">Cancel Booking</button>
+      <button class="button" @click="requestCancel">Cancel Booking</button>
     </div>
+    <ConfirmModal
+      v-if="showCancelConfirm"
+      title="Cancel booking"
+      message="Are you sure you want to cancel this booking?"
+      @confirm="confirmCancel"
+      @cancel="cancelCancel"
+    />
   </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
+import ConfirmModal from "../ConfirmModal.vue";
+
+const showCancelConfirm = ref(false);
+const bookingToCancel = ref(null);
+
 const props = defineProps({
   id: Number,
   name: String,
@@ -67,6 +79,22 @@ const emit = defineEmits(["back", "cancel"]);
 
 function onBack() {
   emit("back");
+}
+
+function requestCancel() {
+  bookingToCancel.value = props.id;
+  showCancelConfirm.value = true;
+}
+
+function confirmCancel() {
+  emit("cancel", bookingToCancel.value); // echte Aktion
+  showCancelConfirm.value = false;
+  bookingToCancel.value = null;
+}
+
+function cancelCancel() {
+  showCancelConfirm.value = false;
+  bookingToCancel.value = null;
 }
 
 function onCancel() {
