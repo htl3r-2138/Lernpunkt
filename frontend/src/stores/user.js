@@ -5,12 +5,12 @@ const API_BASE = "http://localhost:3000/api";
 export const useUserStore = defineStore("user", {
   state: () => ({
     id: null,
-    role: null,          // "student" | "tutor"
+    role: null, // "student" | "tutor"
     name: null,
     surname: null,
     email: null,
     grade: null,
-    pricePerHour: null,  // nur tutor
+    pricePerHour: null, // nur tutor
   }),
 
   getters: {
@@ -43,7 +43,9 @@ export const useUserStore = defineStore("user", {
       this.email = data.Email ?? data.email;
       this.grade = data.Grade ?? data.grade;
       this.pricePerHour =
-        data.role === "tutor" ? data.PricePerHour ?? data.pricePerHour ?? null : null;
+        data.role === "tutor"
+          ? data.PricePerHour ?? data.pricePerHour ?? null
+          : null;
     },
 
     /* ---------------------------------

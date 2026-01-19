@@ -5,12 +5,8 @@
       <p>{{ message }}</p>
 
       <div class="actions">
-        <button class="cancel" @click="$emit('cancel')">
-          Cancel
-        </button>
-        <button class="confirm" @click="$emit('confirm')">
-          Confirm
-        </button>
+        <button class="cancel" @click="$emit('cancel')">Cancel</button>
+        <button class="confirm" @click="$emit('confirm')">Confirm</button>
       </div>
     </div>
   </div>

@@ -1,8 +1,12 @@
 <template>
   <div class="wrapper-textField">
     <label v-if="label">{{ label }}</label>
-    <input :type="type" :placeholder="placeholder" :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)" />
+    <input
+      :type="type"
+      :placeholder="placeholder"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
   </div>
 </template>
 
@@ -10,19 +14,18 @@
 defineProps({
   modelValue: {
     type: String,
-    default: ""
+    default: "",
   },
   type: {
     type: String,
-    default: "text"
+    default: "text",
   },
   placeholder: String,
-  label: String
+  label: String,
 });
 
 defineEmits(["update:modelValue"]);
 </script>
-
 
 <style scoped>
 .wrapper-textField {

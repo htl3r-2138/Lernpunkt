@@ -7,7 +7,7 @@
         placeholder="Search for tutors..."
       />
       <span class="icon">
-        <img style="width: 1.5rem;" :src="Magnifier">
+        <img style="width: 1.5rem" :src="Magnifier" />
       </span>
     </div>
   </div>
@@ -20,15 +20,15 @@ import Magnifier from "@/assets/Magnifier.svg";
 const props = defineProps({
   modelValue: {
     type: String,
-    default: ""
-  }
+    default: "",
+  },
 });
 
 const emit = defineEmits(["update:modelValue"]);
 
 const inputText = computed({
   get: () => props.modelValue,
-  set: value => emit("update:modelValue", value)
+  set: (value) => emit("update:modelValue", value),
 });
 </script>
 

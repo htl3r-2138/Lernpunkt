@@ -8,6 +8,10 @@ router.post("/login", authController.login);
 router.post("/logout", authController.logout);
 router.get("/me", authController.me);
 
-const { isLoggedIn, isStudent, isTutor } = require("../middleware/auth.middleware");
+const {
+  isLoggedIn,
+  isStudent,
+  isTutor,
+} = require("../middleware/auth.middleware");
 
 module.exports = router;

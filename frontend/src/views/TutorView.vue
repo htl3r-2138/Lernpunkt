@@ -79,7 +79,6 @@ import { useTutorBookingsStore } from "@/stores/tutorBookings";
 import { useUserStore } from "@/stores/user";
 import { useSubjectsStore } from "@/stores/subject";
 
-
 const userStore = useUserStore();
 const subjectsStore = useSubjectsStore();
 const store = useTutorBookingsStore();
@@ -93,8 +92,7 @@ onMounted(async () => {
 const showBanner = computed(() => {
   if (userStore.isTutor) {
     return (
-      subjectsStore.mySubjects?.length === 0 ||
-      userStore.pricePerHour == null
+      subjectsStore.mySubjects?.length === 0 || userStore.pricePerHour == null
     );
   }
 

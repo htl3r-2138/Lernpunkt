@@ -16,7 +16,10 @@
         </div>
         <div class="end-time-wrapper">
           <label for="end-time">
-            <img src="@/assets/Tiles/Fast_forward.svg" alt="Fast Forward Symbol" />
+            <img
+              src="@/assets/Tiles/Fast_forward.svg"
+              alt="Fast Forward Symbol"
+            />
           </label>
           <input type="time" v-model="form.endTime" id="end-time" />
         </div>
@@ -24,7 +27,12 @@
           <label for="location">
             <img src="@/assets/Tiles/Map pin.svg" alt="Map Pin Symbol" />
           </label>
-          <input type="text" v-model="form.location" id="location" placeholder="Location" />
+          <input
+            type="text"
+            v-model="form.location"
+            id="location"
+            placeholder="Location"
+          />
         </div>
       </div>
       <div class="middle-wrapper">
@@ -37,11 +45,17 @@
           </select>
         </div>
         <div class="topic-wrapper">
-          <textarea class="topic" placeholder="What topics do you need help with?" v-model="form.topic"></textarea>
+          <textarea
+            class="topic"
+            placeholder="What topics do you need help with?"
+            v-model="form.topic"
+          ></textarea>
         </div>
       </div>
       <div class="bottom-wrapper">
-        <button class="button" id="cancelBooking" @click="onCancel">Cancel</button>
+        <button class="button" id="cancelBooking" @click="onCancel">
+          Cancel
+        </button>
         <button class="button" id="confirmBooking" type="submit">Book</button>
       </div>
     </form>
@@ -120,7 +134,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
   text-align: center;
-
 }
 
 input[type="time"]::-webkit-calendar-picker-indicator {
@@ -236,7 +249,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 #confirmBooking:hover {
   background-color: #7e52fc;
   color: white !important;
-
 }
 
 #cancelBooking:hover {

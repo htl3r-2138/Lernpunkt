@@ -48,15 +48,13 @@ exports.registerTutor = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
-  const [students] = await db.query(
-    "SELECT * FROM Student WHERE Email = ?",
-    [email]
-  );
+  const [students] = await db.query("SELECT * FROM Student WHERE Email = ?", [
+    email,
+  ]);
 
-  const [tutors] = await db.query(
-    "SELECT * FROM Tutor WHERE Email = ?",
-    [email]
-  );
+  const [tutors] = await db.query("SELECT * FROM Tutor WHERE Email = ?", [
+    email,
+  ]);
 
   const user = students[0] || tutors[0];
   const role = students[0] ? "student" : tutors[0] ? "tutor" : null;

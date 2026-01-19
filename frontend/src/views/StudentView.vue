@@ -21,9 +21,17 @@
         <div class="booked-wrapper">
           <div v-for="tutor in bookedTutors" :key="tutor.id">
             <Transition name="card" mode="out-in">
-              <component :is="bookedTutorId === tutor.id ? WhenClickedOnMore : BookedTutorTile
-                " v-bind="tutor" @more="bookedTutorId = tutor.id" @back="bookedTutorId = null"
-                @cancel="handleCancel" />
+              <component
+                :is="
+                  bookedTutorId === tutor.id
+                    ? WhenClickedOnMore
+                    : BookedTutorTile
+                "
+                v-bind="tutor"
+                @more="bookedTutorId = tutor.id"
+                @back="bookedTutorId = null"
+                @cancel="handleCancel"
+              />
             </Transition>
           </div>
         </div>
@@ -32,27 +40,44 @@
       <div class="flex-wrapper">
         <h1 class="title">
           <Transition name="flip-word" mode="out-in">
-            <span id="recAllSwitchText" :key="showRecommended ? 'recommended' : 'all'">
-              {{ showRecommended ? 'Recommended Tutors' : 'All Tutors' }}
+            <span
+              id="recAllSwitchText"
+              :key="showRecommended ? 'recommended' : 'all'"
+            >
+              {{ showRecommended ? "Recommended Tutors" : "All Tutors" }}
             </span>
           </Transition>
         </h1>
         <div class="switch">
           <RecToAllSwitch v-model="showRecommended" />
         </div>
-        <div v-if="filteredAllTutors.length === 0" :key="showRecommended ? 'recommended' : 'all'" class="empty-state">
-          {{ showRecommended ? 'No tutors match your search criteria.' : 'No tutors match your search criteria.' }}
+        <div
+          v-if="filteredAllTutors.length === 0"
+          :key="showRecommended ? 'recommended' : 'all'"
+          class="empty-state"
+        >
+          {{
+            showRecommended
+              ? "No tutors match your search criteria."
+              : "No tutors match your search criteria."
+          }}
         </div>
       </div>
 
       <div class="tutor-wrapper">
         <div v-for="tutor in filteredAllTutors" :key="tutor.id">
           <Transition name="card" mode="out-in">
-            <component :is="recommendedTutorId === tutor.id
-              ? WhenClickedOnBook
-              : RecommendedTutorTile
-              " v-bind="tutor" @book="recommendedTutorId = tutor.id" @cancel="recommendedTutorId = null"
-              @submit="handleBooked(tutor.id)" />
+            <component
+              :is="
+                recommendedTutorId === tutor.id
+                  ? WhenClickedOnBook
+                  : RecommendedTutorTile
+              "
+              v-bind="tutor"
+              @book="recommendedTutorId = tutor.id"
+              @cancel="recommendedTutorId = null"
+              @submit="handleBooked(tutor.id)"
+            />
           </Transition>
         </div>
       </div>
@@ -108,7 +133,7 @@ onMounted(async () => {
 /* ---------------- computed ---------------- */
 
 const bookedTutors = computed(() =>
-  bookingsStore.acceptedBookings.map(b => ({
+  bookingsStore.acceptedBookings.map((b) => ({
     id: b.id,
     name: `${b.Name} ${b.Surname}`,
     rating: 0,
@@ -130,8 +155,7 @@ const allTutors = computed(() => tutors.value);
 const showBanner = computed(() => {
   if (userStore.isTutor) {
     return (
-      subjectsStore.mySubjects?.length === 0 ||
-      userStore.pricePerHour == null
+      subjectsStore.mySubjects?.length === 0 || userStore.pricePerHour == null
     );
   }
 
@@ -148,39 +172,35 @@ function matchesSearch(tutor, query) {
   const q = query.toLowerCase();
 
   const nameMatch =
-    typeof tutor.name === "string" &&
-    tutor.name.toLowerCase().includes(q);
+    typeof tutor.name === "string" && tutor.name.toLowerCase().includes(q);
 
   const subjectMatch = Array.isArray(tutor.subjects)
-    ? tutor.subjects.some(subject => {
-      if (typeof subject === "string") {
-        return subject.toLowerCase().includes(q);
-      }
+    ? tutor.subjects.some((subject) => {
+        if (typeof subject === "string") {
+          return subject.toLowerCase().includes(q);
+        }
 
-      if (typeof subject === "object" && subject !== null) {
-        return Object.values(subject).some(val =>
-          String(val).toLowerCase().includes(q)
-        );
-      }
+        if (typeof subject === "object" && subject !== null) {
+          return Object.values(subject).some((val) =>
+            String(val).toLowerCase().includes(q)
+          );
+        }
 
-      return false;
-    })
+        return false;
+      })
     : false;
 
   return nameMatch || subjectMatch;
 }
 
-
 const filteredAllTutors = computed(() =>
-  allTutors.value.filter(tutor =>
-    matchesSearch(tutor, searchQuery.value)
-  )
+  allTutors.value.filter((tutor) => matchesSearch(tutor, searchQuery.value))
 );
 /* ---------------- actions ---------------- */
 
 function handleBooked(tutorId) {
   tutorsStore.removeTutor(tutorId);
-  tutors.value = tutors.value.filter(t => t.id !== tutorId);
+  tutors.value = tutors.value.filter((t) => t.id !== tutorId);
   recommendedTutorId.value = null;
 }
 
@@ -218,7 +238,6 @@ watch(
 );
 </script>
 
-
 <style scoped>
 .empty-state {
   text-align: left;
@@ -253,12 +272,11 @@ watch(
   transition: all 0.3s ease;
 }
 
-
 .wrapper {
   min-height: 100vh;
   width: 100%;
   color: black;
-  background: linear-gradient(white, #E2D8FF);
+  background: linear-gradient(white, #e2d8ff);
   display: flex;
   flex-direction: column;
 }

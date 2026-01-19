@@ -17,10 +17,10 @@ exports.updateHourlyRate = async (req, res) => {
     return res.status(400).json({ message: "Invalid hourly rate" });
   }
 
-  await db.query(
-    "UPDATE Tutor SET PricePerHour = ? WHERE PK_Tutor_ID = ?",
-    [pricePerHour, user.id]
-  );
+  await db.query("UPDATE Tutor SET PricePerHour = ? WHERE PK_Tutor_ID = ?", [
+    pricePerHour,
+    user.id,
+  ]);
 
   res.json({ message: "Hourly rate updated" });
 };
@@ -42,14 +42,13 @@ exports.updateEmail = async (req, res) => {
   }
 
   const table = user.role === "tutor" ? "Tutor" : "Student";
-  const idField =
-    user.role === "tutor" ? "PK_Tutor_ID" : "PK_Student_ID";
+  const idField = user.role === "tutor" ? "PK_Tutor_ID" : "PK_Student_ID";
 
   try {
-    await db.query(
-      `UPDATE ${table} SET Email = ? WHERE ${idField} = ?`,
-      [newEmail, user.id]
-    );
+    await db.query(`UPDATE ${table} SET Email = ? WHERE ${idField} = ?`, [
+      newEmail,
+      user.id,
+    ]);
 
     res.json({ message: "Email updated" });
   } catch (err) {
@@ -74,8 +73,7 @@ exports.updatePassword = async (req, res) => {
   }
 
   const table = user.role === "tutor" ? "Tutor" : "Student";
-  const idField =
-    user.role === "tutor" ? "PK_Tutor_ID" : "PK_Student_ID";
+  const idField = user.role === "tutor" ? "PK_Tutor_ID" : "PK_Student_ID";
 
   const [rows] = await db.query(
     `SELECT Password FROM ${table} WHERE ${idField} = ?`,
@@ -93,10 +91,10 @@ exports.updatePassword = async (req, res) => {
 
   const hashed = await bcrypt.hash(newPassword, 10);
 
-  await db.query(
-    `UPDATE ${table} SET Password = ? WHERE ${idField} = ?`,
-    [hashed, user.id]
-  );
+  await db.query(`UPDATE ${table} SET Password = ? WHERE ${idField} = ?`, [
+    hashed,
+    user.id,
+  ]);
 
   res.json({ message: "Password updated" });
 };
@@ -113,13 +111,9 @@ exports.deleteAccount = async (req, res) => {
   }
 
   const table = user.role === "tutor" ? "Tutor" : "Student";
-  const idField =
-    user.role === "tutor" ? "PK_Tutor_ID" : "PK_Student_ID";
+  const idField = user.role === "tutor" ? "PK_Tutor_ID" : "PK_Student_ID";
 
-  await db.query(
-    `DELETE FROM ${table} WHERE ${idField} = ?`,
-    [user.id]
-  );
+  await db.query(`DELETE FROM ${table} WHERE ${idField} = ?`, [user.id]);
 
   req.session.destroy(() => {
     res.json({ message: "Account deleted" });

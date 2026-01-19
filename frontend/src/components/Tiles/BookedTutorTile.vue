@@ -6,23 +6,33 @@
       </div>
 
       <div class="rating">
-        <span v-for="i in 5" :key="i" class="star" :class="{ active: i <= rating }">
+        <span
+          v-for="i in 5"
+          :key="i"
+          class="star"
+          :class="{ active: i <= rating }"
+        >
           ★
         </span>
         <span class="count">({{ reviews }})</span>
       </div>
 
       <p class="grade">{{ grade }} · {{ price }}€/h</p>
-      <p class="location"> {{ location }}</p>
-      <p class="next">next session on {{ nextSess }} ({{ startTime }} - {{ endTime }})</p>
+      <p class="location">{{ location }}</p>
+      <p class="next">
+        next session on {{ nextSess }} ({{ startTime }} - {{ endTime }})
+      </p>
     </div>
 
     <div class="badge">{{ subject }}</div>
 
     <div class="actions">
-      <a class="icon-btn" :href="`mailto:${email}?subject=Tutoring%20Session&body=Hi%20${encodeURIComponent(
-        name
-      )},`">
+      <a
+        class="icon-btn"
+        :href="`mailto:${email}?subject=Tutoring%20Session&body=Hi%20${encodeURIComponent(
+          name
+        )},`"
+      >
         <img :src="chatbtn" alt="chat" />
       </a>
       <button class="icon-btn" @click="onMore">

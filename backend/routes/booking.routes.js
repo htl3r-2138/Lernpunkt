@@ -22,5 +22,4 @@ router.delete(
   controller.cancelBookingAsTutor
 );
 
-
 module.exports = router;

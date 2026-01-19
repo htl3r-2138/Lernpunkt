@@ -8,8 +8,7 @@ export const useSubjectsStore = defineStore("subjects", {
   }),
 
   getters: {
-    mySubjectIds: (state) =>
-      state.mySubjects.map((s) => s.PK_Subject_ID),
+    mySubjectIds: (state) => state.mySubjects.map((s) => s.PK_Subject_ID),
   },
 
   actions: {

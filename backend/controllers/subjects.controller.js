@@ -41,10 +41,7 @@ exports.saveMySubjects = async (req, res) => {
     user.role === "student" ? "FK_PK_Student_ID" : "FK_PK_Tutor_ID";
 
   // alte löschen
-  await db.query(
-    `DELETE FROM ${table} WHERE ${userField} = ?`,
-    [user.id]
-  );
+  await db.query(`DELETE FROM ${table} WHERE ${userField} = ?`, [user.id]);
 
   // neue setzen
   for (const id of subjectIds) {

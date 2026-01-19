@@ -2,7 +2,11 @@
   <div class="register-page">
     <section class="left">
       <Logo :visible="true" />
-      <img :src="registerIMG" alt="illustration of happy business people" class="illustration" />
+      <img
+        :src="registerIMG"
+        alt="illustration of happy business people"
+        class="illustration"
+      />
     </section>
 
     <section class="right">
@@ -11,24 +15,53 @@
         <p>Where knowledge meets connection</p>
 
         <form @submit.prevent="submitForm">
-          <TextField name="firstname" label="First Name" placeholder="i.e. Max" v-model="form.firstname" required />
-          <TextField name="lastname" label="Last Name" placeholder="i.e. Mustermann" v-model="form.lastname" required />
+          <TextField
+            name="firstname"
+            label="First Name"
+            placeholder="i.e. Max"
+            v-model="form.firstname"
+            required
+          />
+          <TextField
+            name="lastname"
+            label="Last Name"
+            placeholder="i.e. Mustermann"
+            v-model="form.lastname"
+            required
+          />
 
-          <TextField name="email" label="Email Address" placeholder="i.e. max.mustermann@example.com" type="email"
-            v-model="form.email" required />
+          <TextField
+            name="email"
+            label="Email Address"
+            placeholder="i.e. max.mustermann@example.com"
+            type="email"
+            v-model="form.email"
+            required
+          />
 
-          <PasswordField name="password" label="Password" :isVisible="false" v-model="form.password" required />
+          <PasswordField
+            name="password"
+            label="Password"
+            :isVisible="false"
+            v-model="form.password"
+            required
+          />
 
           <div class="tutor-signup">
-            <input type="checkbox" name="isTutor" id="tutor" v-model="form.isTutor" />
+            <input
+              type="checkbox"
+              name="isTutor"
+              id="tutor"
+              v-model="form.isTutor"
+            />
             <label for="tutor">Sign up as a tutor?</label>
           </div>
-          
+
           <div class="wrapper">
             <label for="grade">Grade</label>
             <select id="grade" v-model="form.grade" required>
               <option disabled value="">Select your grade</option>
-              <option v-for="g in [1,2,3,4,5]" :key="g" :value="g">
+              <option v-for="g in [1, 2, 3, 4, 5]" :key="g" :value="g">
                 {{ g }}
               </option>
             </select>
@@ -67,8 +100,7 @@ const form = ref({
   isTutor: false,
 });
 
-const submitForm = async () => 
-{
+const submitForm = async () => {
   console.log(form.value);
   try {
     const payload = {
@@ -208,5 +240,4 @@ h1 {
   color: #888;
   font-size: small;
 }
-
 </style>

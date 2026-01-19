@@ -11,15 +11,8 @@ exports.createBooking = async (req, res) => {
     return res.status(403).json({ message: "Only students can book tutors" });
   }
 
-  const {
-    tutorId,
-    subjectId,
-    date,
-    startTime,
-    endTime,
-    location,
-    topic,
-  } = req.body;
+  const { tutorId, subjectId, date, startTime, endTime, location, topic } =
+    req.body;
 
   if (!tutorId || !subjectId || !date || !startTime || !endTime || !location) {
     return res.status(400).json({ message: "Missing fields" });
@@ -76,7 +69,8 @@ exports.getMyBookings = async (req, res) => {
 
   const studentId = req.session.user.id;
 
-  const [rows] = await db.query(`
+  const [rows] = await db.query(
+    `
     SELECT
       b.PK_Booking_ID AS id,
       b.Date,
@@ -99,7 +93,9 @@ exports.getMyBookings = async (req, res) => {
     JOIN contain c ON c.FK_PK_Booking_ID = b.PK_Booking_ID
     JOIN Subject sub ON sub.PK_Subject_ID = c.FK_PK_Subject_ID
     WHERE b.FK_PK_Student_ID = ?
-  `, [studentId]);
+  `,
+    [studentId]
+  );
 
   res.json(rows);
 };
@@ -111,7 +107,8 @@ exports.getTutorBookings = async (req, res) => {
     return res.status(403).json({ message: "Only tutors allowed" });
   }
 
-  const [rows] = await db.query(`
+  const [rows] = await db.query(
+    `
     SELECT
       b.PK_Booking_ID AS id,
       b.Date,
@@ -132,7 +129,9 @@ exports.getTutorBookings = async (req, res) => {
     JOIN Subject sub ON sub.PK_Subject_ID = c.FK_PK_Subject_ID
     WHERE ii.FK_PK_Tutor_ID = ?
     ORDER BY b.Date
-  `, [user.id]);
+  `,
+    [user.id]
+  );
 
   res.json(rows);
 };
@@ -145,11 +144,14 @@ exports.acceptBooking = async (req, res) => {
     return res.status(403).json({ message: "Only tutors allowed" });
   }
 
-  await db.query(`
+  await db.query(
+    `
     UPDATE Booking
     SET isAccepted = 1
     WHERE PK_Booking_ID = ?
-  `, [bookingId]);
+  `,
+    [bookingId]
+  );
 
   res.json({ message: "Booking accepted" });
 };
@@ -182,13 +184,21 @@ exports.declineBookingAsTutor = async (req, res) => {
 
     if (rows.length === 0) {
       await conn.rollback();
-      return res.status(404).json({ message: "Booking not found or already accepted" });
+      return res
+        .status(404)
+        .json({ message: "Booking not found or already accepted" });
     }
 
     // 🔥 löschen
-    await conn.query(`DELETE FROM contain WHERE FK_PK_Booking_ID = ?`, [bookingId]);
-    await conn.query(`DELETE FROM is_in WHERE FK_PK_Booking_ID = ?`, [bookingId]);
-    await conn.query(`DELETE FROM Booking WHERE PK_Booking_ID = ?`, [bookingId]);
+    await conn.query(`DELETE FROM contain WHERE FK_PK_Booking_ID = ?`, [
+      bookingId,
+    ]);
+    await conn.query(`DELETE FROM is_in WHERE FK_PK_Booking_ID = ?`, [
+      bookingId,
+    ]);
+    await conn.query(`DELETE FROM Booking WHERE PK_Booking_ID = ?`, [
+      bookingId,
+    ]);
 
     await conn.commit();
 
@@ -211,7 +221,9 @@ exports.cancelBooking = async (req, res) => {
   const bookingId = req.params.id;
 
   if (!user || user.role !== "student") {
-    return res.status(403).json({ message: "Only students can cancel bookings" });
+    return res
+      .status(403)
+      .json({ message: "Only students can cancel bookings" });
   }
 
   const conn = await db.getConnection();
@@ -236,20 +248,17 @@ exports.cancelBooking = async (req, res) => {
     }
 
     // 🔥 Reihenfolge wichtig wegen Foreign Keys
-    await conn.query(
-      `DELETE FROM contain WHERE FK_PK_Booking_ID = ?`,
-      [bookingId]
-    );
+    await conn.query(`DELETE FROM contain WHERE FK_PK_Booking_ID = ?`, [
+      bookingId,
+    ]);
 
-    await conn.query(
-      `DELETE FROM is_in WHERE FK_PK_Booking_ID = ?`,
-      [bookingId]
-    );
+    await conn.query(`DELETE FROM is_in WHERE FK_PK_Booking_ID = ?`, [
+      bookingId,
+    ]);
 
-    await conn.query(
-      `DELETE FROM Booking WHERE PK_Booking_ID = ?`,
-      [bookingId]
-    );
+    await conn.query(`DELETE FROM Booking WHERE PK_Booking_ID = ?`, [
+      bookingId,
+    ]);
 
     await conn.commit();
 
@@ -293,20 +302,17 @@ exports.cancelBookingAsTutor = async (req, res) => {
     }
 
     // 🔥 löschen (Reihenfolge wegen FKs!)
-    await conn.query(
-      `DELETE FROM contain WHERE FK_PK_Booking_ID = ?`,
-      [bookingId]
-    );
+    await conn.query(`DELETE FROM contain WHERE FK_PK_Booking_ID = ?`, [
+      bookingId,
+    ]);
 
-    await conn.query(
-      `DELETE FROM is_in WHERE FK_PK_Booking_ID = ?`,
-      [bookingId]
-    );
+    await conn.query(`DELETE FROM is_in WHERE FK_PK_Booking_ID = ?`, [
+      bookingId,
+    ]);
 
-    await conn.query(
-      `DELETE FROM Booking WHERE PK_Booking_ID = ?`,
-      [bookingId]
-    );
+    await conn.query(`DELETE FROM Booking WHERE PK_Booking_ID = ?`, [
+      bookingId,
+    ]);
 
     await conn.commit();
 

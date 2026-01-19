@@ -1,8 +1,12 @@
 <template>
   <div class="wrapper-passwordField">
     <label>{{ label }}</label>
-    <input :type="isVisible ? 'text' : 'password'" :value="modelValue" placeholder="*********"
-      @input="$emit('update:modelValue', $event.target.value)" />
+    <input
+      :type="isVisible ? 'text' : 'password'"
+      :value="modelValue"
+      placeholder="*********"
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
   </div>
 </template>
 
@@ -10,10 +14,10 @@
 defineProps({
   modelValue: {
     type: String,
-    default: ""
+    default: "",
   },
   label: String,
-  isVisible: Boolean
+  isVisible: Boolean,
 });
 
 defineEmits(["update:modelValue"]);
