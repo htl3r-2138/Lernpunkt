@@ -2,8 +2,16 @@
   <div class="wrapper">
     <!-- Exit-Button -->
     <div class="exit-btn" @click="exitSettings">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#383838" stroke-width="3"
-        stroke-linecap="round" stroke-linejoin="round">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        fill="none"
+        stroke="#383838"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
         <line x1="18" y1="6" x2="6" y2="18" />
         <line x1="6" y1="6" x2="18" y2="18" />
       </svg>
@@ -21,15 +29,24 @@
     <div class="settings-layout">
       <!-- LEFT SIDEBAR -->
       <aside class="sidebar">
-        <button :class="{ active: activeSection === 'account' }" @click="activeSection = 'account'">
+        <button
+          :class="{ active: activeSection === 'account' }"
+          @click="activeSection = 'account'"
+        >
           Account
         </button>
 
-        <button :class="{ active: activeSection === 'security' }" @click="activeSection = 'security'">
+        <button
+          :class="{ active: activeSection === 'security' }"
+          @click="activeSection = 'security'"
+        >
           Security
         </button>
 
-        <button :class="{ active: activeSection === 'subjects' }" @click="activeSection = 'subjects'">
+        <button
+          :class="{ active: activeSection === 'subjects' }"
+          @click="activeSection = 'subjects'"
+        >
           Subjects & Pay
         </button>
       </aside>
@@ -54,8 +71,13 @@
               </div>
             </div>
           </form>
-          <ConfirmModal v-if="showConfirm" title="Confirm logout" message="Are you sure you want to log out?"
-            @confirm="confirmLogout" @cancel="cancelLogout" />
+          <ConfirmModal
+            v-if="showConfirm"
+            title="Confirm logout"
+            message="Are you sure you want to log out?"
+            @confirm="confirmLogout"
+            @cancel="cancelLogout"
+          />
         </div>
 
         <!-- SECURITY -->
@@ -69,23 +91,37 @@
 
         <!-- SUBJECTS & PAY -->
         <div v-if="activeSection === 'subjects'" class="section">
-
-          <form v-if="userStore.role === 'tutor'" class="vertical-form" @submit.prevent="handleHRateChange">
+          <form
+            v-if="userStore.role === 'tutor'"
+            class="vertical-form"
+            @submit.prevent="handleHRateChange"
+          >
             <TextField label="Hourly Rate" v-model="userStore.pricePerHour" />
             <p v-if="priceError" class="error">{{ priceError }}</p>
           </form>
 
-
           <div class="subject-grid">
-            <button v-for="s in subjectsStore.allSubjects" :key="s.PK_Subject_ID"
-              :class="{ active: subjectsStore.mySubjectIds.includes(s.PK_Subject_ID) }"
-              @click="subjectsStore.toggleSubject(s)">
+            <button
+              v-for="s in subjectsStore.allSubjects"
+              :key="s.PK_Subject_ID"
+              :class="{
+                active: subjectsStore.mySubjectIds.includes(s.PK_Subject_ID),
+              }"
+              @click="subjectsStore.toggleSubject(s)"
+            >
               {{ s.Description }}
             </button>
           </div>
         </div>
       </section>
     </div>
+    <ConfirmModal
+      v-if="showExitConfirm"
+      title="Save changes?"
+      message="Do you want to save your changes before leaving the settings?"
+      @confirm="confirmExitSave"
+      @cancel="confirmExitDiscard"
+    />
   </div>
 </template>
 
@@ -120,28 +156,30 @@ const sectionHeadline = computed(() => {
   }
 });
 //Exit Settings
-const exitSettings = async () => {
-  const save = window.confirm("Willst du die Änderungen speichern?");
+const showExitConfirm = ref(false);
+const exitSettings = () => {
+  showExitConfirm.value = true;
+};
 
-  if (save) {
-    let ok = true;
+const confirmExitSave = async () => {
+  let ok = true;
 
-    if (userStore.isTutor === true) {
-      const rateSaved = await handleHRateChange();
-      if (!rateSaved) {
-        ok = false; // Validation/Save failed → nicht rausgehen
-      }
-    }
+  if (userStore.isTutor === true) {
+    const rateSaved = await handleHRateChange();
+    if (!rateSaved) ok = false;
+  }
 
-    if (ok) {
-      await handleSubjectChange();
-      router.back(); // nur wenn alles ok ist
-    }
-  } else {
-    router.back(); // Benutzer will nicht speichern → einfach raus
+  if (ok) {
+    await handleSubjectChange();
+    showExitConfirm.value = false;
+    router.back();
   }
 };
 
+const confirmExitDiscard = () => {
+  showExitConfirm.value = false;
+  router.back();
+};
 
 // Confirm Modal for Logout
 const showConfirm = ref(false);
@@ -173,7 +211,6 @@ const handleHRateChange = async () => {
 
   try {
     await userStore.updateHourlyRate(price);
-    alert("Hourly rate saved");
     return true; // Speichern ok
   } catch (err) {
     alert(err.message || "Failed to save hourly rate");
@@ -342,7 +379,6 @@ h2 {
 .subject-grid button:hover {
   transition: 0.3s ease-in-out;
   transform: scale(1.05);
-
 }
 
 /* Delete & Logout */
