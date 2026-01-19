@@ -3,7 +3,9 @@
     <div class="student">
       <div class="content">
         <h3 class="name">{{ name }}</h3>
-        <p class="next">next session on {{ nextSess }} ({{ startTime }} - {{ endTime }})</p>
+        <p class="next">
+          next session on {{ nextSess }} ({{ startTime }} - {{ endTime }})
+        </p>
       </div>
     </div>
 
@@ -51,7 +53,6 @@ function onMore() {
   console.log("MORE WAS CLICKED");
   emit("more");
 }
-
 </script>
 
 <style scoped>
@@ -77,8 +78,7 @@ function onMore() {
 
 .location,
 .next,
-.topic 
-{
+.topic {
   color: #666;
   font-size: 0.9rem;
   text-align: center;
@@ -91,7 +91,7 @@ function onMore() {
   width: 56px;
   height: 56px;
   border-radius: 12px;
-  background: #ff5c5c;
+  background: #200863;
   color: white;
   font-weight: bold;
   font-size: 1.4rem;

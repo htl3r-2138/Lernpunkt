@@ -90,7 +90,7 @@ function onDecline() {
   width: 56px;
   height: 56px;
   border-radius: 12px;
-  background: #ff5c5c;
+  background: #200863;
   color: white;
   font-weight: bold;
   font-size: 1.4rem;

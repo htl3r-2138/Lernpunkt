@@ -130,11 +130,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .tutor-card {
-  position: relative;
   width: 420px;
-  height: 280px;
   padding: 1.5rem;
-  box-sizing: border-box;
   border-radius: 24px;
   background: rgb(255, 255, 255, 0.5);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);

@@ -77,8 +77,8 @@ function onCancel() {
 <style scoped>
 .tutor-card {
   position: relative;
-  width: 300px;
   padding: 1.5rem;
+  width: 400px;
   border-radius: 24px;
   background: white;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
@@ -125,10 +125,10 @@ function onCancel() {
   width: 56px;
   height: 56px;
   border-radius: 12px;
-  background: #ff5c5c;
+  background: #200863;
   color: white;
   font-weight: bold;
-  font-size: 1.4rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
