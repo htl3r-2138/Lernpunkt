@@ -43,12 +43,12 @@
 
             <div class="delete-and-logout">
               <div class="deleteAcc" @click="deleteAccount">
-                <img src="@/assets/settings/delete_account.svg" />
+                <span class="delete-icon"></span>
                 <span>Delete Account</span>
               </div>
 
               <div class="logout" @click="requestLogout">
-                <img src="@/assets/settings/logout.svg" />
+                <span class="logout-icon"></span>
                 <span>Logout</span>
               </div>
             </div>
@@ -193,6 +193,7 @@ const deleteAccount = () => {
 </script>
 
 <style scoped>
+
 .error {
   color: rgb(255, 0, 0);
   font-size: 12px;
@@ -350,6 +351,39 @@ h2 {
   transition: 0.3s ease-in-out;
 }
 
+.delete-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  background-image: url('@/assets/settings/delete_account.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.deleteAcc:hover .delete-icon {
+  background-image: url('@/assets/settings/delete_account_white.svg');
+}
+.logout-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  background-image: url('@/assets/settings/logout.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* Wechsel auf Weiß beim Hover über den Logout-Container */
+.logout:hover .logout-icon {
+  background-image: url('@/assets/settings/logout_white.svg');
+}
+
+/* Dein bestehender Hover-Effekt für den Logout-Hintergrund */
+.logout:hover {
+  background-color: #26006a;
+  color: white;
+  transition: 0.3s ease-in-out;
+  transform: scale(1.05);
+}
 .deleteAcc img,
 .logout img {
   width: 24px;
