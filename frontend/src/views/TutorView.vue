@@ -190,6 +190,7 @@ async function handleDecline(bookingId) {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  background: linear-gradient(white, #e2d8ff);
 }
 nav {
   display: flex;
