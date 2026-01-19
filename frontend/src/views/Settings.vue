@@ -334,7 +334,7 @@ h2 {
 
 .delete-and-logout {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   margin-top: 1rem;
 }
 
@@ -349,6 +349,8 @@ h2 {
   cursor: pointer;
   gap: 0.3rem;
   transition: 0.3s ease-in-out;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .delete-icon {
