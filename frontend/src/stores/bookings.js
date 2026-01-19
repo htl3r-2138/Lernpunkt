@@ -9,11 +9,9 @@ export const useBookingsStore = defineStore("bookings", {
   }),
 
   getters: {
-    // ❌ noch nicht angenommen
     pendingBookings: (state) =>
       state.bookings.filter((b) => b.isAccepted !== 1),
 
-    // ✅ angenommene Bookings
     acceptedBookings: (state) =>
       state.bookings.filter((b) => b.isAccepted === 1),
   },
@@ -42,7 +40,6 @@ export const useBookingsStore = defineStore("bookings", {
         throw new Error("Failed to cancel booking");
       }
 
-      // ✅ lokal entfernen
       this.bookings = this.bookings.filter((b) => b.id !== bookingId);
     },
   },

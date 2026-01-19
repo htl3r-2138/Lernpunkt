@@ -27,7 +27,6 @@
     </nav>
 
     <div class="settings-layout">
-      <!-- LEFT SIDEBAR -->
       <aside class="sidebar">
         <button
           :class="{ active: activeSection === 'account' }"
@@ -139,10 +138,8 @@ import ConfirmModal from "@/components/ConfirmModal.vue";
 const subjectsStore = useSubjectsStore();
 const userStore = useUserStore();
 const router = useRouter();
-// Active Section
 const activeSection = ref("account");
 
-// Dynamic Headline
 const sectionHeadline = computed(() => {
   switch (activeSection.value) {
     case "account":
@@ -155,7 +152,6 @@ const sectionHeadline = computed(() => {
       return "Settings";
   }
 });
-//Exit Settings
 const showExitConfirm = ref(false);
 const exitSettings = () => {
   showExitConfirm.value = true;
@@ -181,7 +177,6 @@ const confirmExitDiscard = () => {
   router.back();
 };
 
-// Confirm Modal for Logout
 const showConfirm = ref(false);
 const requestLogout = () => (showConfirm.value = true);
 const confirmLogout = async () => {
@@ -190,28 +185,26 @@ const confirmLogout = async () => {
 };
 const cancelLogout = () => (showConfirm.value = false);
 
-// Load user & subjects
 onMounted(async () => {
   await userStore.load();
   await subjectsStore.load();
 });
 
-// Actions
-const priceError = ref(""); // Fehlermeldung für das TextField
+const priceError = ref("");
 
 const handleHRateChange = async () => {
   const price = Number(userStore.pricePerHour);
 
   if (price > 99.99) {
     priceError.value = "The maximum hourly Rate is 99.99€";
-    return false; // wichtig: NICHT speichern, Fehler signalisieren
+    return false;
   } else {
     priceError.value = "";
   }
 
   try {
     await userStore.updateHourlyRate(price);
-    return true; // Speichern ok
+    return true; 
   } catch (err) {
     alert(err.message || "Failed to save hourly rate");
     return false;
@@ -261,7 +254,6 @@ nav {
   align-items: center;
 }
 
-/* Headline */
 .headline {
   font-size: 32px;
   margin: none;
@@ -276,7 +268,6 @@ h2 {
   margin-top: 0;
 }
 
-/* Flip-Word Transition */
 .flip-word-enter-active,
 .flip-word-leave-active {
   transition: all 0.25s ease;
@@ -292,12 +283,10 @@ h2 {
   transform: translateY(-8px);
 }
 
-/* Layout */
 .settings-layout {
   display: flex;
 }
 
-/* Sidebar */
 .sidebar {
   position: absolute;
   left: 0;
@@ -325,7 +314,6 @@ h2 {
   transition: 0.3s ease-in-out;
 }
 
-/* Content */
 .content {
   flex: 1;
   padding: 3rem;
@@ -333,19 +321,16 @@ h2 {
   justify-content: center;
 }
 
-/* Sections */
 .section {
   max-width: 520px;
 }
 
-/* Vertical forms */
 .vertical-form {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
 }
 
-/* Subjects */
 .subject-grid {
   margin-top: 2rem;
   display: grid;
@@ -381,7 +366,6 @@ h2 {
   transform: scale(1.05);
 }
 
-/* Delete & Logout */
 .delete-and-logout {
   display: flex;
   gap: 1rem;
@@ -426,7 +410,6 @@ h2 {
   transform: scale(1.05);
 }
 
-/* Section H2 */
 .content .section h2 {
   margin-top: 1rem;
   margin-bottom: 1.5rem;

@@ -35,7 +35,6 @@ export const useTutorBookingsStore = defineStore("tutorBookings", {
         throw new Error("Failed to cancel booking as tutor");
       }
 
-      // lokal entfernen
       this.bookings = this.bookings.filter((b) => b.id !== id);
     },
 
@@ -59,7 +58,6 @@ export const useTutorBookingsStore = defineStore("tutorBookings", {
         throw new Error("Failed to decline booking");
       }
 
-      // lokal entfernen
       this.bookings = this.bookings.filter((b) => b.id !== id);
     },
   },

@@ -87,7 +87,7 @@ function requestCancel() {
 }
 
 function confirmCancel() {
-  emit("cancel", bookingToCancel.value); // echte Aktion
+  emit("cancel", bookingToCancel.value);
   showCancelConfirm.value = false;
   bookingToCancel.value = null;
 }

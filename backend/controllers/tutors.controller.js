@@ -1,9 +1,5 @@
 const db = require("../db");
 
-/**
- * GET /api/tutors
- * Tutoren + ihre Fächer
- */
 exports.getAllTutors = async (req, res) => {
   try {
     const [rows] = await db.query(
@@ -78,7 +74,6 @@ exports.getRecommendedTutors = async (req, res) => {
       [studentId]
     );
 
-    // Tutoren zusammenfassen (mehrere Fächer pro Tutor)
     const tutorsMap = new Map();
 
     for (const row of rows) {

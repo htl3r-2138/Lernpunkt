@@ -107,30 +107,22 @@ import { useSubjectsStore } from "@/stores/subject.js";
 
 const searchQuery = ref("");
 
-/* ---------------- state ---------------- */
-
 const showRecommended = ref(true);
 const tutors = ref([]);
 
 const bookedTutorId = ref(null);
 const recommendedTutorId = ref(null);
 
-/* ---------------- stores ---------------- */
-
 const tutorsStore = useTutorsStore();
 const bookingsStore = useBookingsStore();
 const userStore = useUserStore();
 const subjectsStore = useSubjectsStore();
-
-/* ---------------- lifecycle ---------------- */
 
 onMounted(async () => {
   await subjectsStore.load();
   await bookingsStore.load();
   await userStore.load();
 });
-
-/* ---------------- computed ---------------- */
 
 const bookedTutors = computed(() =>
   bookingsStore.acceptedBookings.map((b) => ({
@@ -196,7 +188,6 @@ function matchesSearch(tutor, query) {
 const filteredAllTutors = computed(() =>
   allTutors.value.filter((tutor) => matchesSearch(tutor, searchQuery.value))
 );
-/* ---------------- actions ---------------- */
 
 function handleBooked(tutorId) {
   tutorsStore.removeTutor(tutorId);
@@ -215,12 +206,11 @@ async function handleCancel(bookingId) {
   }
 }
 
-/* ---------------- watcher ---------------- */
 
 watch(
   [showRecommended, () => userStore.id],
   async ([recommended, userId]) => {
-    if (!userId) return; // ⛔ noch kein User
+    if (!userId) return;
 
     try {
       if (recommended) {

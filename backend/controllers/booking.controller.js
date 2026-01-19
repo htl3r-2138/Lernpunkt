@@ -1,9 +1,5 @@
 const db = require("../db");
 
-/**
- * POST /api/bookings
- * Student erstellt ein Booking
- */
 exports.createBooking = async (req, res) => {
   const user = req.session.user;
 
@@ -58,10 +54,6 @@ exports.createBooking = async (req, res) => {
   }
 };
 
-/**
- * GET /api/bookings/me
- * Student sieht seine Bookings
- */
 exports.getMyBookings = async (req, res) => {
   if (!req.session.user || req.session.user.role !== "student") {
     return res.status(401).json({ message: "Not authenticated" });
@@ -169,7 +161,6 @@ exports.declineBookingAsTutor = async (req, res) => {
   try {
     await conn.beginTransaction();
 
-    // 🔐 Check: gehört Booking diesem Tutor UND ist noch nicht accepted
     const [rows] = await conn.query(
       `
       SELECT b.PK_Booking_ID
@@ -189,7 +180,6 @@ exports.declineBookingAsTutor = async (req, res) => {
         .json({ message: "Booking not found or already accepted" });
     }
 
-    // 🔥 löschen
     await conn.query(`DELETE FROM contain WHERE FK_PK_Booking_ID = ?`, [
       bookingId,
     ]);
@@ -212,10 +202,6 @@ exports.declineBookingAsTutor = async (req, res) => {
   }
 };
 
-/**
- * DELETE /api/bookings/:id
- * Student cancelt seine eigene Buchung
- */
 exports.cancelBooking = async (req, res) => {
   const user = req.session.user;
   const bookingId = req.params.id;
@@ -231,7 +217,6 @@ exports.cancelBooking = async (req, res) => {
   try {
     await conn.beginTransaction();
 
-    // 🔐 Sicherheitscheck: gehört die Buchung dem Student?
     const [rows] = await conn.query(
       `
       SELECT PK_Booking_ID
@@ -247,7 +232,6 @@ exports.cancelBooking = async (req, res) => {
       return res.status(404).json({ message: "Booking not found" });
     }
 
-    // 🔥 Reihenfolge wichtig wegen Foreign Keys
     await conn.query(`DELETE FROM contain WHERE FK_PK_Booking_ID = ?`, [
       bookingId,
     ]);
@@ -285,7 +269,6 @@ exports.cancelBookingAsTutor = async (req, res) => {
   try {
     await conn.beginTransaction();
 
-    // 🔐 Check: gehört die Buchung diesem Tutor?
     const [rows] = await conn.query(
       `
       SELECT FK_PK_Booking_ID
@@ -301,7 +284,6 @@ exports.cancelBookingAsTutor = async (req, res) => {
       return res.status(404).json({ message: "Booking not found" });
     }
 
-    // 🔥 löschen (Reihenfolge wegen FKs!)
     await conn.query(`DELETE FROM contain WHERE FK_PK_Booking_ID = ?`, [
       bookingId,
     ]);

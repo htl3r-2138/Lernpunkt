@@ -119,7 +119,6 @@ const submitForm = async () => {
 
     const result = await login(form.value.email, form.value.password);
 
-    // 🚦 Redirect based on role
     if (result.role === "student") {
       router.push("/student");
     } else {

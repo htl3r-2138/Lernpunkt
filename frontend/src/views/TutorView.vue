@@ -108,15 +108,12 @@ const bookedStudents = computed(() =>
   store.acceptedBookings.map((b) => ({
     id: b.id,
 
-    // Student
     name: b.studentName,
     email: b.studentEmail ?? "",
 
-    // UI
     rating: 0,
     reviews: 0,
 
-    // Booking
     grade: "—",
     price: userStore.pricePerHour,
     location: String(b.MeetUp),
@@ -125,9 +122,8 @@ const bookedStudents = computed(() =>
     startTime: b.Start?.slice(0, 5),
     endTime: b.End?.slice(0, 5),
 
-    // ✅ jetzt korrekt
-    subject: b.subject, // Badge (z.B. NWT)
-    topic: b.topic, // Text ("Firewalls")
+    subject: b.subject, 
+    topic: b.topic, 
   }))
 );
 
@@ -136,15 +132,12 @@ const requestedStudents = computed(() =>
   store.requestedBookings.map((b) => ({
     id: b.id,
 
-    // Student
     name: b.studentName,
     email: b.studentEmail ?? "",
 
-    // UI Defaults
     rating: 0,
     reviews: 0,
 
-    // Booking
     grade: "—",
     price: userStore.pricePerHour,
     location: String(b.MeetUp),

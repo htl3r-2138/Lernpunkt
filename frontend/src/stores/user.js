@@ -5,12 +5,12 @@ const API_BASE = "http://localhost:3000/api";
 export const useUserStore = defineStore("user", {
   state: () => ({
     id: null,
-    role: null, // "student" | "tutor"
+    role: null, 
     name: null,
     surname: null,
     email: null,
     grade: null,
-    pricePerHour: null, // nur tutor
+    pricePerHour: null,
   }),
 
   getters: {
@@ -20,9 +20,6 @@ export const useUserStore = defineStore("user", {
   },
 
   actions: {
-    /* ---------------------------------
-     * LOAD USER (SOURCE OF TRUTH)
-     * --------------------------------- */
     async load() {
       const res = await fetch(`${API_BASE}/auth/me`, {
         credentials: "include",
@@ -35,7 +32,6 @@ export const useUserStore = defineStore("user", {
 
       const data = await res.json();
 
-      // 1:1 Spiegel von /me
       this.id = data.id;
       this.role = data.role;
       this.name = data.Name ?? data.name;
@@ -47,10 +43,6 @@ export const useUserStore = defineStore("user", {
           ? data.PricePerHour ?? data.pricePerHour ?? null
           : null;
     },
-
-    /* ---------------------------------
-     * SETTINGS ACTIONS
-     * --------------------------------- */
 
     async updateHourlyRate(rate) {
       if (this.role !== "tutor") {
@@ -115,10 +107,6 @@ export const useUserStore = defineStore("user", {
 
       this.$reset();
     },
-
-    /* ---------------------------------
-     * LOCAL
-     * --------------------------------- */
     logout() {
       this.$reset();
     },

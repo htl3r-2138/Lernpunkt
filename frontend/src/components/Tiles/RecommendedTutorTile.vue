@@ -40,7 +40,7 @@ defineProps({
   reviews: Number,
   grade: String,
   price: Number,
-  subjects: Array, // ✅ statt subject
+  subjects: Array,
 });
 
 const emit = defineEmits(["book"]);

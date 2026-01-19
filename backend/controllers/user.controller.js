@@ -1,10 +1,6 @@
 const db = require("../db");
 const bcrypt = require("bcrypt");
 
-/**
- * PUT /api/user/hourly-rate
- * Tutor only
- */
 exports.updateHourlyRate = async (req, res) => {
   const user = req.session.user;
   const { pricePerHour } = req.body;
@@ -25,10 +21,6 @@ exports.updateHourlyRate = async (req, res) => {
   res.json({ message: "Hourly rate updated" });
 };
 
-/**
- * PUT /api/user/email
- * Student & Tutor
- */
 exports.updateEmail = async (req, res) => {
   const user = req.session.user;
   const { newEmail } = req.body;
@@ -56,10 +48,6 @@ exports.updateEmail = async (req, res) => {
   }
 };
 
-/**
- * PUT /api/user/password
- * Student & Tutor
- */
 exports.updatePassword = async (req, res) => {
   const user = req.session.user;
   const { currentPassword, newPassword } = req.body;
@@ -99,10 +87,6 @@ exports.updatePassword = async (req, res) => {
   res.json({ message: "Password updated" });
 };
 
-/**
- * DELETE /api/user
- * Student & Tutor
- */
 exports.deleteAccount = async (req, res) => {
   const user = req.session.user;
 
