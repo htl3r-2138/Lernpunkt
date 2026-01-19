@@ -35,7 +35,7 @@ defineEmits(["update:modelValue"]);
 }
 
 input {
-  width: 15rem;
+  width: 20rem;
   padding: 1em 1em;
   border: 1px solid #000;
   border-radius: 10px;
